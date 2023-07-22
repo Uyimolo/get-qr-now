@@ -11,17 +11,17 @@ import { useState, useEffect } from "react";
 
 import Layout from "./layout/Layout";
 import Auth from "./pages/Auth";
-import DashboardLayout from "./layout/DashboardLayout"
+import DashboardLayout from "./layout/DashboardLayout";
 import CreateUrl from "./components/CreateUrl";
+import Landing from "./pages/Landing";
 
 function App() {
-  const [user, setUser] = useState(""); 
+  const [user, setUser] = useState("");
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         setUser(authUser.email);
-        console.log(user);
       } else {
         setUser("");
       }
@@ -31,7 +31,8 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
-        <Route index element={<Auth />} />
+        <Route index element={<Landing />} />
+        <Route path="auth" element={<Auth />} />
         <Route path="dashboard" element={<DashboardLayout />}>
           <Route path="create-url" element={<CreateUrl />} />
         </Route>

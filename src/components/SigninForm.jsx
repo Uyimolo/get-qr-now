@@ -1,8 +1,9 @@
-import {PropTypes} from "prop-types"
+import { PropTypes } from "prop-types";
 const SigninForm = ({
   handleSigninChange,
   handleEmailSignin,
   handleGoogleAuth,
+  setIsNewUser,
 }) => {
   return (
     <form
@@ -61,6 +62,12 @@ const SigninForm = ({
           </button>
         </div>
       </div>
+      <p
+        className="text-red-600 cursor-pointer text-center"
+        onClick={() => setIsNewUser(true)}
+      >
+        Already registered? sign in.
+      </p>
     </form>
   );
 };
@@ -69,6 +76,7 @@ SigninForm.propTypes = {
   handleSigninChange: PropTypes.func.isRequired,
   handleEmailSignin: PropTypes.func.isRequired,
   handleGoogleAuth: PropTypes.func.isRequired,
+  setIsNewUser: PropTypes.func.isRequired,
 };
 
 export default SigninForm;

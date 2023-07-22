@@ -6,13 +6,13 @@ import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC241pF7yHOEjQHK8Y_86RdMXbgEkEgbGI",
-  authDomain: "react-qrcode-generator.firebaseapp.com",
-  projectId: "react-qrcode-generator",
-  storageBucket: "react-qrcode-generator.appspot.com",
-  messagingSenderId: "359546481644",
-  appId: "1:359546481644:web:304db90d2ff34fcb242ec9",
-  measurementId: "G-8BQKX4JG7D",
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase

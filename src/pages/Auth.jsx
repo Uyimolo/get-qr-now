@@ -9,6 +9,7 @@ import { UserContext } from "../context/UserContext";
 import SignupForm from "../components/SignupForm";
 import SigninForm from "../components/SigninForm";
 const Auth = () => {
+
   const [signupData, setSignupData] = useState({
     email: "",
     password: "",
@@ -18,6 +19,8 @@ const Auth = () => {
     email: "",
     password: "",
   });
+
+  const [isNewUser, setIsNewUser] = useState(true)
   //   const [user, setUser] = useState("");
   const { user } = useContext(UserContext);
 
@@ -78,17 +81,19 @@ const Auth = () => {
   };
   return (
     <main className="px-6 pt-32">
-      {!user ? (
+      {isNewUser ? (
         <SignupForm
           handleChange={handleChange}
           handleEmailSignup={handleEmailSignup}
           handleGoogleAuth={handleGoogleAuth}
+          setIsNewUser={setIsNewUser}
         />
       ) : (
         <SigninForm
           handleSigninChange={handleSigninChange}
           handleEmailSignin={handleEmailSignin}
           handleGoogleAuth={handleGoogleAuth}
+          setIsNewUser={setIsNewUser}
         />
       )}
     </main>
