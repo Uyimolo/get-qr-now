@@ -1,25 +1,54 @@
 import { useState } from "react";
 import QrCode from "./QrCode";
+import { db, auth } from "../../config/firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 const CreateUrl = () => {
+  // const user = auth.currentUser.email;
   const [QrData, setQrData] = useState({
     url: "",
     fileName: "",
     foreground: "#000000",
     background: "#ffffff",
   });
-
   const [qrImageData, setQrimageData] = useState(null);
+  const [status, setStatus] = useState("");
+
+  const collectionRef = collection(
+    db,
+    "qr-codes-collection",
+    `${auth.currentUser.email}`,
+    "qr-code-data"
+  );
+
+  const addToDb = async () => {
+    setStatus("Saving Qr code");
+    const { fileName, url } = QrData;
+    try {
+      const docAdded = await addDoc(collectionRef, {
+        name: fileName,
+        url: url,
+        type: "url",
+        date: new Date(),
+      });
+      if (docAdded) {
+        setStatus("Qr code saved successfully");
+        setQrimageData(QrData);
+      }
+    } catch (error) {
+      console.log(error);
+      setStatus("failed to save Qr code: Try again");
+    }
+  };
 
   const handleChange = (e) => {
     setQrData({ ...QrData, [e.target.name]: e.target.value });
-    console.log(QrData);
   };
 
   const handleCreateQr = (e) => {
     e.preventDefault();
     if (QrData.url.length > 5) {
-      setQrimageData(QrData);
+      addToDb();
     }
   };
 
@@ -110,6 +139,7 @@ const CreateUrl = () => {
           </button>
         </div>
       )}
+      {status && <p className="text-gray-200">{status}</p>}
     </div>
   );
 };

@@ -15,7 +15,7 @@ import DashboardLayout from "./layout/DashboardLayout"
 import CreateUrl from "./components/CreateUrl";
 
 function App() {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(""); 
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
