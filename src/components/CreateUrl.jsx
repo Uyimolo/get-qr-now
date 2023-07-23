@@ -1,10 +1,15 @@
-import { useState } from "react";
-import QrCode from "./QrCode";
+import {
+  useState,
+  //  useContext
+} from "react";
 import { db, auth } from "../../config/firebase";
 import { collection, addDoc } from "firebase/firestore";
+// import { UserContext } from "../context/UserContext";
+import Button from "./Button";
+import DownloadQr from "./DownloadQr";
 
 const CreateUrl = () => {
-  // const user = auth.currentUser.email;
+  // const user = useContext(UserContext);
   const [QrData, setQrData] = useState({
     url: "",
     fileName: "",
@@ -17,7 +22,9 @@ const CreateUrl = () => {
   const collectionRef = collection(
     db,
     "qr-codes-collection",
-    `${auth.currentUser.email}`,
+    // todo:remember to change this to
+    auth.currentUser.email,
+    // `uyi`,
     "qr-code-data"
   );
 
@@ -34,6 +41,12 @@ const CreateUrl = () => {
       if (docAdded) {
         setStatus("Qr code saved successfully");
         setQrimageData(QrData);
+        setQrData({
+          url: "",
+          fileName: "",
+          foreground: "#000000",
+          background: "#ffffff",
+        });
       }
     } catch (error) {
       console.log(error);
@@ -53,10 +66,10 @@ const CreateUrl = () => {
   };
 
   return (
-    <div className="bg-blue-400 p-2 py-4 rounded-md max-w-md mx-auto lg:max-w-lg">
+    <div className="bg-blue-400 p-2 py-4 rounded-md max-w-md mx-auto lg:max-w-3xl">
       <form
         action=""
-        className="flex flex-col space-y-8 "
+        className="flex flex-col space-y-8 max-w-lg mx-auto"
         onSubmit={handleCreateQr}
       >
         <div className="flex flex-col space-y-2">
@@ -94,7 +107,7 @@ const CreateUrl = () => {
                   type="color"
                   name="foreground"
                   id="foreground"
-                  className="w-full rounded-full border-0 outline-0 bg-transparent"
+                  className="w-full border-0 outline-none bg-transparent"
                   value={QrData.foreground}
                   onChange={handleChange}
                 />
@@ -117,29 +130,19 @@ const CreateUrl = () => {
           </div>
           <p>Tip: Ignore to use default black and white</p>
         </div>
-
-        <button
-          type="submit"
-          className="p-2 text-gray-200 rounded-md bg-blue-800 w-full"
-        >
-          Create your code
-        </button>
+        <div className="mx-auto">
+          <Button type="submit" text="Create Qr" extraStyle="px-12" />
+        </div>
       </form>
       {qrImageData && (
-        <div className="w-full">
-          <div className="mx-auto w-fit mt-6 p-2">
-            <QrCode
-              value={qrImageData.url}
-              foreground={qrImageData.foreground}
-              background={qrImageData.background}
-            />
-          </div>
-          <button className="p-2 text-gray-200 mt-6 w-full rounded-md bg-blue-800">
-            Download Qr Code
-          </button>
-        </div>
+        <DownloadQr
+          value={qrImageData.url}
+          foreground={qrImageData.foreground}
+          background={qrImageData.background}
+          fileName={qrImageData.fileName}
+        />
       )}
-      {status && <p className="text-gray-200">{status}</p>}
+      {status && <p className="text-center">{status}</p>}
     </div>
   );
 };

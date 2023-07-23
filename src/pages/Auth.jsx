@@ -5,78 +5,70 @@ import {
   signInWithPopup,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import SignupForm from "../components/SignupForm";
 import SigninForm from "../components/SigninForm";
 const Auth = () => {
-
+  const navigate = useNavigate();
   const [signupData, setSignupData] = useState({
     email: "",
     password: "",
   });
-
   const [signinData, setSigninData] = useState({
     email: "",
     password: "",
   });
-
-  const [isNewUser, setIsNewUser] = useState(true)
-  //   const [user, setUser] = useState("");
+  const [isNewUser, setIsNewUser] = useState(true);
   const { user } = useContext(UserContext);
-
+  // todo: use a reducer for both functions
   const handleChange = (e) => {
-    // const [name, value] = e.target;
     setSignupData({ ...signupData, [e.target.name]: e.target.value });
   };
 
   const handleSigninChange = (e) => {
-    // const [name, value] = e.target;
     setSigninData({ ...signinData, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
-    console.log(signupData);
-  }, [signupData]);
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
 
   const handleGoogleAuth = async (e) => {
     e.preventDefault();
     try {
       await signInWithPopup(auth, googleProvider);
-    } catch {
-      console.log(user);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const handleEmailSignup = async (e) => {
     e.preventDefault();
     try {
-      const signup = await createUserWithEmailAndPassword(
+      await createUserWithEmailAndPassword(
         auth,
         signupData.email,
         signupData.password
       );
-      if (signup) {
-        console.log(signup.user.email);
-        console.log(user);
-      }
-    } catch {
-      console.error();
+    } catch (error) {
+      console.error(error);
     }
   };
 
   const handleEmailSignin = async (e) => {
     e.preventDefault();
     try {
-      const signin = await signInWithEmailAndPassword(
+   await signInWithEmailAndPassword(
         auth,
         signinData.email,
         signinData.password
       );
-      if (signin) {
-        console.log();
-      }
-    } catch {
-      console.error();
+     
+    } catch (error)  {
+      console.error(error);
     }
   };
   return (
@@ -87,6 +79,8 @@ const Auth = () => {
           handleEmailSignup={handleEmailSignup}
           handleGoogleAuth={handleGoogleAuth}
           setIsNewUser={setIsNewUser}
+          emailValue={signupData.email}
+          passwordValue={signupData.password}
         />
       ) : (
         <SigninForm
@@ -94,6 +88,8 @@ const Auth = () => {
           handleEmailSignin={handleEmailSignin}
           handleGoogleAuth={handleGoogleAuth}
           setIsNewUser={setIsNewUser}
+          emailValue={signinData.email}
+          passwordValue={signinData.password}
         />
       )}
     </main>

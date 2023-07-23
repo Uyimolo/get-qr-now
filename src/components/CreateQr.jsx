@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 const CreateQr = () => {
   return (
     <div className="pt-28 px-6 md:px-16 xl:px-28">
-      <div className="Flex flex-col p-2 py-4  space-y-6 bg-blue-400 rounded-md max-w-md mx-auto lg:max-w-lg">
+      <div className="Flex flex-col p-2 py-4  space-y-6 bg-blue-400 rounded-md max-w-md mx-auto lg:max-w-3xl">
         <div className="flex flex-col space-y-4  ">
           <h1 className="text-gray-100 text-3xl text-center font-semibold lg:text-5xl">
             Create your Qr Codes
@@ -20,8 +20,8 @@ const CreateQr = () => {
               <motion.div
                 whileHover={{ scale: 1.1 }}
                 initial={{ scale: 1 }}
-                transition={{ duration: 0.5, type: "spring" }}
-                className="bg-gray-100 flex p-4 rounded-md "
+                transition={{ duration: 0.5, type: "spring", stiffness: 500 }}
+                className="bg-gray-100 flex p-4 rounded-md shadow-md shadow-gray-600 "
               >
                 <Link to="create-url" className="">
                   <img src={link} alt="create qr for urls" className="w-16" />
@@ -33,8 +33,8 @@ const CreateQr = () => {
               <motion.div
                 whileHover={{ scale: 1.1 }}
                 initial={{ scale: 1 }}
-                transition={{ duration: 0.5, type: "spring" }}
-                className="bg-gray-100 flex p-4 rounded-md "
+                transition={{ duration: 0.5, type: "spring", stiffness: 500 }}
+                className="bg-gray-100 flex p-4 rounded-md shadow-md shadow-gray-600 "
               >
                 <Link className="">
                   <img

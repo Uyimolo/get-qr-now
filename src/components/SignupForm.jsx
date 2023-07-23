@@ -4,6 +4,8 @@ const SignupForm = ({
   handleEmailSignup,
   handleGoogleAuth,
   setIsNewUser,
+  emailValue,
+  passwordValue,
 }) => {
   return (
     <form
@@ -22,7 +24,7 @@ const SignupForm = ({
             name="email"
             className="px-3 py-2 rounded-md "
             onChange={handleChange}
-            // value={signupData.email}
+            value={emailValue}
           />
         </div>
 
@@ -36,7 +38,7 @@ const SignupForm = ({
             name="password"
             className="px-3 py-2 rounded-md"
             onChange={handleChange}
-            // value={signupData.password}
+            value={passwordValue}
           />
         </div>
       </div>
@@ -48,7 +50,7 @@ const SignupForm = ({
           className="w-full py-2 bg-blue-800 text-gray-100 rounded-md shadow-2xl mb-4"
           onClick={handleEmailSignup}
         >
-          Signup
+          Sign up
         </button>
 
         {/* google auth */}
@@ -77,6 +79,8 @@ SignupForm.propTypes = {
   handleEmailSignup: PropTypes.func.isRequired,
   handleGoogleAuth: PropTypes.func.isRequired,
   setIsNewUser: PropTypes.func.isRequired,
+  emailValue: PropTypes.string.isRequired,
+  passwordValue: PropTypes.string.isRequired,
 };
 
 export default SignupForm;
