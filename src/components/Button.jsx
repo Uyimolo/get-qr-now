@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import { PropTypes } from "prop-types";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 const Button = ({ type, onClick, text, extraStyle }) => {
+  const isDarkMode = useContext(ThemeContext)
   return (
     <motion.button
       whileHover={{ scale: 1.1 }}
@@ -8,7 +11,7 @@ const Button = ({ type, onClick, text, extraStyle }) => {
       transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
       type={type}
       onClick={onClick}
-      className={`text-gray-200 px-6 py-1 bg-blue-800 rounded-full ${extraStyle}`}
+      className={`${ isDarkMode ? "text-gray-200 bg-blue-400" : ""}  px-6 py-1 rounded-full ${extraStyle}`}
     >
       {text}
     </motion.button>

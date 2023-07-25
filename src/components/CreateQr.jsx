@@ -3,11 +3,18 @@ import link from "../images/link-icon.svg";
 import image from "../images/image-icon.svg";
 
 import { motion } from "framer-motion";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 const CreateQr = () => {
+  const { isDarkMode } = useContext(ThemeContext);
   return (
     <div className="pt-28 px-6 md:px-16 xl:px-28">
-      <div className="Flex flex-col p-2 py-4  space-y-6 bg-gradient-to-tr from-blue-400 via-indigo-600 to-blue-300 shadow-lg rounded-md max-w-md mx-auto md:max-w-3xl xl:max-w-4xl">
+      <div
+        className={`${
+          isDarkMode ? "bg-[#424548] hover:bg-[#424548aa]" : "bg-blue-400"
+        } Flex flex-col p-2 py-4 space-y-6 transition-all duration-300  shadow-xl rounded-md max-w-md mx-auto md:max-w-3xl xl:max-w-4xl`}
+      >
         <div className="flex flex-col space-y-4  ">
           <h1 className="text-gray-100 text-3xl text-center font-semibold lg:text-5xl">
             Create your Qr Codes
@@ -27,7 +34,7 @@ const CreateQr = () => {
                   <img src={link} alt="create qr for urls" className="w-16" />
                 </Link>
               </motion.div>
-              <p className="text-gray-900 mt-2">Create Qr for Urls</p>
+              <p className="text-gray-200 mt-2">Create Qr for Urls</p>
             </div>
             <div className="flex flex-col items-center">
               <motion.div
@@ -44,7 +51,7 @@ const CreateQr = () => {
                   />
                 </Link>
               </motion.div>
-              <p className="text-gray-900 mt-2">Create Qr for files</p>
+              <p className="text-gray-200 mt-2">Create Qr for files</p>
             </div>
           </div>
         </div>
