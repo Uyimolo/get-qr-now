@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 const CreateQr = () => {
   return (
     <div className="pt-28 px-6 md:px-16 xl:px-28">
-      <div className="Flex flex-col p-2 py-4  space-y-6 bg-blue-400 rounded-md max-w-md mx-auto lg:max-w-3xl">
+      <div className="Flex flex-col p-2 py-4  space-y-6 bg-gradient-to-tr from-blue-400 via-indigo-600 to-blue-300 shadow-lg rounded-md max-w-md mx-auto md:max-w-3xl xl:max-w-4xl">
         <div className="flex flex-col space-y-4  ">
           <h1 className="text-gray-100 text-3xl text-center font-semibold lg:text-5xl">
             Create your Qr Codes

@@ -5,6 +5,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
+import { ThemeContext } from "./context/ThemeContext";
 
 import { auth } from "../config/firebase";
 import { useState, useEffect } from "react";
@@ -14,8 +15,10 @@ import Auth from "./pages/Auth";
 import DashboardLayout from "./layout/DashboardLayout";
 import CreateUrl from "./components/CreateUrl";
 import Landing from "./pages/Landing";
+import Protected from "./components/Protected";
 
 function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [user, setUser] = useState("");
 
   useEffect(() => {
@@ -33,7 +36,14 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Landing />} />
         <Route path="auth" element={<Auth />} />
-        <Route path="dashboard" element={<DashboardLayout />}>
+        <Route
+          path="dashboard"
+          element={
+            <Protected>
+              <DashboardLayout />
+            </Protected>
+          }
+        >
           <Route path="create-url" element={<CreateUrl />} />
         </Route>
       </Route>
@@ -41,9 +51,11 @@ function App() {
   );
   return (
     <div className="h-6 w-full bg-blue-600">
-      <UserContext.Provider value={{ user }}>
-        <RouterProvider router={router} />
-      </UserContext.Provider>
+      <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
+        <UserContext.Provider value={{ user }}>
+          <RouterProvider router={router} />
+        </UserContext.Provider>
+      </ThemeContext.Provider>
     </div>
   );
 }

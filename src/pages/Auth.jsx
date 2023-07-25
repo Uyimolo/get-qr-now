@@ -73,7 +73,7 @@ const Auth = () => {
   };
   return (
     <main className="px-6 pt-32">
-      {isNewUser ? (
+      {!user && isNewUser ? (
         <SignupForm
           handleChange={handleChange}
           handleEmailSignup={handleEmailSignup}

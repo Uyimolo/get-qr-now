@@ -3,7 +3,7 @@ import { PropTypes } from "prop-types";
 const Button = ({ type, onClick, text, extraStyle }) => {
   return (
     <motion.button
-      whileHover={{ scale: 1.2 }}
+      whileHover={{ scale: 1.1 }}
       initial={{ scale: 1 }}
       transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
       type={type}
