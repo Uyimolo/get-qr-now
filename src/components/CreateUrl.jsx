@@ -55,7 +55,6 @@ const CreateUrl = () => {
           });
         }
       } catch (error) {
-        console.log(error);
         setStatus("failed to save Qr code: Try again");
       }
     }
@@ -73,15 +72,15 @@ const CreateUrl = () => {
   let paragraphStyle = "";
   isDarkMode
     ? (paragraphStyle = "text-gray-200")
-    : (paragraphStyle = "text-gray-950");
+    : (paragraphStyle = "text-gray-600");
 
   return (
     <div
       className={`border-[0.5px]  px-2 py-4 ${
         isDarkMode
-          ? "border-[0px] bg-[#424548]"
-          : "border-gray-300"
-      } rounded-md max-w-md mx-auto md:max-w-3xl xl:max-w-4xl hover:bg-blue-50`}
+          ? "border-[0px] bg-[#424548] hover:bg-[#424548aa]"
+          : " bg-gray-50 "
+      } rounded-md shadow-lg max-w-md mx-auto md:max-w-3xl xl:max-w-4xl `}
     >
       <form
         action=""
@@ -98,7 +97,9 @@ const CreateUrl = () => {
                 type="text"
                 name="url"
                 placeholder="Enter url here"
-                className="p-2 border-gray-400 border-[1px] rounded-md hover:bg-gray-100 transition-all duration-1"
+                className={` ${
+                  isDarkMode ? "bg-gray-200" : ""
+                } p-2 border-gray-300 border-[1px] rounded-md hover:bg-gray-100 transition-all duration-1`}
                 value={QrData.url}
                 onChange={handleChange}
               />
@@ -111,7 +112,9 @@ const CreateUrl = () => {
                 type="text"
                 name="fileName"
                 placeholder="Enter a suitable name for your Qr code"
-                className="p-2 border-gray-500 border-[1px] rounded-md hover:bg-gray-100 transition-all duration-1"
+                className={` ${
+                  isDarkMode ? "bg-gray-200" : ""
+                } p-2 border-gray-300 border-[1px] rounded-md hover:bg-gray-100 transition-all duration-1`}
                 value={QrData.fileName}
                 onChange={handleChange}
               />
@@ -122,10 +125,10 @@ const CreateUrl = () => {
           <div className="flex justify-between space-x-2">
             <div className="flex flex-col space-y-2 w-full">
               <label htmlFor="foreground" className={`flex ${paragraphStyle}`}>
-                Foreground color
+                Foreground color {`(${QrData.foreground})`}
               </label>
               <motion.input
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 200 }}
                 type="color"
                 name="foreground"
@@ -138,10 +141,10 @@ const CreateUrl = () => {
 
             <div className="flex flex-col space-y-2 w-full">
               <label htmlFor="background" className={`flex ${paragraphStyle}`}>
-                Background color
+                Background color {`(${QrData.background})`}
               </label>
               <motion.input
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 200 }}
                 type="color"
                 name="background"

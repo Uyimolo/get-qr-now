@@ -24,7 +24,7 @@ const Layout = () => {
   // todo: save darkmode status to local storage and syncronize with firebase on login
 
   return (
-    <div className={`${isDarkMode ? "bg-[#26282b]" : "bg-white"} min-h-screen`}>
+    <div className={`${isDarkMode ? "bg-[#26282b]" : "bg-[#eeeeee]"} min-h-screen`}>
       <Header setIsDarkMode={setIsDarkMode} isDarkMode={isDarkMode} />
       <Outlet />
     </div>

@@ -3,7 +3,6 @@ import { signOut } from "firebase/auth";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import { ThemeContext } from "../context/ThemeContext";
-import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebase";
 import light from "../images/icon-sun.svg";
@@ -16,10 +15,10 @@ const Header = () => {
   const handleLogout = async () => {
     await signOut(auth);
   };
-return (
+  return (
     <header
       className={`${
-        isDarkMode ? "bg-[#26282b]" : "bg-white"
+        isDarkMode ? "bg-[#26282b]" : "bg-[#eeeeee]"
       } flex items-center z-10 justify-between px-6 py-4 fixed top-0 left-0 w-full border-blue-500 border-b-4 `}
     >
       <div className="">
@@ -43,13 +42,11 @@ return (
           />
         </div>
 
-        <div className="">
-          {/* <img src={menu} alt="menu" /> */}
-          <Button
-            type="button"
-            onClick={user ? handleLogout : () => navigate("auth")}
-            text={user ? "Sign out" : "Sign in"}
-          />
+        <div className={`${isDarkMode ? "text-gray-200" : "text-gray-600"} cursor-pointer`}>
+          <p onClick={user ? handleLogout : () => navigate("auth")}>
+            {" "}
+            {user ? "Sign out" : "Sign in"}{" "}
+          </p>
         </div>
       </div>
     </header>
