@@ -1,4 +1,6 @@
 import { PropTypes } from "prop-types";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 const SigninForm = ({
   handleSigninChange,
   handleEmailSignin,
@@ -7,10 +9,15 @@ const SigninForm = ({
   emailValue,
   passwordValue,
 }) => {
+  const {isDarkMode} = useContext(ThemeContext)
   return (
     <form
       action=""
-      className="flex flex-col space-y-12 max-w-[21rem] bg-blue-400 rounded-lg px-4 pt-6 pb-10 mx-auto"
+      className={`${
+        isDarkMode
+          ? "border-[1px] border-gray-600 bg-[#424548] hover:bg-[#424548aa]"
+          : "bg-blue-400"
+      } flex flex-col space-y-12 max-w-[21rem]  rounded-lg px-4 pt-6 pb-10 mx-auto`}
     >
       {/* email and password auth */}
       <div className="flex flex-col space-y-4">

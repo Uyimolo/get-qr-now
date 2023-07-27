@@ -16,6 +16,7 @@ import DashboardLayout from "./layout/DashboardLayout";
 import CreateUrl from "./components/CreateUrl";
 import Landing from "./pages/Landing";
 import Protected from "./components/Protected";
+import CreateFile from "./components/CreateFile";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -25,6 +26,7 @@ function App() {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         setUser(authUser.email);
+        window.localStorage.setItem("user", user);
       } else {
         setUser("");
       }
@@ -45,6 +47,7 @@ function App() {
           }
         >
           <Route path="create-url" element={<CreateUrl />} />
+          <Route path="create-file" element={<CreateFile />} />
         </Route>
       </Route>
     )
