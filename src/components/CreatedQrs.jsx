@@ -8,13 +8,14 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { UserContext } from "../context/UserContext";
 import { ThemeContext } from "../context/ThemeContext";
 import RecentMobile from "./RecentMobile";
-// import deleteQr from "../images/delete.svg"
-// import view from "../images/view.svg"
 
+import { useMediaQuery } from "react-responsive";
+import RecentDesktop from "./RecentDesktop";
 const CreatedQrs = () => {
   const [qrData, setQrData] = useState([]);
   const { user } = useContext(UserContext);
   const { isDarkMode } = useContext(ThemeContext);
+  const isTablet = useMediaQuery({ minWidth: 768 });
   // reference to firestore collection
   const collectionRef = collection(
     db,
@@ -22,6 +23,7 @@ const CreatedQrs = () => {
     user,
     "qr-code-data"
   );
+  // get data from firestore
   useEffect(() => {
     onSnapshot(collectionRef, (snapshot) => {
       const fetchedQrs = snapshot.docs.map((doc) => ({
@@ -31,9 +33,12 @@ const CreatedQrs = () => {
       setQrData(fetchedQrs);
     });
   }, [collectionRef]);
-  // const paragraphStyle = () => {
-  //   return "text-gray-600";
-  // };
+
+  let paragraphStyle;
+  isDarkMode
+    ? (paragraphStyle = "text-gray-200")
+    : (paragraphStyle = "text-gray-600");
+
   return (
     <div className="px-6 md:px-16 xl:px-28 ">
       <h2
@@ -44,24 +49,47 @@ const CreatedQrs = () => {
         Recently Saved Qr Codes
       </h2>
       <div className={`rounded-md  max-w-md mx-auto md:max-w-3xl xl:max-w-4xl`}>
+        {isTablet && (
+          <div
+            className={`flex ${
+              isDarkMode ? "border-blue-400" : "border-gray-600"
+            } border-b px-2 py-2`}
+          >
+            <p className={`${paragraphStyle} w-2/5`}>Name</p>
+            <p className={`${paragraphStyle} w-1/5`}>Date</p>
+            <p className={`${paragraphStyle} w-1/5`}>Downloads</p>
+            <p className={`${paragraphStyle} w-1/5`}>Action</p>
+          </div>
+        )}
         {qrData
           .sort((b, a) => a.sortDate - b.sortDate)
           .slice(0, 3)
           .map((data) => (
-            <div key={data.id} className={`${isDarkMode ? "border-gray-200" : "border-gray-600"} border-b-[1px]  px-2`}>
-              <RecentMobile
-                name={data.name}
-                date={data.date}
-                numDownload={data.numDownload}
-              />
-              <div className="flex space-x-4 mb-2 justify-betwee">
-                <p className={`text-gray-200 px-4 bg-blue-400 rounded`}>
-                  View Qr
-                </p>
-                <p className={`text-gray-200 px-4 bg-blue-400 rounded`}>
-                  Delete Qr
-                </p>
-              </div>
+            <div
+              key={data.id}
+              className={`${
+                isDarkMode ? "border-gray-200" : "border-gray-600"
+              } border-b-[1px]  px-2`}
+            >
+              {isTablet ? (
+                <div className="py-2">
+                  <RecentDesktop
+                    name={data.name}
+                    date={data.date}
+                    numDownload={data.numDownload}
+                    id={data.id}
+                    paragraphStyle={paragraphStyle}
+                  />
+                </div>
+              ) : (
+                <RecentMobile
+                  name={data.name}
+                  date={data.date}
+                  numDownload={data.numDownload}
+                  id={data.id}
+                  paragraphStyle={paragraphStyle}
+                />
+              )}
             </div>
           ))}
       </div>

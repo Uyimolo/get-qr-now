@@ -35,7 +35,7 @@ const CreateUrl = () => {
   const addToDb = useCallback(async () => {
     if (QrData.url !== "" && QrData.fileName !== "") {
       setStatus("Saving Qr code");
-      const { fileName, url } = QrData;
+      const { fileName, url, foreground, background } = QrData;
       try {
         const docAdded = await addDoc(collectionRef, {
           name: fileName,
@@ -44,6 +44,8 @@ const CreateUrl = () => {
           date: new Date().toDateString(),
           sortDate: Number(new Date()),
           numDownload: "Not applicable",
+          foreground: foreground,
+          background: background,
         });
         if (docAdded) {
           setStatus("Qr code saved successfully");

@@ -28,9 +28,9 @@ const CreateQr = () => {
                 whileHover={{ scale: 1.1 }}
                 initial={{ scale: 1 }}
                 transition={{ duration: 0.5, type: "spring", stiffness: 500 }}
-                className="bg-gray-100 flex p-4 rounded-md shadow-md shadow-gray-600 "
+                className="bg-gray-100 flex  rounded-md shadow-md shadow-gray-600 "
               >
-                <Link to="create-url" className="">
+                <Link to="create-url" className="p-4">
                   <img src={link} alt="create qr for urls" className="w-16" />
                 </Link>
               </motion.div>
@@ -41,9 +41,9 @@ const CreateQr = () => {
                 whileHover={{ scale: 1.1 }}
                 initial={{ scale: 1 }}
                 transition={{ duration: 0.5, type: "spring", stiffness: 500 }}
-                className="bg-gray-100 flex p-4 rounded-md shadow-md shadow-gray-600 "
+                className="bg-gray-100 flex rounded-md shadow-md shadow-gray-600 "
               >
-                <Link className="">
+                <Link to="create-file" className="p-4">
                   <img
                     src={image}
                     alt="create qr for images"
