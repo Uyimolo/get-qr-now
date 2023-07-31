@@ -1,22 +1,19 @@
-import { PropTypes } from "prop-types";
+/* eslint-disable react/prop-types */
 import QRCode from "react-qr-code";
 const QrCode = ({ value, foreground, background }) => {
+  const qrStyle = `bg-[${background}] p-1 bg-white border-[${background}]`;
+  // todo: make the background color for qr div to be same with the qrCode bgColor
   return (
-    <div className="">
+    <div className={qrStyle}>
       <QRCode
         value={value}
         bgColor={background}
         fgColor={foreground}
-        size={150}
+        size={160}
         level="Q"
       />
     </div>
   );
 };
 
-QrCode.propTypes = {
-  value: PropTypes.string,
-  foreground: PropTypes.string,
-  background: PropTypes.string,
-};
 export default QrCode;

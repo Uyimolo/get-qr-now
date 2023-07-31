@@ -8,11 +8,11 @@ import { ThemeContext } from "../context/ThemeContext";
 import QrTextForm from "./QrTextForm";
 import uploadDocFunction from "../myHooks/uploadDocFunction";
 
-const CreateUrl = () => {
+const CreateEmail = () => {
   const { user } = useContext(UserContext);
   const { isDarkMode } = useContext(ThemeContext);
   const [qRData, setQRData] = useState({
-    url: "",
+    email: "",
     fileName: "",
     foreground: "#000000",
     background: "#ffffff",
@@ -28,32 +28,33 @@ const CreateUrl = () => {
   );
 
   const addToDb = useCallback(async () => {
-    setStatus("Saving Qr code");
-    const { fileName, url, foreground, background } = qRData;
-    try {
-      const docToBeAdded = {
-        name: fileName,
-        value: url,
-        type: "url",
-        date: new Date().toDateString(),
-        sortDate: Number(new Date()),
-        numDownload: "Not applicable",
-        foreground: foreground,
-        background: background,
-      };
-      const success = await uploadDocFunction(collectionRef, docToBeAdded);
-
-      if (success) {
-        setStatus("Qr code saved successfully");
-        setQRData({
-          url: "",
-          fileName: "",
-          foreground: "#000000",
-          background: "#ffffff", 
-        });
+    if (qRData.url !== "" && qRData.fileName !== "") {
+      setStatus("Saving Qr code");
+      const { fileName, email, foreground, background } = qRData;
+      try {
+        const docToBeAdded = {
+          name: fileName,
+          value: email,
+          type: "url",
+          date: new Date().toDateString(),
+          sortDate: Number(new Date()),
+          numDownload: "Not applicable",
+          foreground: foreground,
+          background: background,
+        };
+        const success = uploadDocFunction(collectionRef, docToBeAdded);
+        if (success) {
+          setStatus("Qr code saved successfully");
+          setQRData({
+            email: "",
+            fileName: "",
+            foreground: "#000000",
+            background: "#ffffff",
+          });
+        }
+      } catch (error) {
+        setStatus("failed to save Qr code: Try again");
       }
-    } catch (error) {
-      setStatus("failed to save Qr code: Try again");
     }
   }, [qRData, collectionRef]);
   const handleChange = (e) => {
@@ -62,18 +63,18 @@ const CreateUrl = () => {
 
   const handleCreateQr = (e) => {
     e.preventDefault();
-    if (qRData.url !== "" && qRData.fileName !== "") {
+    if (qRData.email !== "" && qRData.fileName !== "") {
       setQRimageData(qRData);
     }
   };
 
   const inputData = [
     {
-      label: "Address",
-      value: qRData.url,
-      id: "url",
+      label: "Email",
+      value: qRData.value,
+      id: "email",
       placeholder: "Enter a web address here",
-      type: "url",
+      type: "email",
     },
     {
       label: "Name your Qr Code",
@@ -92,7 +93,7 @@ const CreateUrl = () => {
     >
       <QrTextForm
         handleCreateQr={handleCreateQr}
-        fileName={qRData.fileName}
+        // fileName={qRData.fileName}
         handleChange={handleChange}
         foreground={qRData.foreground}
         background={qRData.background}
@@ -107,7 +108,7 @@ const CreateUrl = () => {
           className="w-fit px-6 mx-auto"
         >
           <DownloadQr
-            value={qRImageData.url}
+            value={qRImageData.email}
             foreground={qRImageData.foreground}
             background={qRImageData.background}
             fileName={qRImageData.fileName}
@@ -128,4 +129,4 @@ const CreateUrl = () => {
   );
 };
 
-export default CreateUrl;
+export default CreateEmail;

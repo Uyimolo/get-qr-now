@@ -1,12 +1,11 @@
-import { PropTypes } from "prop-types";
-
+/* eslint-disable react/prop-types */
 import deleteQr from "../images/delete.svg";
 import view from "../images/view.svg";
 import { deleteDocFunction } from "../myHooks/deleteDocFunction";
 const RecentDesktop = ({ name, date, numDownload, id, paragraphStyle }) => {
   return (
     <div>
-      <div className="flex items-start">
+      <div className="flex items-start ">
         <p className={`${paragraphStyle} truncate w-2/5`}>{name}</p>
         <p className={`${paragraphStyle} truncate w-1/5`}>{date}</p>
         <p className={`${paragraphStyle} truncate w-1/5`}>{numDownload}</p>
@@ -26,14 +25,6 @@ const RecentDesktop = ({ name, date, numDownload, id, paragraphStyle }) => {
       </div>
     </div>
   );
-};
-
-RecentDesktop.propTypes = {
-  name: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  numDownload: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
-  paragraphStyle: PropTypes.string.isRequired,
 };
 
 export default RecentDesktop;

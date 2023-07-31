@@ -1,4 +1,4 @@
-import { PropTypes } from "prop-types";
+/* eslint-disable react/prop-types */
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 const SignupForm = ({
@@ -79,15 +79,6 @@ const SignupForm = ({
       </p>
     </form>
   );
-};
-
-SignupForm.propTypes = {
-  handleChange: PropTypes.func.isRequired,
-  handleEmailSignup: PropTypes.func.isRequired,
-  handleGoogleAuth: PropTypes.func.isRequired,
-  setIsNewUser: PropTypes.func.isRequired,
-  emailValue: PropTypes.string.isRequired,
-  passwordValue: PropTypes.string.isRequired,
 };
 
 export default SignupForm;

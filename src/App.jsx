@@ -17,16 +17,18 @@ import CreateUrl from "./components/CreateUrl";
 import Landing from "./pages/Landing";
 import Protected from "./components/Protected";
 import CreateFile from "./components/CreateFile";
+import CreateContact from "./components/CreateContact";
+import CreateEmail from "./components/CreateEmail"
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [user, setUser] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         setUser(authUser.email);
-        window.localStorage.setItem("user", user);
       } else {
         setUser("");
       }
@@ -35,19 +37,29 @@ function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<Layout />}>
+      <Route
+        path="/"
+        element={
+          <Layout setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} />
+        }
+      >
         <Route index element={<Landing />} />
         <Route path="auth" element={<Auth />} />
         <Route
           path="dashboard"
           element={
             <Protected>
-              <DashboardLayout />
+              <DashboardLayout
+                sidebarOpen={sidebarOpen}
+                setSidebarOpen={setSidebarOpen}
+              />
             </Protected>
           }
         >
-          <Route path="create-url" element={<CreateUrl />} />
-          <Route path="create-file" element={<CreateFile />} />
+          <Route index element={<CreateUrl />} />
+          <Route path="file" element={<CreateFile />} />
+          <Route path="contact-card" element={<CreateContact />} />
+          <Route path="email" element={<CreateEmail />} />
         </Route>
       </Route>
     )
