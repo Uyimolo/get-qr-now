@@ -1,9 +1,5 @@
-// import { } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
-import {
-  db,
-  //  auth
-} from "../../config/firebase";
+import { db } from "../../config/firebase";
 import { collection, onSnapshot } from "firebase/firestore";
 import { UserContext } from "../context/UserContext";
 import { ThemeContext } from "../context/ThemeContext";
@@ -15,7 +11,7 @@ const CreatedQrs = () => {
   const [qrData, setQrData] = useState([]);
   const { user } = useContext(UserContext);
   const { isDarkMode } = useContext(ThemeContext);
-  const isTablet = useMediaQuery({ minWidth: 768 });
+  const isDesktop = useMediaQuery({ minWidth: 768 });
   // reference to firestore collection
   const collectionRef = collection(
     db,
@@ -40,7 +36,7 @@ const CreatedQrs = () => {
     : (paragraphStyle = "text-gray-600");
 
   return (
-    <div className="px-6 md:px-16 xl:px-28 ">
+    <div className="mx-6 ">
       <h2
         className={`${
           isDarkMode && "text-gray-200"
@@ -48,8 +44,10 @@ const CreatedQrs = () => {
       >
         Recently Saved Qr Codes
       </h2>
-      <div className={`rounded-md  max-w-md mx-auto md:max-w-3xl xl:max-w-4xl`}>
-        {isTablet && (
+      <div
+        className={`rounded-md mx-auto max-w-5xl`}
+      >
+        {isDesktop && (
           <div
             className={`flex ${
               isDarkMode ? "border-blue-400" : "border-gray-600"
@@ -68,10 +66,10 @@ const CreatedQrs = () => {
             <div
               key={data.id}
               className={`${
-                isDarkMode ? "border-gray-200" : "border-gray-600"
-              } border-b-[1px]  px-2`}
+                isDarkMode ? "border-gray-200 hover:bg-[#424548aa]" : "border-gray-600 hover:bg-blue-50"
+              } border-b-[1px]  px-2 `}
             >
-              {isTablet ? (
+              {isDesktop ? (
                 <div className="py-2">
                   <RecentDesktop
                     name={data.name}

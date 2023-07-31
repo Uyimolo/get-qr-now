@@ -1,18 +1,54 @@
 import { Outlet } from "react-router";
-import CreateQr from "../components/CreateQr";
+// import CreateQr from "../components/CreateQr";
 import CreatedQrs from "../components/CreatedQrs";
+import Sidebar from "../components/Sidebar";
+import { PropTypes } from "prop-types";
+import { motion } from "framer-motion";
+import { useMediaQuery } from "react-responsive";
+import { useEffect } from "react";
 
-const DashboardLayout = () => {
+const DashboardLayout = ({ sidebarOpen, setSidebarOpen }) => {
+  const isDesktop = useMediaQuery({ minWidth: 1024 });
+  const handleCloseSidebar = () => {
+    if (!isDesktop) {
+      setSidebarOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isDesktop) {
+      setSidebarOpen(true);
+    }
+  }, [isDesktop, setSidebarOpen]);
+
   return (
-    <main className="">
-      <CreateQr />
-      <div className="my-3 px-6 md:px-16 xl:px-28">
-        <Outlet />
+    <main className="pb-20">
+      {/* side bar */}
+      <div className="">
+        <motion.div
+          initial={{ x: 0 }}
+          animate={sidebarOpen ? { x: 0 } : { x: "-100%" }}
+          transition={{ type: "spring", stiffness: 70 }}
+          className={`fixed w-48 md:w-`}
+        >
+          <Sidebar handleCloseSidebar={handleCloseSidebar} />
+        </motion.div>
+        <div>
+          <div className="pt-16 md:px-12 md:pt-24 lg:ml-48">
+            <Outlet />
+          </div>
+          <div className="mt-6 lg:ml-48">
+            <CreatedQrs />
+          </div>
+        </div>
       </div>
-      <CreatedQrs />
-      <div className="h-40"></div>
     </main>
   );
+};
+
+DashboardLayout.propTypes = {
+  sidebarOpen: PropTypes.bool.isRequired,
+  setSidebarOpen: PropTypes.func.isRequired,
 };
 
 export default DashboardLayout;

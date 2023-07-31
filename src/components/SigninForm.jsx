@@ -1,4 +1,4 @@
-import { PropTypes } from "prop-types";
+/* eslint-disable react/prop-types */
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 const SigninForm = ({
@@ -9,7 +9,7 @@ const SigninForm = ({
   emailValue,
   passwordValue,
 }) => {
-  const {isDarkMode} = useContext(ThemeContext)
+  const { isDarkMode } = useContext(ThemeContext);
   return (
     <form
       action=""
@@ -79,15 +79,6 @@ const SigninForm = ({
       </p>
     </form>
   );
-};
-
-SigninForm.propTypes = {
-  handleSigninChange: PropTypes.func.isRequired,
-  handleEmailSignin: PropTypes.func.isRequired,
-  handleGoogleAuth: PropTypes.func.isRequired,
-  setIsNewUser: PropTypes.func.isRequired,
-  emailValue: PropTypes.string.isRequired,
-  passwordValue: PropTypes.string.isRequired,
 };
 
 export default SigninForm;

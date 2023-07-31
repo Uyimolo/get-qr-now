@@ -1,25 +1,19 @@
+/* eslint-disable react/prop-types */
 // import menu from "../images/icon-menu.svg";
-import { signOut } from "firebase/auth";
 import { useContext } from "react";
-import { UserContext } from "../context/UserContext";
 import { ThemeContext } from "../context/ThemeContext";
-import { useNavigate } from "react-router-dom";
-import { auth } from "../../config/firebase";
 import light from "../images/icon-sun.svg";
 import dark from "../images/icon-moon.svg";
+import menu from "../images/icon-menu.svg";
+import menuDark from "../images/icon-menu-dark.svg";
 import { motion } from "framer-motion";
-const Header = () => {
-  const { user } = useContext(UserContext);
+const Header = ({ setSidebarOpen, sidebarOpen }) => {
   const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
-  const navigate = useNavigate();
-  const handleLogout = async () => {
-    await signOut(auth);
-  };
   return (
     <header
       className={`${
         isDarkMode ? "bg-[#26282b]" : "bg-[#eeeeee]"
-      } flex items-center z-10 justify-between px-6 py-4 fixed top-0 left-0 w-full border-blue-500 border-b-4 `}
+      } flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full `}
     >
       <div className="">
         <h1
@@ -41,13 +35,12 @@ const Header = () => {
             className="cursor-pointer"
           />
         </div>
-
-        <div className={`${isDarkMode ? "text-gray-200" : "text-gray-600"} cursor-pointer`}>
-          <p onClick={user ? handleLogout : () => navigate("auth")}>
-            {" "}
-            {user ? "Sign out" : "Sign in"}{" "}
-          </p>
-        </div>
+        <img
+          src={isDarkMode ? menu : menuDark}
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          alt=""
+          className="cursor-pointer lg:hidden"
+        />
       </div>
     </header>
   );
