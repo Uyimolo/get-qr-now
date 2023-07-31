@@ -6,12 +6,14 @@ import { ThemeContext } from "../context/ThemeContext";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { UserContext } from "../context/UserContext";
+import VCard from "vcard-creator";
 
 const CreateContact = () => {
   const isDarkMode = useContext(ThemeContext);
   const user = useContext(UserContext);
   const [qRData, setQRData] = useState({
-    fullName: "",
+    firstName: "",
+    lastName: "",
     phoneNumber: "",
     email: "",
     website: "",
@@ -44,7 +46,8 @@ const CreateContact = () => {
       if (docAdded) {
         setStatus("Qr code saved successfully");
         setQRData({
-          fullName: "",
+          firstName: "",
+          lastName: "",
           phoneNumber: "",
           email: "",
           website: "",
@@ -66,28 +69,36 @@ const CreateContact = () => {
   const handleCreateQr = (event) => {
     event.preventDefault();
     if (
-      qRData.fullName !== "" &&
+      qRData.firstName !== "" &&
+      qRData.lastName !== "" &&
       qRData.fileName !== "" &&
       qRData.email !== "" &&
-      qRData.website !== ""
+      qRData.website !== "" &&
+      qRData.phoneNumber !== ""
     ) {
-      // console.log(qRData);
-      //   fullName: qRData.fullName,
-      //   workPhone: qRData.phoneNumber,
-      //   email: qRData.email,
-      //   url: qRData.website,
-      // });
-      // setQRimageData(createdVCard.getFormattedString());
-      // console.log(qRImageData);
+      const { firstName, lastName, email, website, phoneNumber } = qRData;
+      const vCard = new VCard();
+      vCard
+        .addName(firstName, lastName)
+        .addEmail(email)
+        .addURL(website)
+        .addPhoneNumber(phoneNumber);
+      setQRimageData(vCard.toString());
     }
   };
-
   const inputData = [
     {
-      label: "Full name",
-      value: qRData.fullName,
-      id: "fullName",
-      placeholder: "Enter full name",
+      label: "First name",
+      value: qRData.firstName,
+      id: "firstName",
+      placeholder: "Enter first name",
+      type: "text",
+    },
+    {
+      label: "Last name",
+      value: qRData.lastName,
+      id: "lastName",
+      placeholder: "Enter last name",
       type: "text",
     },
     {

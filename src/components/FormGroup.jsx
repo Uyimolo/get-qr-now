@@ -6,7 +6,7 @@ const FormGroup = ({ paragraphStyle, value, onChange, label, id, placeholder, ty
   const isDarkMode = useContext(ThemeContext);
   return (
     <div className="flex flex-col space-y-2 w-full md:w-[20rem]">
-      <label htmlFor={id} className={`flex justify-center ${paragraphStyle}`}>
+      <label htmlFor={id} className={`flex ${paragraphStyle}`}>
         {label} <p className="text-red-600 text-xl h-1 px-2 ">*</p>
       </label>
       <input

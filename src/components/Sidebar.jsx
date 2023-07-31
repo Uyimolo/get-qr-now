@@ -22,7 +22,7 @@ const Sidebar = ({ handleCloseSidebar }) => {
         isDarkMode
           ? "bg-[#26282b] border-gray-200"
           : "bg-blue-400 shadow-xl border-blue-400"
-      } h-screen flex flex-col  py-6 border-r-2 overflow-y-scroll md:overflow-auto`}
+      } h-screen flex flex-col  py-6 border-r-2`}
     >
       <h2
         className={`${
@@ -39,12 +39,6 @@ const Sidebar = ({ handleCloseSidebar }) => {
         >
           Website
         </Link>
-        <Link className={linkStyle} onClick={handleCloseSidebar}>
-          Image QR Code
-        </Link>
-        <Link to="file" className={linkStyle} onClick={handleCloseSidebar}>
-          Upload a file
-        </Link>
         <Link
           to="contact-card"
           className={linkStyle}
@@ -53,14 +47,12 @@ const Sidebar = ({ handleCloseSidebar }) => {
           Contact Card
         </Link>
         <Link className={linkStyle} onClick={handleCloseSidebar}>
-          Google Doc
+          Upload image
         </Link>
-        <Link className={linkStyle} onClick={handleCloseSidebar}>
-          Facebook
+        <Link to="file" className={linkStyle} onClick={handleCloseSidebar}>
+          Upload a file
         </Link>
-        <Link className={linkStyle} onClick={handleCloseSidebar}>
-          Youtube
-        </Link>
+
         <Link to="email" className={linkStyle} onClick={handleCloseSidebar}>
           Email
         </Link>
