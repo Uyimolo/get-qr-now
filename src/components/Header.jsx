@@ -1,14 +1,26 @@
 /* eslint-disable react/prop-types */
-// import menu from "../images/icon-menu.svg";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import light from "../images/icon-sun.svg";
 import dark from "../images/icon-moon.svg";
 import menu from "../images/icon-menu.svg";
 import menuDark from "../images/icon-menu-dark.svg";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router";
 const Header = ({ setSidebarOpen, sidebarOpen }) => {
   const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
+  const [showMenu, setShowMenu] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname.includes("/dashboard")) {
+      setShowMenu(true);
+    } else {
+      setShowMenu(false);
+    }
+  }, [location])
+  
+
   return (
     <header
       className={`${
@@ -35,12 +47,15 @@ const Header = ({ setSidebarOpen, sidebarOpen }) => {
             className="cursor-pointer"
           />
         </div>
-        <img
+        { showMenu &&
+          <img
           src={isDarkMode ? menu : menuDark}
           onClick={() => setSidebarOpen(!sidebarOpen)}
           alt=""
           className="cursor-pointer lg:hidden"
         />
+        }
+        
       </div>
     </header>
   );
