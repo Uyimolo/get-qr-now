@@ -5,7 +5,7 @@ import { ThemeContext } from "../context/ThemeContext";
 const FormGroup = ({ paragraphStyle, value, onChange, label, id, placeholder, type }) => {
   const isDarkMode = useContext(ThemeContext);
   return (
-    <div className="flex flex-col space-y-2 w-full md:w-[20rem]">
+    <div className="flex flex-col space-y-1 w-full md:w-[19rem]">
       <label htmlFor={id} className={`flex ${paragraphStyle}`}>
         {label} <p className="text-red-600 text-xl h-1 px-2 ">*</p>
       </label>

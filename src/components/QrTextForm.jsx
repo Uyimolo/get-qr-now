@@ -21,7 +21,7 @@ const QrTextForm = ({
     // this form will be used for the website, google doc, facebook, youtube and email sections of the webapp
     <form
       action=""
-      className={`px-2 py-4 ${
+      className={`px-4 py-4 ${
         isDarkMode ? " bg-[#424548] hover:bg-[#424548aa]" : " bg-blue-400"
       } rounded-md shadow-lg flex flex-col space-y-8 min-w-[18rem] max-w-[20rem] mx-auto md:min-w-[42rem] `}
       onSubmit={handleCreateQr}

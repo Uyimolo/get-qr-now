@@ -8,6 +8,7 @@ import RecentMobile from "./RecentMobile";
 import { useMediaQuery } from "react-responsive";
 import RecentDesktop from "./RecentDesktop";
 const CreatedQrs = () => {
+  const [showQRModal, setShowQRModal] = useState(false);
   const [qrData, setQrData] = useState([]);
   const { user } = useContext(UserContext);
   const { isDarkMode } = useContext(ThemeContext);
@@ -44,9 +45,7 @@ const CreatedQrs = () => {
       >
         Recently Saved Qr Codes
       </h2>
-      <div
-        className={`rounded-md mx-auto max-w-5xl`}
-      >
+      <div className={`rounded-md mx-auto max-w-5xl`}>
         {isDesktop && (
           <div
             className={`flex ${
@@ -66,7 +65,9 @@ const CreatedQrs = () => {
             <div
               key={data.id}
               className={`${
-                isDarkMode ? "border-gray-200 hover:bg-[#424548aa]" : "border-gray-600 hover:bg-blue-50"
+                isDarkMode
+                  ? "border-gray-200 hover:bg-[#424548aa]"
+                  : "border-gray-600 hover:bg-blue-50"
               } border-b-[1px]  px-2 `}
             >
               {isDesktop ? (
@@ -77,6 +78,8 @@ const CreatedQrs = () => {
                     numDownload={data.numDownload}
                     id={data.id}
                     paragraphStyle={paragraphStyle}
+                    setShowViewModal={setShowQRModal}
+                    showViewModal={showQRModal}
                   />
                 </div>
               ) : (
@@ -86,6 +89,9 @@ const CreatedQrs = () => {
                   numDownload={data.numDownload}
                   id={data.id}
                   paragraphStyle={paragraphStyle}
+                  setShowViewModal={setShowQRModal}
+                  showViewModal={showQRModal}
+
                 />
               )}
             </div>

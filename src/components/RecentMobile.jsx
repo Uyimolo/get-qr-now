@@ -2,9 +2,11 @@
 import deleteQr from "../images/delete.svg";
 import view from "../images/view.svg";
 import { deleteDocFunction } from "../myHooks/deleteDocFunction";
-const RecentMobile = ({ name, date, numDownload, id, paragraphStyle }) => {
+// import QrModal from "./QrModal"; 
+const RecentMobile = ({ name, date, numDownload, id, paragraphStyle, setShowQRModal}) => {
   return (
     <div>
+      
       <div className={`flex py-2 space-x-6 items-start max-w-fit`}>
         <div className="flex-col flex space-y-2 ">
           <p className={paragraphStyle}>Name:</p>
@@ -12,6 +14,7 @@ const RecentMobile = ({ name, date, numDownload, id, paragraphStyle }) => {
           <p className={paragraphStyle}>Downloads:</p>
           <button
             className={`text-gray-200 items-center flex space-x-2 px-2 py-1 bg-blue-400 rounded`}
+            onClick={() => setShowQRModal(true)}
           >
             <img src={view} className="w-6 mr-2" alt="" /> View
           </button>
