@@ -8,7 +8,6 @@ import RecentMobile from "./RecentMobile";
 import { useMediaQuery } from "react-responsive";
 import RecentDesktop from "./RecentDesktop";
 import DownloadQr from "./DownloadQr";
-
 import close from "../images/close.svg";
 
 const CreatedQrs = () => {
@@ -36,9 +35,6 @@ const CreatedQrs = () => {
       setRecentQRData(fetchedQrs);
     });
   }, []);
-  useEffect(() => {
-    console.log(recentQRData);
-  }, [recentQRData]);
 
   let paragraphStyle = "";
 
@@ -51,19 +47,19 @@ const CreatedQrs = () => {
       {showQRModal && (
         <div
           className={`${
-            isDarkMode ? "bg-[#424548]" : "bg-blue-400"
+            isDarkMode ? "bg-[#424548]" : "bg-[#fafafa]"
           } fixed left-0 right-0 bottom-0 top-0 flex flex-col pt-40 `}
         >
           <div
-            className="w-8 cursor-pointer absolute top-10 left-6"
+            className="w-10 h-10 cursor-pointer absolute bg-gray-400 rounded-full top-10 left-6 flex items-center justify-center"
             onClick={() => setShowQRModal(false)}
           >
-            <img src={close} alt="" />
+            <img src={close} alt="" className="w-6" />
           </div>
-          <h3 className="text-white text-3xl font-semibold text-center px-6 truncate">
+          <h3 className={`${isDarkMode ? "text-white" : "text-gray-600"} text-3xl font-semibold text-center px-6 truncate`}>
             {recentQRData[qRToShow].name.toUpperCase()}
           </h3>
-          <p className="text-white">{recentQRData[qRToShow].value}</p>
+          <p className={`${paragraphStyle} text-center`}>{recentQRData[qRToShow].value}</p>
           <div className="">
             <DownloadQr
               value={recentQRData[qRToShow].value}

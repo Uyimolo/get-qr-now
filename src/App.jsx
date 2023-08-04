@@ -65,7 +65,7 @@ function App() {
     )
   );
   return (
-    <div className="h-6 w-full bg-blue-600">
+    <div className="h-6 w-full">
       <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
         <UserContext.Provider value={{ user }}>
           <RouterProvider router={router} />

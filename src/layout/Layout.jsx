@@ -11,7 +11,7 @@ const Layout = ({ setSidebarOpen, sidebarOpen }) => {
 
   return (
     <div
-      className={`${isDarkMode ? "bg-[#26282b]" : "bg-[#eeeeee56]"} min-h-screen`}
+      className={`${isDarkMode ? "bg-[#26282b]" : "bg-[#fafafa]"} min-h-screen`}
     >
       <Header
         setIsDarkMode={setIsDarkMode}

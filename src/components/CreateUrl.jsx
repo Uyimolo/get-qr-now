@@ -72,7 +72,7 @@ const CreateUrl = () => {
       label: "Address",
       value: qRData.url,
       id: "url",
-      placeholder: "Enter a web address here",
+      placeholder: "Should begin with 'https://'",
       type: "url",
     },
     {

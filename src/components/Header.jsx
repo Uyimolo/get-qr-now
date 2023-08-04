@@ -24,7 +24,7 @@ const Header = ({ setSidebarOpen, sidebarOpen }) => {
   return (
     <header
       className={`${
-        isDarkMode ? "bg-[#26282b]" : "bg-[#eeeeee]"
+        isDarkMode ? "bg-[#26282b]" : "bg-[#fafafa]"
       } flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full `}
     >
       <div className="">

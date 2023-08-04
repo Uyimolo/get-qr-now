@@ -3,7 +3,7 @@ import {useContext} from "react";
 import { ThemeContext } from "../context/ThemeContext";
 
 const FormGroup = ({ paragraphStyle, value, onChange, label, id, placeholder, type }) => {
-  const isDarkMode = useContext(ThemeContext);
+  const {isDarkMode} = useContext(ThemeContext);
   return (
     <div className="flex flex-col space-y-1 w-full md:w-[19rem]">
       <label htmlFor={id} className={`flex ${paragraphStyle}`}>
@@ -14,7 +14,7 @@ const FormGroup = ({ paragraphStyle, value, onChange, label, id, placeholder, ty
         name={id}
         placeholder={placeholder}
         className={` ${
-          isDarkMode ? "bg-gray-200" : ""
+          isDarkMode ? "bg-gray-200" : "bg-[#fafafa]"
         } p-2 border-gray-300 border-[1px] rounded-md hover:bg-gray-100 transition-all duration-1`}
         value={value}
         onChange={onChange}
