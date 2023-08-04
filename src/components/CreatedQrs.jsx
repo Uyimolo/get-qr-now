@@ -4,7 +4,6 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { UserContext } from "../context/UserContext";
 import { ThemeContext } from "../context/ThemeContext";
 import RecentMobile from "./RecentMobile";
-
 import { useMediaQuery } from "react-responsive";
 import RecentDesktop from "./RecentDesktop";
 import DownloadQr from "./DownloadQr";
@@ -25,6 +24,7 @@ const CreatedQrs = () => {
     user,
     "qr-code-data"
   );
+
   // get data from firestore
   useEffect(() => {
     onSnapshot(collectionRef, (snapshot) => {
@@ -36,19 +36,16 @@ const CreatedQrs = () => {
     });
   }, []);
 
-  let paragraphStyle = "";
-
-  isDarkMode
-    ? (paragraphStyle = "text-gray-200")
-    : (paragraphStyle = "text-gray-600");
+  const paragraphStyle = `${isDarkMode ? "text-gray-200" : "text-gray-600"}`;
 
   return (
     <div className="mx-6 ">
+      {/* show expanded qr view when view button is clicked*/}
       {showQRModal && (
         <div
           className={`${
             isDarkMode ? "bg-[#424548]" : "bg-[#fafafa]"
-          } fixed left-0 right-0 bottom-0 top-0 flex flex-col pt-40 `}
+          } fixed left-0 right-0 bottom-0 top-0 flex flex-col items-center justify-center`}
         >
           <div
             className="w-10 h-10 cursor-pointer absolute bg-gray-400 rounded-full top-10 left-6 flex items-center justify-center"
@@ -56,10 +53,13 @@ const CreatedQrs = () => {
           >
             <img src={close} alt="" className="w-6" />
           </div>
-          <h3 className={`${isDarkMode ? "text-white" : "text-gray-600"} text-3xl font-semibold text-center px-6 truncate`}>
+          <h3
+            className={`${
+              isDarkMode ? "text-white" : "text-gray-600"
+            } text-3xl font-semibold text-center px-6 truncate`}
+          >
             {recentQRData[qRToShow].name.toUpperCase()}
           </h3>
-          <p className={`${paragraphStyle} text-center`}>{recentQRData[qRToShow].value}</p>
           <div className="">
             <DownloadQr
               value={recentQRData[qRToShow].value}

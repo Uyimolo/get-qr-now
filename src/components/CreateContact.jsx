@@ -11,7 +11,7 @@ import uploadDocFunction from "../myHooks/uploadDocFunction";
 
 const CreateContact = () => {
   const { isDarkMode } = useContext(ThemeContext);
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [qRData, setQRData] = useState({
     firstName: "",
     lastName: "",
@@ -30,59 +30,28 @@ const CreateContact = () => {
     `${user}`,
     "qr-code-data"
   );
-  const addToDb = useCallback(async () => {
-    setStatus("Saving Qr code");
-    const { fileName, foreground, background } = qRData;
-    try {
-      const docAdded = await addDoc(collectionRef, {
-        name: fileName,
-        value: qRImageData,
-        type: "contact",
-        date: new Date().toDateString(),
-        sortDate: Number(new Date()),
-        numDownload: "Not applicable",
-        foreground: foreground,
-        background: background,
-      });
-      if (docAdded) {
-        setStatus("Qr code saved successfully");
-        setQRData({
-          firstName: "",
-          lastName: "",
-          phoneNumber: "",
-          email: "",
-          website: "",
-          fileName: "",
-          foreground: "#000000",
-          background: "#ffffff",
-        });
-      }
-    } catch (error) {
-      setStatus("failed to save Qr code: Try again");
-    }
-  }, [qRData, collectionRef, qRImageData]);
-
   // const addToDb = useCallback(async () => {
   //   setStatus("Saving Qr code");
   //   const { fileName, foreground, background } = qRData;
-  //   console.log(qRImageData)
   //   try {
-  //     const docToBeAdded = {
+  //     const docAdded = await addDoc(collectionRef, {
   //       name: fileName,
   //       value: qRImageData,
-  //       type: "vCard",
+  //       type: "contact",
   //       date: new Date().toDateString(),
   //       sortDate: Number(new Date()),
   //       numDownload: "Not applicable",
   //       foreground: foreground,
   //       background: background,
-  //     };
-  //     const success = await uploadDocFunction(collectionRef, docToBeAdded);
-
-  //     if (success) {
+  //     });
+  //     if (docAdded) {
   //       setStatus("Qr code saved successfully");
   //       setQRData({
-  //         url: "",
+  //         firstName: "",
+  //         lastName: "",
+  //         phoneNumber: "",
+  //         email: "",
+  //         website: "",
   //         fileName: "",
   //         foreground: "#000000",
   //         background: "#ffffff",
@@ -92,6 +61,37 @@ const CreateContact = () => {
   //     setStatus("failed to save Qr code: Try again");
   //   }
   // }, [qRData, collectionRef, qRImageData]);
+
+  const addToDb = useCallback(async () => {
+    setStatus("Saving Qr code");
+    const { fileName, foreground, background } = qRData;
+    console.log(qRImageData);
+    try {
+      const docToBeAdded = {
+        name: fileName,
+        value: qRImageData,
+        type: "vCard",
+        date: new Date().toDateString(),
+        sortDate: Number(new Date()),
+        numDownload: "Not applicable",
+        foreground: foreground,
+        background: background,
+      };
+      const success = await uploadDocFunction(collectionRef, docToBeAdded);
+
+      if (success) {
+        setStatus("Qr code saved successfully");
+        setQRData({
+          url: "",
+          fileName: "",
+          foreground: "#000000",
+          background: "#ffffff",
+        });
+      }
+    } catch (error) {
+      setStatus("failed to save Qr code: Try again");
+    }
+  }, [qRData, collectionRef, qRImageData]);
 
   const handleChange = (event) => {
     setQRData({ ...qRData, [event.target.name]: event.target.value });
