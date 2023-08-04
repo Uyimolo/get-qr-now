@@ -7,9 +7,10 @@ import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { UserContext } from "../context/UserContext";
 import VCard from "vcard-creator";
+import uploadDocFunction from "../myHooks/uploadDocFunction";
 
 const CreateContact = () => {
-  const isDarkMode = useContext(ThemeContext);
+  const { isDarkMode } = useContext(ThemeContext);
   const user = useContext(UserContext);
   const [qRData, setQRData] = useState({
     firstName: "",
@@ -52,8 +53,8 @@ const CreateContact = () => {
           email: "",
           website: "",
           fileName: "",
-          foreground: "",
-          background: "",
+          foreground: "#000000",
+          background: "#ffffff",
         });
       }
     } catch (error) {
@@ -61,9 +62,39 @@ const CreateContact = () => {
     }
   }, [qRData, collectionRef, qRImageData]);
 
+  // const addToDb = useCallback(async () => {
+  //   setStatus("Saving Qr code");
+  //   const { fileName, foreground, background } = qRData;
+  //   console.log(qRImageData)
+  //   try {
+  //     const docToBeAdded = {
+  //       name: fileName,
+  //       value: qRImageData,
+  //       type: "vCard",
+  //       date: new Date().toDateString(),
+  //       sortDate: Number(new Date()),
+  //       numDownload: "Not applicable",
+  //       foreground: foreground,
+  //       background: background,
+  //     };
+  //     const success = await uploadDocFunction(collectionRef, docToBeAdded);
+
+  //     if (success) {
+  //       setStatus("Qr code saved successfully");
+  //       setQRData({
+  //         url: "",
+  //         fileName: "",
+  //         foreground: "#000000",
+  //         background: "#ffffff",
+  //       });
+  //     }
+  //   } catch (error) {
+  //     setStatus("failed to save Qr code: Try again");
+  //   }
+  // }, [qRData, collectionRef, qRImageData]);
+
   const handleChange = (event) => {
     setQRData({ ...qRData, [event.target.name]: event.target.value });
-    console.log(qRData);
   };
 
   const handleCreateQr = (event) => {

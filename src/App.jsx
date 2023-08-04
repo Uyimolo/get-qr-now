@@ -21,7 +21,7 @@ import CreateContact from "./components/CreateContact";
 import CreateEmail from "./components/CreateEmail"
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [user, setUser] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 

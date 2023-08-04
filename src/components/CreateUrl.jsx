@@ -49,7 +49,7 @@ const CreateUrl = () => {
           url: "",
           fileName: "",
           foreground: "#000000",
-          background: "#ffffff", 
+          background: "#ffffff",
         });
       }
     } catch (error) {

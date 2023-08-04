@@ -43,7 +43,7 @@ const QrTextForm = ({
         </div>
 
         {/* color inputs */}
-        <div className="flex flex-col justify-between space-y-2 md:flex-row md:space-y-0 ">
+        <div className="flex flex-col justify-between space-y-2 md:flex-row md:space-y-0 md:space-x-2">
           <div className="flex flex-col w-full">
             <label htmlFor="foreground" className={`flex ${paragraphStyle}`}>
               Foreground color {`(${foreground})`}
@@ -54,7 +54,7 @@ const QrTextForm = ({
               type="color"
               name="foreground"
               id="foreground"
-              className="w-full rounded-xl bg-transparent h-12 cursor-crosshair"
+              className="w-full bg-transparent h-12 cursor-crosshair"
               value={foreground}
               onChange={handleChange}
             />

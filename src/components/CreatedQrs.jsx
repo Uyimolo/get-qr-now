@@ -7,9 +7,15 @@ import RecentMobile from "./RecentMobile";
 
 import { useMediaQuery } from "react-responsive";
 import RecentDesktop from "./RecentDesktop";
+import DownloadQr from "./DownloadQr";
+
+import close from "../images/close.svg";
+
 const CreatedQrs = () => {
+  const [recentQRData, setRecentQRData] = useState([]);
+  const [qRToShow, setQRToShow] = useState(null);
   const [showQRModal, setShowQRModal] = useState(false);
-  const [qrData, setQrData] = useState([]);
+
   const { user } = useContext(UserContext);
   const { isDarkMode } = useContext(ThemeContext);
   const isDesktop = useMediaQuery({ minWidth: 768 });
@@ -27,17 +33,47 @@ const CreatedQrs = () => {
         ...doc.data(),
         id: doc.id,
       }));
-      setQrData(fetchedQrs);
+      setRecentQRData(fetchedQrs);
     });
-  }, [collectionRef]);
+  }, []);
+  useEffect(() => {
+    console.log(recentQRData);
+  }, [recentQRData]);
 
-  let paragraphStyle;
+  let paragraphStyle = "";
+
   isDarkMode
     ? (paragraphStyle = "text-gray-200")
     : (paragraphStyle = "text-gray-600");
 
   return (
     <div className="mx-6 ">
+      {showQRModal && (
+        <div
+          className={`${
+            isDarkMode ? "bg-[#424548]" : "bg-blue-400"
+          } fixed left-0 right-0 bottom-0 top-0 flex flex-col pt-40 `}
+        >
+          <div
+            className="w-8 cursor-pointer absolute top-10 left-6"
+            onClick={() => setShowQRModal(false)}
+          >
+            <img src={close} alt="" />
+          </div>
+          <h3 className="text-white text-3xl font-semibold text-center px-6 truncate">
+            {recentQRData[qRToShow].name.toUpperCase()}
+          </h3>
+          <p className="text-white">{recentQRData[qRToShow].value}</p>
+          <div className="">
+            <DownloadQr
+              value={recentQRData[qRToShow].value}
+              foreground={recentQRData[qRToShow].foreground}
+              background={recentQRData[qRToShow].background}
+              fileName={recentQRData[qRToShow].name}
+            />
+          </div>
+        </div>
+      )}
       <h2
         className={`${
           isDarkMode && "text-gray-200"
@@ -58,12 +94,12 @@ const CreatedQrs = () => {
             <p className={`${paragraphStyle} w-1/5`}>Action</p>
           </div>
         )}
-        {qrData
+        {recentQRData
           .sort((b, a) => a.sortDate - b.sortDate)
           .slice(0, 3)
-          .map((data) => (
+          .map((qRData, index) => (
             <div
-              key={data.id}
+              key={qRData.id}
               className={`${
                 isDarkMode
                   ? "border-gray-200 hover:bg-[#424548aa]"
@@ -73,25 +109,20 @@ const CreatedQrs = () => {
               {isDesktop ? (
                 <div className="py-2">
                   <RecentDesktop
-                    name={data.name}
-                    date={data.date}
-                    numDownload={data.numDownload}
-                    id={data.id}
+                    qRData={qRData}
                     paragraphStyle={paragraphStyle}
-                    setShowViewModal={setShowQRModal}
-                    showViewModal={showQRModal}
+                    index={index}
+                    setShowQRModal={setShowQRModal}
+                    setQRToShow={setQRToShow}
                   />
                 </div>
               ) : (
                 <RecentMobile
-                  name={data.name}
-                  date={data.date}
-                  numDownload={data.numDownload}
-                  id={data.id}
+                  qRData={qRData}
                   paragraphStyle={paragraphStyle}
-                  setShowViewModal={setShowQRModal}
-                  showViewModal={showQRModal}
-
+                  index={index}
+                  setShowQRModal={setShowQRModal}
+                  setQRToShow={setQRToShow}
                 />
               )}
             </div>
