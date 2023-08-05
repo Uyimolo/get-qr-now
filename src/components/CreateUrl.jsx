@@ -84,12 +84,19 @@ const CreateUrl = () => {
     },
   ];
 
+  const paragraphStyle = `${isDarkMode ? "text-gray-200" : "text-gray-600"}`;
+
+
   return (
     <div
-      className={`  px-2 py-4 ${
+      className={`  px-2 ${
         isDarkMode ? "" : ""
       } flex flex-col justify-center w-full  lg:max-w-3xl lg:mx-auto  md:items-center `}
     >
+      <div className="">
+        <h1 className={`${paragraphStyle} text-3xl text-center mb-6`}>Share Links with Ease!</h1>
+        
+      </div>
       <QrTextForm
         handleCreateQr={handleCreateQr}
         fileName={qRData.fileName}

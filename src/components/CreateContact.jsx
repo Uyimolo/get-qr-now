@@ -3,7 +3,7 @@ import QrTextForm from "./QrTextForm";
 import { motion } from "framer-motion";
 import DownloadQr from "./DownloadQr";
 import { ThemeContext } from "../context/ThemeContext";
-import { addDoc, collection } from "firebase/firestore";
+import { collection } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { UserContext } from "../context/UserContext";
 import VCard from "vcard-creator";
@@ -30,37 +30,6 @@ const CreateContact = () => {
     `${user}`,
     "qr-code-data"
   );
-  // const addToDb = useCallback(async () => {
-  //   setStatus("Saving Qr code");
-  //   const { fileName, foreground, background } = qRData;
-  //   try {
-  //     const docAdded = await addDoc(collectionRef, {
-  //       name: fileName,
-  //       value: qRImageData,
-  //       type: "contact",
-  //       date: new Date().toDateString(),
-  //       sortDate: Number(new Date()),
-  //       numDownload: "Not applicable",
-  //       foreground: foreground,
-  //       background: background,
-  //     });
-  //     if (docAdded) {
-  //       setStatus("Qr code saved successfully");
-  //       setQRData({
-  //         firstName: "",
-  //         lastName: "",
-  //         phoneNumber: "",
-  //         email: "",
-  //         website: "",
-  //         fileName: "",
-  //         foreground: "#000000",
-  //         background: "#ffffff",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     setStatus("failed to save Qr code: Try again");
-  //   }
-  // }, [qRData, collectionRef, qRImageData]);
 
   const addToDb = useCallback(async () => {
     setStatus("Saving Qr code");
@@ -82,7 +51,11 @@ const CreateContact = () => {
       if (success) {
         setStatus("Qr code saved successfully");
         setQRData({
-          url: "",
+          firstName: "",
+          lastName: "",
+          phoneNumber: "",
+          email: "",
+          website: "",
           fileName: "",
           foreground: "#000000",
           background: "#ffffff",
@@ -161,8 +134,15 @@ const CreateContact = () => {
       type: "text",
     },
   ];
+
+  const paragraphStyle = `${isDarkMode ? "text-gray-200" : "text-gray-600"}`;
   return (
     <div>
+      <div className="">
+        <h1 className={`${paragraphStyle} text-3xl text-center mb-6`}>
+        Share Contact Info in a Scan!
+        </h1>
+      </div>
       <QrTextForm
         inputData={inputData}
         handleChange={handleChange}

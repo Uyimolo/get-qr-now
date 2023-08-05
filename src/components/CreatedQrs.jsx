@@ -73,7 +73,7 @@ const CreatedQrs = () => {
       <h2
         className={`${
           isDarkMode && "text-gray-200"
-        } text-2xl py-4 mb-2 font-semibold text-center lg:text-4xl`}
+        } text-2xl py-4 mb-2 text-center lg:text-2xl`}
       >
         Recently Saved Qr Codes
       </h2>

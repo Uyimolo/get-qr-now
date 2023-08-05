@@ -10,7 +10,7 @@ const Sidebar = ({ handleCloseSidebar }) => {
   const { user } = useContext(UserContext);
   const handleLogout = async () => {
     await signOut(auth);
-    handleCloseSidebar()
+    handleCloseSidebar();
   };
 
   let linkStyle = "";
@@ -65,7 +65,9 @@ const Sidebar = ({ handleCloseSidebar }) => {
             : "text-red-600 hover:bg-blue-600"
         } cursor-pointer mt-8 pl-6 py-3 flex space-x-4 items-center`}
       >
-        <p className="rounded-full h-10 w-10 flex items-center justify-center text-3xl text-white border-2 shadow-xl">{user[0].toUpperCase()}</p>
+        <p className="rounded-full h-10 w-10 flex items-center justify-center text-3xl text-white border-2 shadow-xl">
+          {user[0].toUpperCase()}
+        </p>
         <p onClick={handleLogout}>Sign out</p>
       </div>
     </div>

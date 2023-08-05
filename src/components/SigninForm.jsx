@@ -8,6 +8,7 @@ const SigninForm = ({
   setIsNewUser,
   emailValue,
   passwordValue,
+  error
 }) => {
   const { isDarkMode } = useContext(ThemeContext);
   return (
@@ -17,7 +18,7 @@ const SigninForm = ({
         isDarkMode
           ? "border-[1px] border-gray-600 bg-[#424548] hover:bg-[#424548aa]"
           : "bg-blue-400"
-      } flex flex-col space-y-12 max-w-[21rem]  rounded-lg px-4 pt-6 pb-10 mx-auto`}
+      } flex flex-col space-y-10 max-w-[21rem]  rounded-lg px-4 pt-6 pb-10 mx-auto`}
     >
       {/* email and password auth */}
       <div className="flex flex-col space-y-4">
@@ -70,13 +71,15 @@ const SigninForm = ({
             Google
           </button>
         </div>
-      </div>
-      <p
-        className="text-red-600 cursor-pointer text-center"
+        <p className="text-red-600  mt-2">{error}</p>
+        <p
+        className="text-red-600 cursor-pointer mt-2 text-center"
         onClick={() => setIsNewUser(true)}
       >
         {`Don't have an account? sign up.`}
       </p>
+      </div>
+      
     </form>
   );
 };

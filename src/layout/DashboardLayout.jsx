@@ -15,43 +15,6 @@ const DashboardLayout = ({ sidebarOpen, setSidebarOpen }) => {
     }
   };
 
-  const kareem = {
-    current: {},
-    count: [
-      {
-        id: 1,
-        arr: [
-          { id: 3, name: "kola" },
-          { id: 4, name: "kareem" },
-        ],
-      },
-      {
-        id: 2,
-        arr: [
-          { id: 5, name: "queen" },
-          { id: 6, name: "cup" },
-        ],
-      },
-    ],
-  };
-
-  const editKareem = (identity) => {
-    // kareem.count.forEach((obj) => {
-    //   obj.arr.forEach((arr, index) => {
-    //     if (arr.id === identity) {
-    //       obj.arr.splice(index, 1);
-    //     }
-    //   });
-    // });
-
-  kareem.count.forEach((obj) => {
-   obj.arr = obj.arr.filter(arr => arr.id !== identity)
-  })
-    console.log(kareem);
-  };
-
-  editKareem(5);
-
   useEffect(() => {
     if (isDesktop) {
       setSidebarOpen(true);

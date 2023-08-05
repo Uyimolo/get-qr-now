@@ -20,6 +20,7 @@ const Auth = () => {
     password: "",
   });
   const [isNewUser, setIsNewUser] = useState(true);
+  const [error, setError] = useState("");
   const { user } = useContext(UserContext);
   // todo: use a reducer for both functions
   const handleChange = (e) => {
@@ -29,6 +30,44 @@ const Auth = () => {
   const handleSigninChange = (e) => {
     setSigninData({ ...signinData, [e.target.name]: e.target.value });
   };
+
+  const handleErrorMessage = (errorCode) => {
+    if (errorCode === "auth/email-already-in-use") {
+      setError("Email already in use");
+    } else if (errorCode === "auth/wrong-password") {
+      setError("Password is incorrect");
+    } else if (errorCode === "auth/invalid-email") {
+      setError("Email address is invalid");
+    } else if (errorCode === "auth/invalid-password") {
+      setError("Passwords should be above 6 letters");
+    } else if (errorCode === "auth/user-not-found") {
+      setError("Account does not exist");
+    } else if (errorCode === "auth/network-request-failed") {
+      setError("Please switch on your internet");
+    } else if (errorCode === "auth/internal-error") {
+      setError("Check if internet or popups is on");
+    } else if (errorCode === "auth/weak-password") {
+      setError("Passwords should have atleast 6 characters");
+    } else {
+      setError("Something went wrong, please try again");
+    }
+  };
+
+  useEffect(() => {
+    // resetError();
+
+    const timeout = setTimeout(() => {
+      setError("");
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, [error]);
+
+  // const resetError = () => {
+  //   setTimeout(() => {
+  //     setError("");
+  //   }, 5000);
+  // };
 
   useEffect(() => {
     if (user) {
@@ -41,34 +80,37 @@ const Auth = () => {
     try {
       await signInWithPopup(auth, googleProvider);
     } catch (error) {
-      console.log(error);
+      handleErrorMessage(error.code);
     }
   };
 
   const handleEmailSignup = async (e) => {
     e.preventDefault();
-    try {
-      await createUserWithEmailAndPassword(
-        auth,
-        signupData.email,
-        signupData.password
-      );
-    } catch (error) {
-      console.error(error);
+    if (signupData.email !== "" || signupData.password !== "") {
+      try {
+        await createUserWithEmailAndPassword(
+          auth,
+          signupData.email,
+          signupData.password
+        );
+      } catch (error) {
+        handleErrorMessage(error.code);
+      }
+    } else {
+      setError("Please fill in all fields");
     }
   };
 
   const handleEmailSignin = async (e) => {
     e.preventDefault();
     try {
-   await signInWithEmailAndPassword(
+      await signInWithEmailAndPassword(
         auth,
         signinData.email,
         signinData.password
       );
-     
-    } catch (error)  {
-      console.error(error);
+    } catch (error) {
+      handleErrorMessage(error.code);
     }
   };
   return (
@@ -81,6 +123,7 @@ const Auth = () => {
           setIsNewUser={setIsNewUser}
           emailValue={signupData.email}
           passwordValue={signupData.password}
+          error={error}
         />
       ) : (
         <SigninForm
@@ -90,6 +133,7 @@ const Auth = () => {
           setIsNewUser={setIsNewUser}
           emailValue={signinData.email}
           passwordValue={signinData.password}
+          error={error}
         />
       )}
     </main>
