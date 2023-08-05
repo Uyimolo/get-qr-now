@@ -11,6 +11,8 @@ import uploadDocFunction from "../myHooks/uploadDocFunction";
 
 const CreateContact = () => {
   const { isDarkMode } = useContext(ThemeContext);
+  const [error, setError] = useState("");
+
   const { user } = useContext(UserContext);
   const [qRData, setQRData] = useState({
     firstName: "",
@@ -34,7 +36,6 @@ const CreateContact = () => {
   const addToDb = useCallback(async () => {
     setStatus("Saving Qr code");
     const { fileName, foreground, background } = qRData;
-    console.log(qRImageData);
     try {
       const docToBeAdded = {
         name: fileName,
@@ -73,13 +74,28 @@ const CreateContact = () => {
   const handleCreateQr = (event) => {
     event.preventDefault();
     if (
-      qRData.firstName !== "" &&
-      qRData.lastName !== "" &&
-      qRData.fileName !== "" &&
-      qRData.email !== "" &&
-      qRData.website !== "" &&
-      qRData.phoneNumber !== ""
+      qRData.firstName === "" ||
+      qRData.lastName === "" ||
+      qRData.fileName === "" ||
+      qRData.email === "" ||
+      qRData.website === "" ||
+      qRData.phoneNumber === ""
     ) {
+      setError("please fill in all fields");
+    } else if (
+      qRData.firstName.trim().includes(" ") ||
+      qRData.lastName.trim().includes(" ")
+    ) {
+      setError("Name fields cannot include spaces");
+    } else if (
+      qRData.website.trim().startsWith("https://") === false ||
+      !qRData.website.startsWith("http://") === false
+    ) {
+      setQRData({ ...qRData, website: `https://${qRData.website}` });
+      setError(
+        "urls should begin with https:// or http://. if you are satisfied with our corrected url please proceed to create QR"
+      );
+    } else {
       const { firstName, lastName, email, website, phoneNumber } = qRData;
       const vCard = new VCard();
       vCard
@@ -124,7 +140,7 @@ const CreateContact = () => {
       value: qRData.website,
       id: "website",
       placeholder: "Enter email here",
-      type: "url",
+      type: "text",
     },
     {
       label: "Name your Qr Code",
@@ -140,7 +156,7 @@ const CreateContact = () => {
     <div>
       <div className="">
         <h1 className={`${paragraphStyle} text-3xl text-center mb-6`}>
-        Share Contact Info in a Scan!
+          Share Contact Info in a Scan!
         </h1>
       </div>
       <QrTextForm
@@ -149,6 +165,7 @@ const CreateContact = () => {
         handleCreateQr={handleCreateQr}
         foreground={qRData.foreground}
         background={qRData.background}
+        error={error}
       />
       {qRImageData && (
         <motion.div

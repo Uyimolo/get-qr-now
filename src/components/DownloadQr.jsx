@@ -18,7 +18,7 @@ const DownloadQr = ({
   id,
 }) => {
   const [qRDataURL, setQRDataURL] = useState("");
-  const {isDarkMode} = useContext(ThemeContext)
+  const { isDarkMode } = useContext(ThemeContext);
 
   const qrRef = useRef();
   // convert qrcode image to data url for both sharing and download
@@ -62,14 +62,9 @@ const DownloadQr = ({
     }
   }, [qRDataURL, fileName]);
 
-  useEffect(() => {
-    console.log(isDarkMode);
-  }, [isDarkMode]);
-
-  let paragraphStyle;
-  isDarkMode
-    ? (paragraphStyle = "text-gray-200 text-[14px]")
-    : (paragraphStyle = "text-gray-600 text-[12px]");
+  const paragraphStyle = isDarkMode
+    ? "text-gray-200 text-[14px]"
+    : "text-gray-600 text-[12px]";
 
   return (
     <div className="p-2 w-full">

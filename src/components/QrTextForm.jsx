@@ -11,6 +11,7 @@ const QrTextForm = ({
   foreground,
   background,
   inputData,
+  error
 }) => {
   const { isDarkMode } = useContext(ThemeContext);
   let paragraphStyle = "";
@@ -76,9 +77,8 @@ const QrTextForm = ({
             />
           </div>
         </div>
-        <p className={`flex ${paragraphStyle}`}>
-          Tip: Ignore to use default black and white
-        </p>
+      {error && <p className={paragraphStyle}>{error}</p>}
+        
       </div>
       <div className="mx-auto">
         <Button type="submit" text="Create Qr" extraStyle="px-12" />

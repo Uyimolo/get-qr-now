@@ -10,6 +10,8 @@ import uploadDocFunction from "../myHooks/uploadDocFunction";
 
 const CreateEmail = () => {
   const { user } = useContext(UserContext);
+  const [error, setError] = useState("");
+
   const { isDarkMode } = useContext(ThemeContext);
   const [qRData, setQRData] = useState({
     email: "",
@@ -63,7 +65,10 @@ const CreateEmail = () => {
 
   const handleCreateQr = (e) => {
     e.preventDefault();
-    if (qRData.email !== "" && qRData.fileName !== "") {
+    if (qRData.email === "" || qRData.fileName === "") {
+      setError("please fill in all fields");
+    } else {
+      setError("");
       setQRimageData(qRData);
     }
   };
@@ -100,11 +105,11 @@ const CreateEmail = () => {
       </div>
       <QrTextForm
         handleCreateQr={handleCreateQr}
-        // fileName={qRData.fileName}
         handleChange={handleChange}
         foreground={qRData.foreground}
         background={qRData.background}
         inputData={inputData}
+        error={error}
       />
 
       {qRImageData && (

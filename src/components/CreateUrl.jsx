@@ -10,6 +10,7 @@ import uploadDocFunction from "../myHooks/uploadDocFunction";
 
 const CreateUrl = () => {
   const { user } = useContext(UserContext);
+  const [error, setError] = useState("");
   const { isDarkMode } = useContext(ThemeContext);
   const [qRData, setQRData] = useState({
     url: "",
@@ -62,18 +63,25 @@ const CreateUrl = () => {
 
   const handleCreateQr = (e) => {
     e.preventDefault();
-    if (qRData.url !== "" && qRData.fileName !== "") {
+    if (qRData.url === "" || qRData.fileName === "") {
+      setError("please fill in all fields");
+    } else if (qRData.url.startsWith("https://") === false) {
+      setQRData({ ...qRData, url: `https://${qRData.url}` });
+      setError(
+        "urls should begin with https:// or http://. if you are satisfied with our corrected url please proceed to create QR"
+      );
+    } else {
+      setError("");
       setQRimageData(qRData);
     }
   };
-
   const inputData = [
     {
       label: "Address",
       value: qRData.url,
       id: "url",
       placeholder: "Should begin with 'https://'",
-      type: "url",
+      type: "text",
     },
     {
       label: "Name your Qr Code",
@@ -86,7 +94,6 @@ const CreateUrl = () => {
 
   const paragraphStyle = `${isDarkMode ? "text-gray-200" : "text-gray-600"}`;
 
-
   return (
     <div
       className={`  px-2 ${
@@ -94,9 +101,11 @@ const CreateUrl = () => {
       } flex flex-col justify-center w-full  lg:max-w-3xl lg:mx-auto  md:items-center `}
     >
       <div className="">
-        <h1 className={`${paragraphStyle} text-3xl text-center mb-6`}>Share Links with Ease!</h1>
-        
+        <h1 className={`${paragraphStyle} text-3xl text-center mb-6`}>
+          Share Links with Ease!
+        </h1>
       </div>
+
       <QrTextForm
         handleCreateQr={handleCreateQr}
         fileName={qRData.fileName}
@@ -104,6 +113,7 @@ const CreateUrl = () => {
         foreground={qRData.foreground}
         background={qRData.background}
         inputData={inputData}
+        error={error}
       />
 
       {qRImageData && (
