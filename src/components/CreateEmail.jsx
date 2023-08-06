@@ -67,6 +67,7 @@ const CreateEmail = () => {
     e.preventDefault();
     if (qRData.email === "" || qRData.fileName === "") {
       setError("please fill in all fields");
+  
     } else {
       setError("");
       setQRimageData(qRData);
@@ -125,6 +126,7 @@ const CreateEmail = () => {
             background={qRImageData.background}
             fileName={qRImageData.fileName}
             onClick={addToDb}
+            secondary
           />
           {status && (
             <p

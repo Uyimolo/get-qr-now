@@ -57,6 +57,7 @@ const CreateUrl = () => {
       setStatus("failed to save Qr code: Try again");
     }
   }, [qRData, collectionRef]);
+
   const handleChange = (e) => {
     setQRData({ ...qRData, [e.target.name]: e.target.value });
   };
@@ -129,6 +130,7 @@ const CreateUrl = () => {
             background={qRImageData.background}
             fileName={qRImageData.fileName}
             onClick={addToDb}
+            secondary
           />
           {status && (
             <p

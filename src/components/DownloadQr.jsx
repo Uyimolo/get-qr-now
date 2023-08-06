@@ -16,6 +16,7 @@ const DownloadQr = ({
   fileName,
   onClick,
   id,
+  secondary
 }) => {
   const [qRDataURL, setQRDataURL] = useState("");
   const { isDarkMode } = useContext(ThemeContext);
@@ -96,24 +97,29 @@ const DownloadQr = ({
           <p className={paragraphStyle}>Share</p>
         </div>
 
-        <div className="flex flex-col items-center">
-          <button
-            onClick={onClick}
-            className="bg-blue-400 p-2 rounded-full transition-all duration-400  hover:bg-blue-500"
-          >
-            <img src={save} alt="" className="w-6" />{" "}
-          </button>
-          <p className={paragraphStyle}>Save</p>
-        </div>
-        <div className="flex flex-col items-center">
-          <button
-            onClick={() => deleteDocFunction(id)}
-            className="bg-blue-400 p-2 rounded-full transition-all duration-400  hover:bg-blue-500"
-          >
-            <img src={deleteIcon} alt="" className="w-6" />
-          </button>
-          <p className={paragraphStyle}>Delete</p>
-        </div>
+        {secondary && (
+          <div className="flex flex-col items-center">
+            <button
+              onClick={onClick}
+              className="bg-blue-400 p-2 rounded-full transition-all duration-400  hover:bg-blue-500"
+            >
+              <img src={save} alt="" className="w-6" />{" "}
+            </button>
+            <p className={paragraphStyle}>Save</p>
+          </div>
+        )}
+
+        {secondary && (
+          <div className="flex flex-col items-center">
+            <button
+              onClick={() => deleteDocFunction(id)}
+              className="bg-blue-400 p-2 rounded-full transition-all duration-400  hover:bg-blue-500"
+            >
+              <img src={deleteIcon} alt="" className="w-6" />
+            </button>
+            <p className={paragraphStyle}>Delete</p>
+          </div>
+        )}
       </div>
     </div>
   );

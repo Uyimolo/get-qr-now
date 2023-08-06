@@ -88,8 +88,8 @@ const CreateContact = () => {
     ) {
       setError("Name fields cannot include spaces");
     } else if (
-      qRData.website.trim().startsWith("https://") === false ||
-      !qRData.website.startsWith("http://") === false
+      qRData.website.startsWith("https://") === false ||
+      qRData.website.startsWith("http://") === false
     ) {
       setQRData({ ...qRData, website: `https://${qRData.website}` });
       setError(
@@ -180,6 +180,7 @@ const CreateContact = () => {
             background={qRData.background}
             fileName={qRData.fileName}
             onClick={addToDb}
+            secondary
           />
           {status && (
             <p

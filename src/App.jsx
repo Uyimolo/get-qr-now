@@ -16,7 +16,7 @@ import DashboardLayout from "./layout/DashboardLayout";
 import CreateUrl from "./components/CreateUrl";
 import Landing from "./pages/Landing";
 import Protected from "./components/Protected";
-import CreateFile from "./components/CreateFile";
+import CreateFile from "./components/CreatePDF";
 import CreateContact from "./components/CreateContact";
 import CreateEmail from "./components/CreateEmail"
 
