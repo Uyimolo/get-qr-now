@@ -64,12 +64,13 @@ const CreateUrl = () => {
 
   const handleCreateQr = (e) => {
     e.preventDefault();
+    const urlPattern = /^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}(\/\S*)?$/;
+
     if (qRData.url === "" || qRData.fileName === "") {
       setError("please fill in all fields");
-    } else if (qRData.url.startsWith("https://") === false) {
-      setQRData({ ...qRData, url: `https://${qRData.url}` });
+    } else if (urlPattern.test(qRData.url.trim()) === false) {
       setError(
-        "urls should begin with https:// or http://. if you are satisfied with our corrected url please proceed to create QR"
+        "Invalid URL format. URLs should be in the format 'https://example.com'"
       );
     } else {
       setError("");
@@ -130,7 +131,7 @@ const CreateUrl = () => {
             background={qRImageData.background}
             fileName={qRImageData.fileName}
             onClick={addToDb}
-            secondary
+            showSave
           />
           {status && (
             <p

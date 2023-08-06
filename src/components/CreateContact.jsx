@@ -73,6 +73,9 @@ const CreateContact = () => {
 
   const handleCreateQr = (event) => {
     event.preventDefault();
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const urlPattern = /^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}(\/\S*)?$/;
+
     if (
       qRData.firstName === "" ||
       qRData.lastName === "" ||
@@ -87,13 +90,13 @@ const CreateContact = () => {
       qRData.lastName.trim().includes(" ")
     ) {
       setError("Name fields cannot include spaces");
-    } else if (
-      qRData.website.startsWith("https://") === false ||
-      qRData.website.startsWith("http://") === false
-    ) {
-      setQRData({ ...qRData, website: `https://${qRData.website}` });
+    } else if (urlPattern.test(qRData.website.trim()) === false) {
       setError(
-        "urls should begin with https:// or http://. if you are satisfied with our corrected url please proceed to create QR"
+        "Invalid URL format. URLs should be in the format 'https://example.com'"
+      );
+    } else if (emailPattern.test(qRData.email.trim()) === false) {
+      setError(
+        "Invalid email format. Please enter a valid email address (e.g., example@example.com)."
       );
     } else {
       const { firstName, lastName, email, website, phoneNumber } = qRData;

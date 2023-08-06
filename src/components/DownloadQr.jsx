@@ -16,7 +16,8 @@ const DownloadQr = ({
   fileName,
   onClick,
   id,
-  secondary
+  showDelete,
+  showSave, 
 }) => {
   const [qRDataURL, setQRDataURL] = useState("");
   const { isDarkMode } = useContext(ThemeContext);
@@ -97,7 +98,7 @@ const DownloadQr = ({
           <p className={paragraphStyle}>Share</p>
         </div>
 
-        {secondary && (
+        {showSave && (
           <div className="flex flex-col items-center">
             <button
               onClick={onClick}
@@ -109,7 +110,7 @@ const DownloadQr = ({
           </div>
         )}
 
-        {secondary && (
+        {showDelete && (
           <div className="flex flex-col items-center">
             <button
               onClick={() => deleteDocFunction(id)}

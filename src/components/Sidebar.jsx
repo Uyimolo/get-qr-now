@@ -47,9 +47,7 @@ const Sidebar = ({ handleCloseSidebar }) => {
         >
           Contact Card
         </Link>
-        <Link className={linkStyle} onClick={handleCloseSidebar}>
-          Upload image
-        </Link>
+
         <Link to="file" className={linkStyle} onClick={handleCloseSidebar}>
           Upload a file
         </Link>

@@ -65,9 +65,13 @@ const CreateEmail = () => {
 
   const handleCreateQr = (e) => {
     e.preventDefault();
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (qRData.email === "" || qRData.fileName === "") {
       setError("please fill in all fields");
-  
+    } else if (emailPattern.test(qRData.email.trim()) === false) {
+      setError(
+        "Invalid email format. Please enter a valid email address (e.g., example@example.com)."
+      );
     } else {
       setError("");
       setQRimageData(qRData);
@@ -79,8 +83,8 @@ const CreateEmail = () => {
       label: "Email",
       value: qRData.value,
       id: "email",
-      placeholder: "Enter a web address here",
-      type: "email",
+      placeholder: "Enter an email address here",
+      type: "text",
     },
     {
       label: "Name your Qr Code",
