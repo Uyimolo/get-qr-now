@@ -183,7 +183,7 @@ const CreateContact = () => {
             background={qRData.background}
             fileName={qRData.fileName}
             onClick={addToDb}
-            secondary
+            showSave
           />
           {status && (
             <p
