@@ -17,16 +17,14 @@ const CreatedQrs = () => {
   const { user } = useContext(UserContext);
   const { isDarkMode } = useContext(ThemeContext);
   const isDesktop = useMediaQuery({ minWidth: 768 });
-  // reference to firestore collection
-  const collectionRef = collection(
-    db,
-    "qr-codes-collection",
-    user,
-    "qr-code-data"
-  );
 
-  // get data from firestore
   useEffect(() => {
+    const collectionRef = collection(
+      db,
+      "qr-codes-collection",
+      user,
+      "qr-code-data"
+    );
     onSnapshot(collectionRef, (snapshot) => {
       const fetchedQrs = snapshot.docs.map((doc) => ({
         ...doc.data(),
@@ -34,7 +32,7 @@ const CreatedQrs = () => {
       }));
       setRecentQRData(fetchedQrs);
     });
-  }, []);
+  }, [user]);
 
   const paragraphStyle = `${isDarkMode ? "text-gray-200" : "text-gray-600"}`;
 

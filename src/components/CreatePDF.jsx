@@ -172,7 +172,7 @@ const CreatePDF = () => {
           foreground={qRData.foreground}
           background={qRData.background}
           handleChange={handleChange}
-          file={qRData.pDFFile}
+          file={qRData.file}
           filePreview={filePreview}
           handleCreateQr={handleCreateQR}
           error={error}

@@ -130,7 +130,7 @@ const CreateEmail = () => {
             background={qRImageData.background}
             fileName={qRImageData.fileName}
             onClick={addToDb}
-            secondary
+            showSave
           />
           {status && (
             <p
