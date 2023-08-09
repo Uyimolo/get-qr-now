@@ -11,20 +11,27 @@ const QrTextForm = ({
   foreground,
   background,
   inputData,
-  error
+  errors,
+  handleValidation,
 }) => {
   const { isDarkMode } = useContext(ThemeContext);
   let paragraphStyle = "";
   isDarkMode
     ? (paragraphStyle = "text-gray-200")
-    : (paragraphStyle = "text-gray-600");
+    : (paragraphStyle = "text-gray-900");
   return (
     // this form will be used for the website, google doc, facebook, youtube and email sections of the webapp
-    <form
+    <motion.form
+      initial={{ scale: 1.5 }}
+      animate={{ scale: 1 }}
+      transition={{ type: "spring", stiffness: 200 }}
       action=""
+      id="textForm"
       className={`px-4 py-4 ${
-        isDarkMode ? " bg-[#424548] hover:bg-[#424548aa]" : " bg-blue-400"
-      } rounded-md shadow-lg flex flex-col space-y-8 min-w-[18rem] max-w-[20rem] mx-auto md:min-w-[42rem] `}
+        isDarkMode
+          ? " bg-[#424548] hover:bg-[#424548aa] border-gray-500 "
+          : " bg-[#f1f1f199] border-gray-300"
+      } rounded-xl shadow-lg border flex flex-col space-y-8 min-w-[18rem] max-w-[20rem] mx-auto md:min-w-[42rem] `}
       onSubmit={handleCreateQr}
     >
       <div className="flex flex-col space-y-4 ">
@@ -39,6 +46,8 @@ const QrTextForm = ({
               paragraphStyle={paragraphStyle}
               onChange={handleChange}
               type={input.type}
+              handleValidation={handleValidation}
+              error={errors[input.id]}
             />
           ))}
         </div>
@@ -77,13 +86,14 @@ const QrTextForm = ({
             />
           </div>
         </div>
-      {error && <p className={paragraphStyle}>{error}</p>}
-        
+        <p className="text-blue-400">
+          NB: Please fill in all fields before submitting
+        </p>
       </div>
       <div className="mx-auto">
         <Button type="submit" text="Create Qr" extraStyle="px-12" />
       </div>
-    </form>
+    </motion.form>
   );
 };
 

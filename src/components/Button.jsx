@@ -12,8 +12,8 @@ const Button = ({ type, onClick, text, extraStyle }) => {
       type={type}
       onClick={onClick}
       className={`${
-        isDarkMode ? "text-gray-200 bg-blue-700" : ""
-      } flex  px-4 py-1 rounded-full ${extraStyle}`}
+        isDarkMode ? "text-gray-200 " : ""
+      } flex  px-4 py-1 rounded-full ${extraStyle} bg-black`}
     >
       {text}
     </motion.button>

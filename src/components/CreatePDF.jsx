@@ -1,4 +1,4 @@
-import { useContext, useState, useCallback } from "react";
+import { useContext, useState, useCallback, useEffect } from "react";
 import QrFileForm from "./QrFileForm";
 import { motion } from "framer-motion";
 import DownloadQr from "./DownloadQr";
@@ -148,6 +148,14 @@ const CreatePDF = () => {
       }
     }
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setError("");
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, [error]);
 
   const inputData = [
     {

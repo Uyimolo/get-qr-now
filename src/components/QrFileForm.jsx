@@ -23,8 +23,10 @@ const QrFileForm = ({
     <form
       action=""
       className={`px-4 py-4 ${
-        isDarkMode ? " bg-[#424548] hover:bg-[#424548aa]" : " bg-blue-400"
-      } rounded-md shadow-lg flex flex-col space-y-8 min-w-[18rem] max-w-[20rem] mx-auto md:min-w-[42rem] `}
+        isDarkMode
+          ? " bg-[#424548] hover:bg-[#424548aa] border-gray-500"
+          : "  bg-[#f1f1f199] border-gray-300"
+      } rounded-md shadow-lg border flex flex-col space-y-8 min-w-[18rem] max-w-[20rem] mx-auto md:min-w-[42rem] `}
       onSubmit={handleCreateQr}
     >
       <div className="flex flex-col space-y-4 ">

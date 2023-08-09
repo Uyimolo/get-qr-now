@@ -29,15 +29,15 @@ const DashboardLayout = ({ sidebarOpen, setSidebarOpen }) => {
           initial={{ x: 0 }}
           animate={sidebarOpen ? { x: 0 } : { x: "-100%" }}
           transition={{ type: "spring", stiffness: 70 }}
-          className={`fixed w-48 md:w-`}
+          className={`fixed w-60 md:w-`}
         >
           <Sidebar handleCloseSidebar={handleCloseSidebar} />
         </motion.div>
         <div>
-          <div className="pt-16 md:px-12 md:pt-24 lg:ml-48">
+          <div className="pt-16 md:px-12 md:pt-24 lg:ml-60">
             <Outlet />
           </div>
-          <div className="mt-6 lg:ml-48">
+          <div className="mt-6 lg:ml-60">
             <CreatedQrs />
           </div>
         </div>

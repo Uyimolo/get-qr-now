@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useState, useEffect } from "react";
 import { db } from "../../config/firebase";
 import { collection } from "firebase/firestore";
 import DownloadQr from "./DownloadQr";
@@ -21,6 +21,10 @@ const CreateEmail = () => {
   });
   const [qRImageData, setQRimageData] = useState(null);
   const [status, setStatus] = useState("");
+  const [inputErrors, setInputErrors] = useState({
+    email: "",
+    fileName: "",
+  });
 
   const collectionRef = collection(
     db,
@@ -63,20 +67,48 @@ const CreateEmail = () => {
     setQRData({ ...qRData, [e.target.name]: e.target.value });
   };
 
-  const handleCreateQr = (e) => {
+  const handleValidation = (e) => {
     e.preventDefault();
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (qRData.email === "" || qRData.fileName === "") {
-      setError("please fill in all fields");
-    } else if (emailPattern.test(qRData.email.trim()) === false) {
-      setError(
-        "Invalid email format. Please enter a valid email address (e.g., example@example.com)."
-      );
-    } else {
-      setError("");
-      setQRimageData(qRData);
+    const inputEl = event.target;
+    const { name } = inputEl;
+    const value = inputEl.value.trim();
+
+    if (name === "email") {
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      setInputErrors((prevErrors) => ({
+        ...prevErrors,
+        email: emailPattern.test(value)
+          ? ""
+          : "Invalid email format. emails should be in the format 'getQrNow@example.com'",
+      }));
+    } else if (name === "fileName") {
+      setInputErrors((prevErrors) => ({
+        ...prevErrors,
+        fileName: value.includes(" ")
+          ? "File names should not contain spaces."
+          : "",
+      }));
     }
   };
+
+  const handleCreateQr = (e) => {
+    e.preventDefault();
+    // Check for validation errors
+    if (inputErrors.email || inputErrors.fileName) {
+      return;
+    } else if (qRData.email === "" || qRData.fileName === "") {
+      return;
+    }
+    setQRimageData(qRData);
+  };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setError("");
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, [error]);
 
   const inputData = [
     {
@@ -114,7 +146,8 @@ const CreateEmail = () => {
         foreground={qRData.foreground}
         background={qRData.background}
         inputData={inputData}
-        error={error}
+        errors={inputErrors}
+        handleValidation={handleValidation}
       />
 
       {qRImageData && (

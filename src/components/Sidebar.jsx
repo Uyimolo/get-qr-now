@@ -5,6 +5,11 @@ import { ThemeContext } from "../context/ThemeContext";
 import { UserContext } from "../context/UserContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase";
+import url from "../images/url.svg";
+import contact from "../images/contact-card.svg";
+import fileUpload from "../images/file-upload.svg";
+import email from "../images/email.svg";
+
 const Sidebar = ({ handleCloseSidebar }) => {
   const { isDarkMode } = useContext(ThemeContext);
   const { user } = useContext(UserContext);
@@ -13,16 +18,13 @@ const Sidebar = ({ handleCloseSidebar }) => {
     handleCloseSidebar();
   };
 
-  let linkStyle = "";
-  isDarkMode
-    ? (linkStyle = "text-gray-200 py-3 hover:bg-blue-400 pl-6")
-    : (linkStyle = "pl-6 text-white py-3 hover:bg-blue-600");
+  let linkStyle = isDarkMode ? "text-gray-200 py-3" : "text-white py-3 ";
   return (
     <div
       className={`${
         isDarkMode
           ? "bg-[#26282b] border-gray-200"
-          : "bg-blue-400 shadow-xl border-blue-400"
+          : " bg-[#212121] shadow-xl border-blue-400"
       } h-screen flex flex-col  py-6 border-r-2`}
     >
       <h2
@@ -32,29 +34,43 @@ const Sidebar = ({ handleCloseSidebar }) => {
       >
         GetQrNow
       </h2>
-      <div className={` flex flex-col pt-20`}>
-        <Link
-          to="/dashboard"
-          className={linkStyle}
-          onClick={handleCloseSidebar}
-        >
-          Website
-        </Link>
-        <Link
-          to="contact-card"
-          className={linkStyle}
-          onClick={handleCloseSidebar}
-        >
-          Contact Card
-        </Link>
+      <div className={` flex flex-col pt-20 `}>
+        <div className="flex space-x-2 items-center pl-6 hover:bg-blue-600">
+          <img src={url} alt="" className="w-4 h-fit" />
+          <Link
+            to="/dashboard"
+            className={linkStyle}
+            onClick={handleCloseSidebar}
+          >
+            Website
+          </Link>
+        </div>
 
-        <Link to="file" className={linkStyle} onClick={handleCloseSidebar}>
-          Upload a file
-        </Link>
+        <div className="flex space-x-2 items-center pl-6 hover:bg-blue-600">
+          <img src={contact} alt="" className="w-4 h-fit" />
+          <Link
+            to="contact-card"
+            className={linkStyle}
+            onClick={handleCloseSidebar}
+          >
+            Contact Card
+          </Link>
+        </div>
 
-        <Link to="email" className={linkStyle} onClick={handleCloseSidebar}>
-          Email
-        </Link>
+        <div className="flex space-x-2 items-center pl-6 hover:bg-blue-600">
+          <img src={fileUpload} alt="" className="w-4 h-fit" />
+          <Link to="file" className={linkStyle} onClick={handleCloseSidebar}>
+            Upload a file
+          </Link>
+        </div>
+
+        <div className="flex space-x-2 items-center pl-6 hover:bg-blue-600">
+          <img src={email} alt="" className="w-4 h-fit" />
+
+          <Link to="email" className={linkStyle} onClick={handleCloseSidebar}>
+            Email
+          </Link>
+        </div>
       </div>
       <div
         className={`${
@@ -63,7 +79,7 @@ const Sidebar = ({ handleCloseSidebar }) => {
             : "text-red-600 hover:bg-blue-600"
         } cursor-pointer mt-8 pl-6 py-3 flex space-x-4 items-center`}
       >
-        <p className="rounded-full h-10 w-10 flex items-center justify-center text-3xl text-white border-2 shadow-xl">
+        <p className="rounded-full h-8 w-8 flex items-center justify-center text-xl text-white border-2 shadow-xl bg-blue-400">
           {user[0].toUpperCase()}
         </p>
         <p onClick={handleLogout}>Sign out</p>

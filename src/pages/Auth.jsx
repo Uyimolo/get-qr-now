@@ -54,20 +54,12 @@ const Auth = () => {
   };
 
   useEffect(() => {
-    // resetError();
-
     const timeout = setTimeout(() => {
       setError("");
     }, 5000);
 
     return () => clearTimeout(timeout);
   }, [error]);
-
-  // const resetError = () => {
-  //   setTimeout(() => {
-  //     setError("");
-  //   }, 5000);
-  // };
 
   useEffect(() => {
     if (user) {
@@ -81,6 +73,7 @@ const Auth = () => {
       await signInWithPopup(auth, googleProvider);
     } catch (error) {
       handleErrorMessage(error.code);
+      console.log(error.code + " " + error.message);
     }
   };
 

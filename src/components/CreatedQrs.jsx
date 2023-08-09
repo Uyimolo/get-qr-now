@@ -16,7 +16,7 @@ const CreatedQrs = () => {
 
   const { user } = useContext(UserContext);
   const { isDarkMode } = useContext(ThemeContext);
-  const isDesktop = useMediaQuery({ minWidth: 768 });
+  const { isDesktop } = useMediaQuery({ minWidth: 768 });
 
   useEffect(() => {
     const collectionRef = collection(
@@ -58,7 +58,7 @@ const CreatedQrs = () => {
           >
             {recentQRData[qRToShow].name.toUpperCase()}
           </h3>
-          <div className="">
+          <div>
             <DownloadQr
               value={recentQRData[qRToShow].value}
               foreground={recentQRData[qRToShow].foreground}

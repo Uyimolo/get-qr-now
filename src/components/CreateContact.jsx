@@ -1,4 +1,4 @@
-import { useState, useCallback, useContext } from "react";
+import { useState, useCallback, useContext, useEffect } from "react";
 import QrTextForm from "./QrTextForm";
 import { motion } from "framer-motion";
 import DownloadQr from "./DownloadQr";
@@ -26,6 +26,14 @@ const CreateContact = () => {
   });
   const [qRImageData, setQRimageData] = useState(null);
   const [status, setStatus] = useState("");
+  const [inputErrors, setInputErrors] = useState({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    email: "",
+    website: "",
+    fileName: "",
+  });
   const collectionRef = collection(
     db,
     "qr-codes-collection",
@@ -71,11 +79,58 @@ const CreateContact = () => {
     setQRData({ ...qRData, [event.target.name]: event.target.value });
   };
 
+  const handleValidation = () => {
+    const inputEl = event.target;
+    const { name } = inputEl;
+    const value = inputEl.value.trim();
+
+    if (name === "firstName" || name === "lastName") {
+      setInputErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: value.trim().includes(" ")
+          ? "Name field can't contain spaces"
+          : "",
+      }));
+    }
+    if (name === "phoneNumber") {
+      const phonePattern =
+        /^(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[-\s]?\d{1,4}[-\s]?\d{1,4}$/;
+
+      setInputErrors((prevErrors) => ({
+        ...prevErrors,
+        phoneNumber: phonePattern.test(value)
+          ? ""
+          : "Phone number is invalid. Example of a valid phone number: +1 (123) 456-7890",
+      }));
+    }
+    if (name === "website") {
+      const urlPattern = /^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}(\/\S*)?$/;
+      setInputErrors((prevErrors) => ({
+        ...prevErrors,
+        website: urlPattern.test(value)
+          ? ""
+          : "Invalid URL format. URLs should be in the format 'https://getQrNow.com'",
+      }));
+    } else if (name === "email") {
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      setInputErrors((prevErrors) => ({
+        ...prevErrors,
+        email: emailPattern.test(value)
+          ? ""
+          : "Invalid email format. Please enter a valid email address (e.g., getQrNow@getQrNow.com)",
+      }));
+    } else if (name === "fileName") {
+      setInputErrors((prevErrors) => ({
+        ...prevErrors,
+        fileName: value.includes(" ")
+          ? "File names should not contain spaces."
+          : "",
+      }));
+    }
+  };
+
   const handleCreateQr = (event) => {
     event.preventDefault();
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    const urlPattern = /^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}(\/\S*)?$/;
-
     if (
       qRData.firstName === "" ||
       qRData.lastName === "" ||
@@ -84,31 +139,35 @@ const CreateContact = () => {
       qRData.website === "" ||
       qRData.phoneNumber === ""
     ) {
-      setError("please fill in all fields");
+      return;
     } else if (
-      qRData.firstName.trim().includes(" ") ||
-      qRData.lastName.trim().includes(" ")
+      inputErrors.firstName ||
+      inputErrors.lastName ||
+      inputErrors.fileName ||
+      inputErrors.email ||
+      inputErrors.website ||
+      inputErrors.phoneNumber
     ) {
-      setError("Name fields cannot include spaces");
-    } else if (urlPattern.test(qRData.website.trim()) === false) {
-      setError(
-        "Invalid URL format. URLs should be in the format 'https://example.com'"
-      );
-    } else if (emailPattern.test(qRData.email.trim()) === false) {
-      setError(
-        "Invalid email format. Please enter a valid email address (e.g., example@example.com)."
-      );
-    } else {
-      const { firstName, lastName, email, website, phoneNumber } = qRData;
-      const vCard = new VCard();
-      vCard
-        .addName(firstName, lastName)
-        .addEmail(email)
-        .addURL(website)
-        .addPhoneNumber(phoneNumber);
-      setQRimageData(vCard.toString());
+      return;
     }
+    const { firstName, lastName, email, website, phoneNumber } = qRData;
+    const vCard = new VCard();
+    vCard
+      .addName(firstName, lastName)
+      .addEmail(email)
+      .addURL(website)
+      .addPhoneNumber(phoneNumber);
+    setQRimageData(vCard.toString());
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setError("");
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, [error]);
+
   const inputData = [
     {
       label: "First name",
@@ -129,14 +188,14 @@ const CreateContact = () => {
       value: qRData.phoneNumber,
       id: "phoneNumber",
       placeholder: "Enter phone number here",
-      type: "telephone",
+      type: "text",
     },
     {
       label: "Email",
       value: qRData.email,
       id: "email",
       placeholder: "Enter email here",
-      type: "email",
+      type: "text",
     },
     {
       label: "Website",
@@ -166,9 +225,10 @@ const CreateContact = () => {
         inputData={inputData}
         handleChange={handleChange}
         handleCreateQr={handleCreateQr}
+        handleValidation={handleValidation}
         foreground={qRData.foreground}
         background={qRData.background}
-        error={error}
+        errors={inputErrors}
       />
       {qRImageData && (
         <motion.div

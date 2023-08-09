@@ -9,6 +9,7 @@ import share from "../images/share.svg";
 import deleteIcon from "../images/delete.svg";
 import { deleteDocFunction } from "../myHooks/deleteDocFunction";
 import { ThemeContext } from "../context/ThemeContext";
+import { motion } from "framer-motion";
 const DownloadQr = ({
   value,
   foreground,
@@ -17,7 +18,7 @@ const DownloadQr = ({
   onClick,
   id,
   showDelete,
-  showSave, 
+  showSave,
 }) => {
   const [qRDataURL, setQRDataURL] = useState("");
   const { isDarkMode } = useContext(ThemeContext);
@@ -66,22 +67,27 @@ const DownloadQr = ({
 
   const paragraphStyle = isDarkMode
     ? "text-gray-200 text-[14px]"
-    : "text-gray-600 text-[12px]";
+    : "text-gray-800 text-[12px]";
 
   return (
-    <div className="p-2 w-full">
+    <motion.div
+      className={`${isDarkMode ? "bg-[#424548] hover:bg-[#424548aa] border-gray-500" : "bg-[#f1f1f199] border-gray-300"} shadow-lg border px-6 pb-6 rounded-xl mt-10 w-full `}
+      initial={{ scale: 0.5, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <div
         ref={qrRef}
-        className="mt-6 p-4 w-fit mx-auto bg-blue-400 overflow-hidden"
+        className="mt-6 p-4 w-fit mx-auto bg-transparent overflow-hidden"
       >
         <QrCode value={value} foreground={foreground} background={background} />
-        <p className="text-gray-200 text-3xl text-center">Scan me</p>
+        <p className="text-black text-3xl text-center">Scan me</p>
       </div>
       <div className="mx-auto mt-6 flex space-x-6 justify-center items-center">
         <div className="flex flex-col items-center">
           <button
             onClick={handleDownload}
-            className="bg-blue-400 p-2 rounded-full transition-all duration-400  hover:bg-blue-500"
+            className="bg-black p-2 rounded-full transition-all duration-400  hover:bg-blue-500"
           >
             <img src={download} alt="" className="w-6" />{" "}
           </button>
@@ -90,7 +96,7 @@ const DownloadQr = ({
 
         <div className="flex flex-col items-center">
           <button
-            className="bg-blue-400 p-2 rounded-full transition-all duration-400  hover:bg-blue-500"
+            className="bg-black p-2 rounded-full transition-all duration-400  hover:bg-blue-500"
             onClick={handleShareQR}
           >
             <img src={share} alt="" className="w-6" />{" "}
@@ -102,7 +108,7 @@ const DownloadQr = ({
           <div className="flex flex-col items-center">
             <button
               onClick={onClick}
-              className="bg-blue-400 p-2 rounded-full transition-all duration-400  hover:bg-blue-500"
+              className="bg-black p-2 rounded-full transition-all duration-400  hover:bg-blue-500"
             >
               <img src={save} alt="" className="w-6" />{" "}
             </button>
@@ -114,7 +120,7 @@ const DownloadQr = ({
           <div className="flex flex-col items-center">
             <button
               onClick={() => deleteDocFunction(id)}
-              className="bg-blue-400 p-2 rounded-full transition-all duration-400  hover:bg-blue-500"
+              className="bg-black p-2 rounded-full transition-all duration-400  hover:bg-blue-500"
             >
               <img src={deleteIcon} alt="" className="w-6" />
             </button>
@@ -122,7 +128,7 @@ const DownloadQr = ({
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
