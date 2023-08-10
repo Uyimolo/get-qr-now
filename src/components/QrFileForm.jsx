@@ -11,9 +11,10 @@ const QrFileForm = ({
   foreground,
   background,
   inputData,
-  error,
+  errors,
   file,
   filePreview,
+  handleValidation,
 }) => {
   const { isDarkMode } = useContext(ThemeContext);
   const paragraphStyle = isDarkMode ? "text-gray-200" : "text-gray-600";
@@ -41,6 +42,8 @@ const QrFileForm = ({
               paragraphStyle={paragraphStyle}
               onChange={handleChange}
               type={input.type}
+              error={errors[input.id]}
+              handleValidation={handleValidation}
             />
           ))}
         </div>
@@ -104,7 +107,7 @@ const QrFileForm = ({
             />
           </div>
         </div>
-        {error && <p className={paragraphStyle}>{error}</p>}
+        <p className={paragraphStyle}>NB: Please fill in all fields.</p>
       </div>
 
       <div className="mx-auto">

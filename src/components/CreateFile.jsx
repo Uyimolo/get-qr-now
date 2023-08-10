@@ -1,4 +1,4 @@
-import { useContext, useState, useCallback, useEffect } from "react";
+import { useContext, useState, useCallback } from "react";
 import QrFileForm from "./QrFileForm";
 import { motion } from "framer-motion";
 import DownloadQr from "./DownloadQr";
@@ -9,7 +9,7 @@ import { collection } from "firebase/firestore";
 import { storage, db } from "../../config/firebase";
 import uploadDocFunction from "../myHooks/uploadDocFunction";
 import { UserContext } from "../context/UserContext";
-const CreatePDF = () => {
+const CreateFile = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const { user } = useContext(UserContext);
   const [qRData, setQRData] = useState({
@@ -19,14 +19,17 @@ const CreatePDF = () => {
     background: "#ffffff",
     downloadURL: "",
   });
-  const [error, setError] = useState("");
+  const [inputErrors, setInputErrors] = useState({
+    file: "",
+    fileName: "",
+  });
   const [qRImageData, setQRImageData] = useState(null);
   const [filePreview, setFilePreview] = useState("");
   const [status, setStatus] = useState("");
 
   const handleChange = (event) => {
     const { name, value, files } = event.target;
-    if (name === "pdf") {
+    if (name === "file") {
       const file = files[0]; // Correctly accessing the selected file
       if (file) {
         setQRData({ ...qRData, file: file }); // Set the selected file
@@ -114,6 +117,18 @@ const CreatePDF = () => {
 
   const handleCreateQR = (event) => {
     event.preventDefault();
+    // Check for validation errors
+    if (inputErrors.url || inputErrors.fileName) {
+      return;
+    } else if (!qRData.file || qRData.fileName === "") {
+      return;
+    }
+    uploadFile();
+  };
+
+  const handleValidation = (event) => {
+    const inputEl = event.target;
+    const { name, value } = inputEl;
     const allowedExtensions = [
       ".jpg",
       ".jpeg",
@@ -127,40 +142,46 @@ const CreatePDF = () => {
       ".txt",
       ".pptx",
     ];
+    if (name === "file") {
+      const file = inputEl.files[0];
 
-    if (!qRData.file) {
-      setError(
-        "Please select an image, PDF, GIF, Word document,Text or PowerPoint document file"
-      );
-    } else {
-      const fileExtension = getFileExtension(qRData.file.name);
-
-      if (qRData.fileName === "") {
-        setError("Please input a name for your file");
-      } else if (qRData.file.size > 2000000) {
-        setError("Maximum file size of 2 megabytes exceeded");
-      } else if (!allowedExtensions.includes(fileExtension.toLowerCase())) {
-        setError(
-          "Invalid file type. Please select images (JPEG, SVG, PNG), PDFs, GIFs,Text (TXT) Word documents, or PowerPoint documents."
-        );
+      if (!file) {
+        setInputErrors((prevErrors) => ({
+          ...prevErrors,
+          file: "Please select a file.",
+        }));
+      } else if (
+        !allowedExtensions.includes(getFileExtension(file.name).toLowerCase())
+      ) {
+        setInputErrors((prevErrors) => ({
+          ...prevErrors,
+          file: "Invalid file type. Please select images (JPEG, SVG, PNG), PDFs, GIFs,Text (TXT) Word documents, or PowerPoint documents.",
+        }));
+      } else if (file.size > 2000000) {
+        setInputErrors((prevErrors) => ({
+          ...prevErrors,
+          file: "Maximum file size of 2 megabytes exceeded.",
+        }));
       } else {
-        uploadFile();
+        setInputErrors((prevErrors) => ({
+          ...prevErrors,
+          file: "",
+        }));
       }
+    } else if (name === "fileName") {
+      setInputErrors((prevErrors) => ({
+        ...prevErrors,
+        fileName: value.trim().includes(" ")
+          ? "File names should not contain spaces."
+          : "",
+      }));
     }
   };
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setError("");
-    }, 5000);
-
-    return () => clearTimeout(timeout);
-  }, [error]);
 
   const inputData = [
     {
       label: "Select PDF file",
-      id: "pdf",
+      id: "file",
       type: "file",
     },
     {
@@ -183,7 +204,8 @@ const CreatePDF = () => {
           file={qRData.file}
           filePreview={filePreview}
           handleCreateQr={handleCreateQR}
-          error={error}
+          errors={inputErrors}
+          handleValidation={handleValidation}
         />
       }
       <div className="flex flex-col md:flex-row">
@@ -217,4 +239,4 @@ const CreatePDF = () => {
   );
 };
 
-export default CreatePDF;
+export default CreateFile;
