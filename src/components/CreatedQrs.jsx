@@ -4,8 +4,6 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { UserContext } from "../context/UserContext";
 import { ThemeContext } from "../context/ThemeContext";
 import RecentMobile from "./RecentMobile";
-import { useMediaQuery } from "react-responsive";
-import RecentDesktop from "./RecentDesktop";
 import DownloadQr from "./DownloadQr";
 import close from "../images/close.svg";
 
@@ -16,7 +14,6 @@ const CreatedQrs = () => {
 
   const { user } = useContext(UserContext);
   const { isDarkMode } = useContext(ThemeContext);
-  const { isDesktop } = useMediaQuery({ minWidth: 768 });
 
   useEffect(() => {
     const collectionRef = collection(
@@ -34,7 +31,7 @@ const CreatedQrs = () => {
     });
   }, [user]);
 
-  const paragraphStyle = `${isDarkMode ? "text-gray-200" : "text-gray-600"}`;
+  const paragraphStyle = `${isDarkMode ? "text-gray-200" : "text-gray-700"}`;
 
   return (
     <div className="mx-6 ">
@@ -68,41 +65,28 @@ const CreatedQrs = () => {
           </div>
         </div>
       )}
-      <h2
-        className={`${
-          isDarkMode && "text-gray-200"
-        } text-2xl py-4 mb-2 text-center lg:text-2xl`}
-      >
-        Recently Saved Qr Codes
-      </h2>
-      <div className={`rounded-md mx-auto max-w-5xl`}>
-        {isDesktop && (
-          <div
-            className={`flex ${
-              isDarkMode ? "border-blue-400" : "border-gray-600"
-            } border-b px-2 py-2`}
+      {recentQRData.length > 0 && (
+        <div className="">
+          <h2
+            className={`text-3xl text-blue-400 py-4 mb-2 text-center lg:text-2xl`}
           >
-            <p className={`${paragraphStyle} w-2/5`}>Name</p>
-            <p className={`${paragraphStyle} w-1/5`}>Date</p>
-            <p className={`${paragraphStyle} w-1/5`}>Downloads</p>
-            <p className={`${paragraphStyle} w-1/5`}>Action</p>
-          </div>
-        )}
-        {recentQRData
-          .sort((b, a) => a.sortDate - b.sortDate)
-          .slice(0, 3)
-          .map((qRData, index) => (
-            <div
-              key={qRData.id}
-              className={`${
-                isDarkMode
-                  ? "border-gray-200 hover:bg-[#424548aa]"
-                  : "border-gray-600 hover:bg-blue-50"
-              } border-b-[1px]  px-2 `}
-            >
-              {isDesktop ? (
-                <div className="py-2">
-                  <RecentDesktop
+            Saved Qr Codes
+          </h2>
+          <div
+            className={`rounded-md mx-auto max-w-5xl flex flex-wrap gap-2 justify-center`}
+          >
+            {recentQRData
+              .sort((b, a) => a.sortDate - b.sortDate)
+              .map((qRData, index) => (
+                <div
+                  key={qRData.id}
+                  className={`${
+                    isDarkMode
+                      ? "border-gray-200 bg-[#424548aa] border-gray-500"
+                      : " border-gray-300"
+                  }  px-2 w-[16.5rem] border rounded-lg shadow-xl hover:bg-blue-400`}
+                >
+                  <RecentMobile
                     qRData={qRData}
                     paragraphStyle={paragraphStyle}
                     index={index}
@@ -110,18 +94,10 @@ const CreatedQrs = () => {
                     setQRToShow={setQRToShow}
                   />
                 </div>
-              ) : (
-                <RecentMobile
-                  qRData={qRData}
-                  paragraphStyle={paragraphStyle}
-                  index={index}
-                  setShowQRModal={setShowQRModal}
-                  setQRToShow={setQRToShow}
-                />
-              )}
-            </div>
-          ))}
-      </div>
+              ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
