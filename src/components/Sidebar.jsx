@@ -18,7 +18,9 @@ const Sidebar = ({ handleCloseSidebar }) => {
     handleCloseSidebar();
   };
 
-  let linkStyle = isDarkMode ? "text-gray-200 py-3" : "text-white py-3 ";
+  let linkStyle = isDarkMode
+    ? "text-gray-200 py-3 pl-6  flex items-center hover:bg-blue-400"
+    : "text-white py-3  pl-6  flex items-center";
   return (
     <div
       className={`${
@@ -35,42 +37,33 @@ const Sidebar = ({ handleCloseSidebar }) => {
         GetQrNow
       </h2>
       <div className={` flex flex-col pt-20 `}>
-        <div className="flex space-x-2 items-center pl-6 hover:bg-blue-600">
-          <img src={url} alt="" className="w-4 h-fit" />
-          <Link
-            to="/dashboard"
-            className={linkStyle}
-            onClick={handleCloseSidebar}
-          >
-            Website
-          </Link>
-        </div>
+      <Link
+          to="/dashboard"
+          className={linkStyle}
+          onClick={handleCloseSidebar}
+        >
+          <img src={url} alt="" className="w-6 mr-4 h-fit" />
+          Website
+        </Link>
 
-        <div className="flex space-x-2 items-center pl-6 hover:bg-blue-600">
-          <img src={contact} alt="" className="w-4 h-fit" />
-          <Link
-            to="contact-card"
-            className={linkStyle}
-            onClick={handleCloseSidebar}
-          >
-            Contact Card
-          </Link>
-        </div>
+        <Link
+          to="contact-card"
+          className={linkStyle}
+          onClick={handleCloseSidebar}
+        >
+          <img src={contact} alt="" className="w-6 mr-4 h-fit" />
+          Contact Card
+        </Link>
 
-        <div className="flex space-x-2 items-center pl-6 hover:bg-blue-600">
-          <img src={fileUpload} alt="" className="w-4 h-fit" />
-          <Link to="file" className={linkStyle} onClick={handleCloseSidebar}>
-            Upload a file
-          </Link>
-        </div>
+        <Link to="file" className={linkStyle} onClick={handleCloseSidebar}>
+          <img src={fileUpload} alt="" className="w-6 mr-4 h-fit" />
+          Upload a file
+        </Link>
 
-        <div className="flex space-x-2 items-center pl-6 hover:bg-blue-600">
-          <img src={email} alt="" className="w-4 h-fit" />
-
-          <Link to="email" className={linkStyle} onClick={handleCloseSidebar}>
-            Email
-          </Link>
-        </div>
+        <Link to="email" className={linkStyle} onClick={handleCloseSidebar}>
+          <img src={email} alt="" className="w-6 mr-4 h-fit" />
+          Email
+        </Link>
       </div>
       <div
         className={`${
