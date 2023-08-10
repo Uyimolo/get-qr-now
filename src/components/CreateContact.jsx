@@ -139,6 +139,10 @@ const CreateContact = () => {
       qRData.website === "" ||
       qRData.phoneNumber === ""
     ) {
+      setInputErrors((prevErrors) => ({
+        ...prevErrors,
+        allFields: "Please fill in all required fields",
+      }));
       return;
     } else if (
       inputErrors.firstName ||
@@ -150,6 +154,10 @@ const CreateContact = () => {
     ) {
       return;
     }
+    setInputErrors((prevErrors) => ({
+      ...prevErrors,
+      allFields: "",
+    }));
     const { firstName, lastName, email, website, phoneNumber } = qRData;
     const vCard = new VCard();
     vCard

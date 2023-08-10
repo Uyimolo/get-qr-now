@@ -49,9 +49,9 @@ const QrFileForm = ({
         </div>
 
         <div className=" flex items-center justify-center">
-          {file && (
-            <div className="">
-              <p className={`${paragraphStyle} text-center`}>
+          {file && !errors.file && (
+            <div className="w-full">
+              <p className={`text-blue-400 text-center truncate`}>
                 Selected file: {file.name}
               </p>
               {file.type === "application/pdf" ? (
@@ -107,7 +107,7 @@ const QrFileForm = ({
             />
           </div>
         </div>
-        <p className={paragraphStyle}>NB: Please fill in all fields.</p>
+        <p className={paragraphStyle}>{errors.allFields}</p>
       </div>
 
       <div className="mx-auto">
