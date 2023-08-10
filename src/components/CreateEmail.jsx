@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState, useEffect } from "react";
+import { useCallback, useContext, useState } from "react";
 import { db } from "../../config/firebase";
 import { collection } from "firebase/firestore";
 import DownloadQr from "./DownloadQr";
@@ -10,7 +10,6 @@ import uploadDocFunction from "../myHooks/uploadDocFunction";
 
 const CreateEmail = () => {
   const { user } = useContext(UserContext);
-  const [error, setError] = useState("");
 
   const { isDarkMode } = useContext(ThemeContext);
   const [qRData, setQRData] = useState({
@@ -24,6 +23,7 @@ const CreateEmail = () => {
   const [inputErrors, setInputErrors] = useState({
     email: "",
     fileName: "",
+    allFields: "",
   });
 
   const collectionRef = collection(
@@ -67,8 +67,8 @@ const CreateEmail = () => {
     setQRData({ ...qRData, [e.target.name]: e.target.value });
   };
 
-  const handleValidation = (e) => {
-    e.preventDefault();
+  const handleValidation = (event) => {
+    event.preventDefault();
     const inputEl = event.target;
     const { name } = inputEl;
     const value = inputEl.value.trim();
@@ -97,23 +97,23 @@ const CreateEmail = () => {
     if (inputErrors.email || inputErrors.fileName) {
       return;
     } else if (qRData.email === "" || qRData.fileName === "") {
+      setInputErrors((prevErrors) => ({
+        ...prevErrors,
+        allFields: "Please fill in all required fields",
+      }));
       return;
-    }
-    setQRimageData(qRData);
+    } 
+      setInputErrors((prevErrors) => ({
+        ...prevErrors,
+        allFields: "",
+      }));
+      setQRimageData(qRData);
   };
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setError("");
-    }, 5000);
-
-    return () => clearTimeout(timeout);
-  }, [error]);
 
   const inputData = [
     {
       label: "Email",
-      value: qRData.value,
+      value: qRData.email,
       id: "email",
       placeholder: "Enter an email address here",
       type: "text",

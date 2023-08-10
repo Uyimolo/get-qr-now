@@ -86,9 +86,8 @@ const QrTextForm = ({
             />
           </div>
         </div>
-        <p className="text-blue-400">
-          NB: Please fill in all fields before submitting
-        </p>
+        <p className="text-red-500">{errors.allFields}</p>
+
       </div>
       <div className="mx-auto">
         <Button type="submit" text="Create Qr" extraStyle="px-12" />

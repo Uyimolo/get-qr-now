@@ -19,6 +19,7 @@ const CreateUrl = () => {
   const [inputErrors, setInputErrors] = useState({
     url: "",
     fileName: "",
+    allFields: "",
   });
   const [qRImageData, setQRimageData] = useState(null);
   const [status, setStatus] = useState("");
@@ -80,7 +81,7 @@ const CreateUrl = () => {
     } else if (name === "fileName") {
       setInputErrors((prevErrors) => ({
         ...prevErrors,
-        fileName: value.includes(" ")
+        fileName: value.length > 0 && value.includes(" ")
           ? "File names should not contain spaces."
           : "",
       }));
@@ -94,8 +95,16 @@ const CreateUrl = () => {
     if (inputErrors.url || inputErrors.fileName) {
       return;
     } else if (qRData.url === "" || qRData.fileName === "") {
+      setInputErrors((prevErrors) => ({
+        ...prevErrors,
+        allFields: "Please fill in all required fields",
+      }));
       return;
     }
+    setInputErrors((prevErrors) => ({
+      ...prevErrors,
+      allFields: "",
+    }));
     setQRimageData(qRData);
   };
   const inputData = [

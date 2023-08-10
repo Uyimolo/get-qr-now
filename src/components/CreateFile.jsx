@@ -121,8 +121,16 @@ const CreateFile = () => {
     if (inputErrors.url || inputErrors.fileName) {
       return;
     } else if (!qRData.file || qRData.fileName === "") {
+      setInputErrors((prevErrors) => ({
+        ...prevErrors,
+        allFields: "Please fill in all required fields",
+      }));
       return;
     }
+    setInputErrors((prevErrors) => ({
+      ...prevErrors,
+      allFields: "",
+    }));
     uploadFile();
   };
 
