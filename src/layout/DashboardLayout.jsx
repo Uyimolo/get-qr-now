@@ -29,7 +29,7 @@ const DashboardLayout = ({ sidebarOpen, setSidebarOpen }) => {
           initial={{ x: 0 }}
           animate={sidebarOpen ? { x: 0 } : { x: "-100%" }}
           transition={{ type: "spring", stiffness: 120 }}
-          className={`fixed w-60 md:w-`}
+          className={`fixed w-60 z-10`}
         >
           <Sidebar handleCloseSidebar={handleCloseSidebar} />
         </motion.div>

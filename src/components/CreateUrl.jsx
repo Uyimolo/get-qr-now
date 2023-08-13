@@ -127,7 +127,7 @@ const CreateUrl = () => {
   const paragraphStyle = `${isDarkMode ? "text-gray-200" : "text-gray-600"}`;
 
   return (
-    <div>
+    <div className="">
       <div className="">
         <h1 className={`${paragraphStyle} text-3xl text-center mb-6`}>
           Share Links with Ease!
