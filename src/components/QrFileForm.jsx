@@ -21,13 +21,13 @@ const QrFileForm = ({
 
   return (
     // this form will be used for image download and pdf download sections of the webapp
-    <form
+    <motion.form
+      initial={{ scale: 1.5, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 200, delay: 0.5 }}
       action=""
-      className={`px-4 py-4 ${
-        isDarkMode
-          ? " bg-[#424548] hover:bg-[#424548aa] border-gray-500"
-          : "  bg-[#f1f1f199] border-gray-300"
-      } rounded-md shadow-lg border flex flex-col space-y-8 min-w-[18rem] max-w-[20rem] mx-auto md:min-w-[42rem] `}
+      className={`px-4 py-4
+      shadow-g boder flex flex-col space-y-8 max-w-[25rem] md:max-w-full  mx-auto md:max-w-[50rem]`}
       onSubmit={handleCreateQr}
     >
       <div className="flex flex-col space-y-4 ">
@@ -74,8 +74,8 @@ const QrFileForm = ({
         </div>
 
         {/* color inputs */}
-        <div className="flex flex-col justify-between space-y-2 md:flex-row md:space-y-0 md:space-x-2">
-          <div className="flex flex-col w-full">
+        <div className="flex flex-col items-center mx-auto w-full  space-y-2 md:flex-row md:space-y-0 md:gap-4 md:justify-around">
+          <div className="flex flex-col w-full max-w-[21rem]">
             <label htmlFor="foreground" className={`flex ${paragraphStyle}`}>
               Foreground color {`(${foreground})`}
             </label>
@@ -91,7 +91,7 @@ const QrFileForm = ({
             />
           </div>
 
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full max-w-[21rem]">
             <label htmlFor="background" className={`flex ${paragraphStyle}`}>
               Background color {`(${background})`}
             </label>
@@ -113,7 +113,7 @@ const QrFileForm = ({
       <div className="mx-auto">
         <Button type="submit" text="Create Qr" extraStyle="px-12" />
       </div>
-    </form>
+    </motion.form>
   );
 };
 

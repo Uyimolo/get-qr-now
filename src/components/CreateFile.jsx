@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import DownloadQr from "./DownloadQr";
 import { ThemeContext } from "../context/ThemeContext";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { addDoc } from "firebase/firestore";
 
 import { collection } from "firebase/firestore";
 import { storage, db } from "../../config/firebase";
-import uploadDocFunction from "../myHooks/uploadDocFunction";
 import { UserContext } from "../context/UserContext";
 const CreateFile = () => {
   const { isDarkMode } = useContext(ThemeContext);
@@ -27,16 +27,19 @@ const CreateFile = () => {
   const [filePreview, setFilePreview] = useState("");
   const [status, setStatus] = useState("");
 
+  //handle changes to inputs
   const handleChange = (event) => {
     const { name, value, files } = event.target;
     if (name === "file") {
-      const file = files[0]; // Correctly accessing the selected file
+      const file = files[0];
+
       if (file) {
-        setQRData({ ...qRData, file: file }); // Set the selected file
+        setQRData({ ...qRData, file: file });
         const reader = new FileReader();
         reader.onload = () => {
           setFilePreview(reader.result);
         };
+
         reader.readAsDataURL(file);
       } else {
         setFilePreview("");
@@ -46,69 +49,95 @@ const CreateFile = () => {
     }
   };
 
+  // step 1: upload file to firebase storage and retreive the downloadURL
+
+  const fileStorageRef = ref(storage, `files/${qRData.fileName}`);
   const uploadFile = async () => {
     setStatus("Uploading file...");
-    const imageRef = ref(storage, `files/${qRData.fileName}`);
-    const uploadedFile = await uploadBytes(imageRef, qRData.file);
+    const uploadedFile = await uploadBytes(fileStorageRef, qRData.file);
 
     if (uploadedFile) {
       alert("file uploaded successfully");
       setStatus("Getting download URL");
-      const downloadURL = await getDownloadURL(imageRef);
+      const downloadURL = await getDownloadURL(fileStorageRef);
 
       addToDb(downloadURL);
     }
   };
 
-  const collectionRef = collection(
-    db,
-    "qr-codes-collection",
-    `${user}`,
-    "qr-code-data"
-  );
-
   const addToDb = useCallback(
     async (downloadURL) => {
-      setStatus("Saving Qr code");
-      const { fileName, foreground, background } = qRData;
+      // For auth user (user creating the qr)
+      const collectionRef = collection(
+        db,
+        "qr-codes-collection",
+        `${user}`,
+        "qr-code-data"
+      );
 
+      setStatus("Saving Qr code");
+
+      const { fileName, file, foreground, background } = qRData;
+      const fileType = getFileExtension(file.name).slice(1);
+      // step 2 : create document containing the downloadUrl.
       try {
-        const docToBeAdded = {
+        const publicDoc = {
           name: fileName,
-          value: downloadURL,
-          type: "file",
+          downloadURL: downloadURL,
+          createdBy: user,
+          type: fileType,
           date: new Date().toDateString(),
           sortDate: Number(new Date()),
-          numDownload: "Not applicable",
           foreground: foreground,
           background: background,
         };
+        // for public users who'll scan the qr
+        const fileRef = collection(db, "files-collection");
+        const newPublicDoc = await addDoc(fileRef, publicDoc);
 
-        const success = await uploadDocFunction(collectionRef, docToBeAdded);
+        if (newPublicDoc) {
+          //this is the url that will be encoded into the qr code, the newPublicDoc.Id will be used as a route parameter to retreive the document and the numdownloads will be increased by one when user hits this route
+          const url = `localhost:5173/download/${newPublicDoc.id}`;
 
-        if (success) {
-          setStatus("Qr code saved successfully");
-          const { fileName, background, foreground } = qRData;
-          setQRImageData({
-            downloadURL: downloadURL,
-            fileName: fileName,
-            background: background,
+          const userDoc = {
+            name: fileName,
+            value: url,
+            type: "file",
+            date: new Date().toDateString(),
+            sortDate: Number(new Date()),
+            numDownload: 0,
+            publicDocRef: newPublicDoc.id,
             foreground: foreground,
-          });
+            background: background,
+          };
+          // step 3 : create doc for user which has the link to the public document and can be used to create more copies of the origin qr code.
+          const newUserDoc = await addDoc(collectionRef, userDoc);
 
-          setQRData({
-            file: "",
-            fileName: "",
-            foreground: "#000000",
-            background: "#ffffff",
-            downloadURL: "",
-          });
+          if (newUserDoc) {
+            setStatus("Qr code saved successfully");
+            const { fileName, background, foreground } = qRData;
+
+            setQRImageData({
+              value: url,
+              fileName: fileName,
+              background: background,
+              foreground: foreground,
+            });
+
+            setQRData({
+              file: "",
+              fileName: "",
+              foreground: "#000000",
+              background: "#ffffff",
+              downloadURL: "",
+            });
+          }
         }
       } catch (error) {
         setStatus("failed to save Qr code:" + error.message);
       }
     },
-    [qRData, collectionRef]
+    [qRData, user]
   );
 
   function getFileExtension(filename) {
@@ -200,9 +229,15 @@ const CreateFile = () => {
       type: "text",
     },
   ];
+  const paragraphStyle = `${isDarkMode ? "text-gray-200" : "text-gray-600"}`;
 
   return (
     <div>
+      <div className="">
+        <h1 className={`${paragraphStyle} text-3xl text-center mb-6`}>
+          {`Create QR's for File Downloads Easily!`}
+        </h1>
+      </div>
       {
         <QrFileForm
           inputData={inputData}
@@ -225,7 +260,7 @@ const CreateFile = () => {
             className="w-fit px-6 mx-auto"
           >
             <DownloadQr
-              value={qRImageData.downloadURL}
+              value={qRImageData.value}
               foreground={qRImageData.foreground}
               background={qRImageData.background}
               fileName={qRImageData.fileName}
