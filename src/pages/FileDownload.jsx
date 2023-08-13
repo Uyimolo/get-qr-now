@@ -35,12 +35,10 @@ const FileDownload = () => {
           const fileDocRef = querySnapshot.docs[0].ref;
           const docData = querySnapshot.docs[0].data();
           const newNumDownload = docData.numDownload + 1;
-          console.log("FILE TO BE UPDATED FOUND yeah");
           try {
             await updateDoc(fileDocRef, {
               numDownload: newNumDownload,
             });
-            console.log("updated");
 
             const { fileName, fileType, downloadURL } = publicData;
             const link = document.createElement("a");
@@ -50,7 +48,6 @@ const FileDownload = () => {
             link.click();
             document.body.removeChild(link);
 
-            console.log("File download triggered.");
           } catch (error) {
             console.log(error);
           }
@@ -68,7 +65,6 @@ const FileDownload = () => {
       const docSnapshot = await getDoc(publicDocRef);
       const publicData = docSnapshot.data();
       if (publicData) {
-        console.log(publicData);
         handleNumDownloadsUpdate(publicData);
       }
     } catch (error) {
@@ -76,21 +72,17 @@ const FileDownload = () => {
     }
   };
 
-  // retreivePublicDoc();
-
-  // useEffect(() => {
-  //   if (data && canDownload) {
-  //   }
-  // }, [data, canDownload]);
-
   return (
-    <div className="mt-40">
-      <button
-        className="px-4 bg-blue-400 py-2 text-white rounded-full"
-        onClick={retreivePublicDoc}
-      >
-        Download
-      </button>
+    <div className="pt-40 w-full flex flex-col gap-8">
+      <h1 className="text-blue-400 text-center text-3xl">Click to download file to your device</h1>
+      <div className="w-fit mx-auto">
+        <button
+          className="px-4 bg-blue-400 py-2 text-white rounded-full"
+          onClick={retreivePublicDoc}
+        >
+          Download
+        </button>
+      </div>
     </div>
   );
 };

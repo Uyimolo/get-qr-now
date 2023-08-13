@@ -97,7 +97,11 @@ const CreateFile = () => {
 
         if (newPublicDoc) {
           //this is the url that will be encoded into the qr code, the newPublicDoc.Id will be used as a route parameter to retreive the document and the numdownloads will be increased by one when user hits this route
-          const url = `localhost:5173/download/${newPublicDoc.id}`;
+
+          // const url = `localhost:5173/download/${newPublicDoc.id}`; use this when working with a local server
+
+          // for live site
+          const url = `get-qr-now.vercel.app/download/${newPublicDoc.id}`;
 
           const userDoc = {
             name: fileName,
