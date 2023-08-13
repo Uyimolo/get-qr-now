@@ -102,12 +102,12 @@ const CreateEmail = () => {
         allFields: "Please fill in all required fields",
       }));
       return;
-    } 
-      setInputErrors((prevErrors) => ({
-        ...prevErrors,
-        allFields: "",
-      }));
-      setQRimageData(qRData);
+    }
+    setInputErrors((prevErrors) => ({
+      ...prevErrors,
+      allFields: "",
+    }));
+    setQRimageData(qRData);
   };
 
   const inputData = [
@@ -130,11 +130,7 @@ const CreateEmail = () => {
   const paragraphStyle = `${isDarkMode ? "text-gray-200" : "text-gray-600"}`;
 
   return (
-    <div
-      className={`  px-2 py-4 ${
-        isDarkMode ? "" : ""
-      } flex flex-col justify-center w-full  lg:max-w-3xl lg:mx-auto  md:items-center `}
-    >
+    <div>
       <div className="">
         <h1 className={`${paragraphStyle} text-3xl text-center mb-6`}>
           Instant Email QR Codes: Connect with a Scan!

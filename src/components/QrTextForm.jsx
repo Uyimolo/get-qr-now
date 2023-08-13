@@ -22,16 +22,13 @@ const QrTextForm = ({
   return (
     // this form will be used for the website, google doc, facebook, youtube and email sections of the webapp
     <motion.form
-      initial={{ scale: 1.5 }}
-      animate={{ scale: 1 }}
-      transition={{ type: "spring", stiffness: 200 }}
+      initial={{ scale: 1.5, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 200, delay: 0.5 }}
       action=""
       id="textForm"
-      className={`px-4 py-4 ${
-        isDarkMode
-          ? " bg-[#424548] hover:bg-[#424548aa] border-gray-500 "
-          : " bg-[#f1f1f199] border-gray-300"
-      } rounded-xl shadow-lg border flex flex-col space-y-8 min-w-[18rem] max-w-[20rem] mx-auto md:min-w-[42rem] `}
+      className={`px-4 py-4
+        shadow-g boder flex flex-col space-y-8 max-w-[25rem] md:max-w-full  mx-auto md:max-w-[50rem]`}
       onSubmit={handleCreateQr}
     >
       <div className="flex flex-col space-y-4 ">
@@ -53,8 +50,8 @@ const QrTextForm = ({
         </div>
 
         {/* color inputs */}
-        <div className="flex flex-col justify-between space-y-2 md:flex-row md:space-y-0 md:space-x-2">
-          <div className="flex flex-col w-full">
+        <div className="flex flex-col items-center mx-auto w-full  space-y-2 md:flex-row md:space-y-0 md:gap-4 md:justify-around">
+          <div className="flex flex-col w-full max-w-[21rem] ">
             <label htmlFor="foreground" className={`flex ${paragraphStyle}`}>
               Foreground color {`(${foreground})`}
             </label>
@@ -64,13 +61,13 @@ const QrTextForm = ({
               type="color"
               name="foreground"
               id="foreground"
-              className="w-full bg-transparent h-12 cursor-crosshair"
+              className="w-full bg-transparent h-12 cursor-crosshair "
               value={foreground}
               onChange={handleChange}
             />
           </div>
 
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full max-w-[21rem] ">
             <label htmlFor="background" className={`flex ${paragraphStyle}`}>
               Background color {`(${background})`}
             </label>
@@ -80,14 +77,13 @@ const QrTextForm = ({
               type="color"
               name="background"
               id="background"
-              className="w-full bg-transparent h-12 cursor-crosshair"
+              className="w-full bg-transparent h-11 cursor-crosshair"
               value={background}
               onChange={handleChange}
             />
           </div>
         </div>
         <p className="text-red-500">{errors.allFields}</p>
-
       </div>
       <div className="mx-auto">
         <Button type="submit" text="Create Qr" extraStyle="px-12" />

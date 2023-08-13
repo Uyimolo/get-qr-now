@@ -18,7 +18,9 @@ import Landing from "./pages/Landing";
 import Protected from "./components/Protected";
 import CreateFile from "./components/CreateFile";
 import CreateContact from "./components/CreateContact";
-import CreateEmail from "./components/CreateEmail"
+import CreateEmail from "./components/CreateEmail";
+import FileOptions from "./pages/FileOptions";
+import FileDownload from "./pages/FileDownload";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -45,6 +47,9 @@ function App() {
       >
         <Route index element={<Landing />} />
         <Route path="auth" element={<Auth />} />
+        <Route path="download" element={<FileOptions />}>
+          <Route path=":id" element={<FileDownload />} />
+        </Route>
         <Route
           path="dashboard"
           element={

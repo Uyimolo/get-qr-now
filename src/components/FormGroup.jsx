@@ -21,15 +21,18 @@ const FormGroup = ({
       ? (inputStateStyle = "border-red-500")
       : (inputStateStyle =
           !error && value.length > 0
-            ? (inputStateStyle = "bg-green-500 text-white hover:bg-green-300 hover:text-gray-600")
+            ? (inputStateStyle =
+                "bg-green-500 text-white hover:bg-green-300 hover:text-gray-600")
             : (inputStateStyle = ""));
-  }
-  else {
-    error.length > 0 ? inputStateStyle =  "border-red-500" : inputStateStyle = "bg-green-500 text-white hover:text-gray-600 hover:bg-green-300"
+  } else {
+    error.length > 0
+      ? (inputStateStyle = "border-red-500")
+      : (inputStateStyle =
+          "bg-green-500 text-white hover:text-gray-600 hover:bg-green-300");
   }
 
   return (
-    <div className={`flex flex-col space-y-1 w-full md:w-[19rem] `}>
+    <div className={`flex flex-col space-y-1 w-full mx-auto max-w-[21rem]`}>
       <label htmlFor={id} className={`flex ${paragraphStyle}`}>
         {label} <p className="text-red-600 text-xl h-1 px-2 ">*</p>
       </label>
@@ -39,7 +42,7 @@ const FormGroup = ({
         placeholder={placeholder}
         className={` ${
           isDarkMode ? "bg-gray-200" : "bg-[#fafafa]"
-        } p-2 border-[1px] rounded-md hover:bg-gray-100 transition-all duration-1 ${inputStateStyle}`}
+        } p-2 border-[1px] border-black rounded-md hover:bg-gray-100 transition-all duration-1 ${inputStateStyle}`}
         value={value}
         onChange={onChange}
         onInput={handleValidation}
