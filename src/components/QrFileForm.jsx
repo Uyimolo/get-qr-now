@@ -27,7 +27,7 @@ const QrFileForm = ({
       transition={{ type: "spring", stiffness: 200, delay: 0.5 }}
       action=""
       className={`px-4 py-4
-      shadow-g boder flex flex-col space-y-8 max-w-[25rem] md:max-w-full  mx-auto md:max-w-[50rem]`}
+      shadow-g boder flex flex-col space-y-8 max-w-[25rem] md:max-w-full  mx-auto md:max-w-5xl `}
       onSubmit={handleCreateQr}
     >
       <div className="flex flex-col space-y-4 ">
@@ -75,7 +75,7 @@ const QrFileForm = ({
 
         {/* color inputs */}
         <div className="flex flex-col items-center mx-auto w-full  space-y-2 md:flex-row md:space-y-0 md:gap-4 md:justify-around">
-          <div className="flex flex-col w-full max-w-[21rem]">
+          <div className="flex flex-col w-full max-w-[21rem] xl:max-w-md ">
             <label htmlFor="foreground" className={`flex ${paragraphStyle}`}>
               Foreground color {`(${foreground})`}
             </label>
@@ -91,7 +91,7 @@ const QrFileForm = ({
             />
           </div>
 
-          <div className="flex flex-col w-full max-w-[21rem]">
+          <div className="flex flex-col w-full max-w-[21rem] xl:max-w-md ">
             <label htmlFor="background" className={`flex ${paragraphStyle}`}>
               Background color {`(${background})`}
             </label>
@@ -107,7 +107,7 @@ const QrFileForm = ({
             />
           </div>
         </div>
-        <p className={paragraphStyle}>{errors.allFields}</p>
+        <p className="text-red-400 text-center">{errors.allFields}</p>
       </div>
 
       <div className="mx-auto">

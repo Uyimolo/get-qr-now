@@ -73,7 +73,7 @@ const CreatedQrs = () => {
             Saved Qr Codes
           </h2>
           <div
-            className={`rounded-md mx-auto max-w-5xl flex flex-wrap gap-2 justify-center`}
+            className={`rounded-md mx-auto max-w-6xl flex flex-wrap gap-2 justify-center`}
           >
             {recentQRData
               .sort((b, a) => a.sortDate - b.sortDate)
@@ -84,7 +84,7 @@ const CreatedQrs = () => {
                     isDarkMode
                       ? "border-gray-200 bg-[#424548aa] border-gray-500"
                       : " border-gray-300"
-                  }  px-2 w-[16.5rem] border rounded-lg shadow-xl hover:bg-blue-400`}
+                  }  px-2 w-[16.5rem] border rounded-lg hover:border-blue-400 hover:shadow-xl`}
                 >
                   <RecentMobile
                     qRData={qRData}

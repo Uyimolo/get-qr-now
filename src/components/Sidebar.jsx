@@ -19,14 +19,14 @@ const Sidebar = ({ handleCloseSidebar }) => {
   };
 
   let linkStyle = isDarkMode
-    ? "text-gray-200 py-3 pl-6  flex items-center hover:bg-blue-400"
-    : "text-white py-3  pl-6  flex items-center";
+  ? "text-gray-200 py-3 pl-6 border  flex items-center hover:text-blue-400"
+  : "text-white py-3  pl-6 border  flex items-center hover:text-blue-400";
   return (
     <div
       className={`${
         isDarkMode
           ? "bg-[#26282b] border-gray-200"
-          : " bg-[#212121] shadow-xl border-blue-400"
+          : " bg-[#212121] shadow-xl hover:border-blue-400"
       } h-screen flex flex-col  py-6 border-r-2`}
     >
       <h2

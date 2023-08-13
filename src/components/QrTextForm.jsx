@@ -28,7 +28,7 @@ const QrTextForm = ({
       action=""
       id="textForm"
       className={`px-4 py-4
-        shadow-g boder flex flex-col space-y-8 max-w-[25rem] md:max-w-full  mx-auto md:max-w-[50rem]`}
+        shadow-g boder flex flex-col space-y-8 max-w-[25rem] md:max-w-full  mx-auto md:max-w-5xl `}
       onSubmit={handleCreateQr}
     >
       <div className="flex flex-col space-y-4 ">
@@ -51,7 +51,7 @@ const QrTextForm = ({
 
         {/* color inputs */}
         <div className="flex flex-col items-center mx-auto w-full  space-y-2 md:flex-row md:space-y-0 md:gap-4 md:justify-around">
-          <div className="flex flex-col w-full max-w-[21rem] ">
+          <div className="flex flex-col w-full max-w-[21rem] xl:max-w-md">
             <label htmlFor="foreground" className={`flex ${paragraphStyle}`}>
               Foreground color {`(${foreground})`}
             </label>
@@ -67,7 +67,7 @@ const QrTextForm = ({
             />
           </div>
 
-          <div className="flex flex-col w-full max-w-[21rem] ">
+          <div className="flex flex-col w-full max-w-[21rem] xl:max-w-md ">
             <label htmlFor="background" className={`flex ${paragraphStyle}`}>
               Background color {`(${background})`}
             </label>
@@ -83,7 +83,7 @@ const QrTextForm = ({
             />
           </div>
         </div>
-        <p className="text-red-500">{errors.allFields}</p>
+        <p className="text-red-500 text-center">{errors.allFields}</p>
       </div>
       <div className="mx-auto">
         <Button type="submit" text="Create Qr" extraStyle="px-12" />

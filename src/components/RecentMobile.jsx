@@ -19,7 +19,7 @@ const RecentMobile = ({qRData, paragraphStyle,index, setShowQRModal,setQRToShow}
           <p className={paragraphStyle}>Date:</p>
           <p className={paragraphStyle}>Downloads:</p>
           <button
-            className={`text-gray-200 items-center flex space-x-2 px-2 py-1 bg-black rounded`}
+            className={`text-gray-200 items-center flex space-x-2 px-2 py-1 bg-blue-400 rounded`}
             onClick={handleViewQr}
           >
             <img src={view} className="w-6 mr-2" alt="" /> View
@@ -30,7 +30,7 @@ const RecentMobile = ({qRData, paragraphStyle,index, setShowQRModal,setQRToShow}
           <p className={paragraphStyle}>{qRData.date}</p>
           <p className={paragraphStyle}>{qRData.numDownload}</p>
           <button
-            className={`text-gray-200 flex px-2 space-x-2 py-1 bg-black rounded`}
+            className={`text-gray-200 flex px-2 space-x-2 py-1 bg-blue-400 rounded`}
             onClick={() => deleteDocFunction(qRData.id)}
           >
             <img src={deleteQr} className="w-6" alt="" /> Delete
