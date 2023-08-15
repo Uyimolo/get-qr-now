@@ -40,7 +40,7 @@ const CreatedQrs = () => {
         <div
           className={`${
             isDarkMode ? "bg-[#424548]" : "bg-[#fafafa]"
-          } fixed left-0 right-0 bottom-0 top-0 flex flex-col items-center justify-center`}
+          } fixed left-0 right-0 bottom-0 top-0 flex flex-col items-center justify-center z-10`}
         >
           <div
             className="w-10 h-10 cursor-pointer absolute bg-gray-400 rounded-full top-10 left-6 flex items-center justify-center"
