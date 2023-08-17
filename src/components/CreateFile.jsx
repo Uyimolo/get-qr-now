@@ -23,6 +23,7 @@ const CreateFile = () => {
     file: "",
     fileName: "",
   });
+  const [loading, setLoading] = useState(false);
   const [qRImageData, setQRImageData] = useState(null);
   const [filePreview, setFilePreview] = useState("");
   const [status, setStatus] = useState("");
@@ -57,7 +58,7 @@ const CreateFile = () => {
     const uploadedFile = await uploadBytes(fileStorageRef, qRData.file);
 
     if (uploadedFile) {
-      alert("file uploaded successfully");
+      alert("uploaded")
       setStatus("Getting download URL");
       const downloadURL = await getDownloadURL(fileStorageRef);
 
@@ -135,6 +136,8 @@ const CreateFile = () => {
               background: "#ffffff",
               downloadURL: "",
             });
+
+            setLoading(false);
           }
         }
       } catch (error) {
@@ -160,6 +163,7 @@ const CreateFile = () => {
       }));
       return;
     }
+    setLoading(true);
     setInputErrors((prevErrors) => ({
       ...prevErrors,
       allFields: "",
@@ -253,6 +257,8 @@ const CreateFile = () => {
           handleCreateQr={handleCreateQR}
           errors={inputErrors}
           handleValidation={handleValidation}
+          loading={loading}
+          status={status}
         />
       }
       <div className="flex flex-col md:flex-row">
@@ -270,18 +276,10 @@ const CreateFile = () => {
               fileName={qRImageData.fileName}
               secondary
             />
-            {status && (
-              <p
-                className={`${
-                  isDarkMode ? "text-gray-200" : "text-gray-600"
-                } text-center`}
-              >
-                {status}
-              </p>
-            )}
           </motion.div>
         )}
       </div>
+      
     </div>
   );
 };

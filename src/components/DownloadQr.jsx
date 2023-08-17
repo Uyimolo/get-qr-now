@@ -19,6 +19,7 @@ const DownloadQr = ({
   id,
   showDelete,
   showSave,
+  status,
 }) => {
   const [qRDataURL, setQRDataURL] = useState("");
   const { isDarkMode } = useContext(ThemeContext);
@@ -71,7 +72,11 @@ const DownloadQr = ({
 
   return (
     <motion.div
-      className={`${isDarkMode ? "bg-[#424548] hover:bg-[#424548aa] border-gray-500" : "bg-[#f1f1f199] border-gray-300"} shadow-lg border px-6 pb-6 rounded-xl mt-10 w-full `}
+      className={`${
+        isDarkMode
+          ? "bg-[#424548] hover:bg-[#424548aa] border-gray-500"
+          : "bg-[#f1f1f199] border-gray-300"
+      } shadow-lg border px-6 pb-6 rounded-xl mt-10 w-full `}
       initial={{ scale: 0.5, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -128,6 +133,20 @@ const DownloadQr = ({
           </div>
         )}
       </div>
+      {status && status !== "Qr code saved successfully" && (
+        <motion.div
+          initial={{ rotate: 0 }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          className=" border rounded-full border-blue-400 bg-transparent h-6 w-6 mt-4 relative mx-auto"
+        >
+          <div className="h-2 w-2 bg-blue-400 rounded-full absolute left-0"></div>
+          <div className="h-2 w-2 bg-yellow-400 rounded-full absolute right-0 "></div>
+          <div className="h-2 w-2 bg-red-400 rounded-full absolute bottom-0 left-0"></div>
+          <div className="h-2 w-2 bg-purple-400 rounded-full absolute bottom-0 right-0"></div>
+        </motion.div>
+      )}
+      {status && <p className="text-center mt-4 text-blue-400">{status}</p>}
     </motion.div>
   );
 };

@@ -13,6 +13,7 @@ const QrTextForm = ({
   inputData,
   errors,
   handleValidation,
+  loading
 }) => {
   const { isDarkMode } = useContext(ThemeContext);
   let paragraphStyle = "";
@@ -86,7 +87,7 @@ const QrTextForm = ({
         <p className="text-red-500 text-center">{errors.allFields}</p>
       </div>
       <div className="mx-auto">
-        <Button type="submit" text="Create Qr" extraStyle="px-12" />
+        <Button type="submit" loading={loading} text="Create Qr" extraStyle="px-12" />
       </div>
     </motion.form>
   );
