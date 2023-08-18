@@ -58,7 +58,7 @@ const CreateFile = () => {
     const uploadedFile = await uploadBytes(fileStorageRef, qRData.file);
 
     if (uploadedFile) {
-      alert("uploaded")
+      alert("uploaded");
       setStatus("Getting download URL");
       const downloadURL = await getDownloadURL(fileStorageRef);
 
@@ -279,7 +279,6 @@ const CreateFile = () => {
           </motion.div>
         )}
       </div>
-      
     </div>
   );
 };

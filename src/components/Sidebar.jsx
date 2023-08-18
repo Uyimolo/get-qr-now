@@ -36,7 +36,7 @@ const Sidebar = ({ handleCloseSidebar }) => {
       >
         GetQrNow
       </h2>
-      <div className={` flex flex-col pt-20 `}>
+      <div className={` flex flex-col mt-20 `}>
         <Link
           to="/dashboard"
           className={linkStyle}

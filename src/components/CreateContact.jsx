@@ -79,7 +79,7 @@ const CreateContact = () => {
     setQRData({ ...qRData, [event.target.name]: event.target.value });
   };
 
-  const handleValidation = () => {
+  const handleValidation = (event) => {
     const inputEl = event.target;
     const { name } = inputEl;
     const value = inputEl.value.trim();

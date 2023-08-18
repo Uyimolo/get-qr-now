@@ -20,7 +20,7 @@ const Button = ({ type, onClick, text, extraStyle, loading }) => {
           initial={{ rotate: 0 }}
           animate={{ rotate: 360 }}
           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className=" border rounded-full border-blue-400 bg-transparent h-6 w-6 mr-4 relative"
+          className=" bg-transparent h-6 w-6 mr-4 relative"
         >
           <div className="h-2 w-2 bg-blue-400 rounded-full absolute left-0"></div>
           <div className="h-2 w-2 bg-yellow-400 rounded-full absolute right-0 "></div>
