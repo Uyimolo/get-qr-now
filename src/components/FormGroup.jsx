@@ -44,13 +44,13 @@ const FormGroup = ({
       : (inputStateStyle =
           !error && value.length > 0
             ? (inputStateStyle =
-                "bg-green-500 text-white hover:bg-green-300 hover:text-gray-600")
+                "border-green-500")
             : (inputStateStyle = ""));
   } else {
     error.length > 0
       ? (inputStateStyle = "border-red-500")
       : (inputStateStyle =
-          "bg-green-500 text-white hover:text-gray-600 hover:bg-green-300");
+          "border-green-500");
   }
 
   return (
@@ -70,6 +70,7 @@ const FormGroup = ({
           value={value}
           onChange={onChange}
           onInput={handleValidation}
+          onBlur={handleValidation}
         />
       </div>
 

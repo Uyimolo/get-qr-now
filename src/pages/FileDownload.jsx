@@ -13,9 +13,7 @@ import { useParams } from "react-router";
 
 const FileDownload = () => {
   const { id } = useParams();
-  // todo
 
-  // update userData
   const handleNumDownloadsUpdate = async (publicData) => {
     if (publicData) {
       const userDocRef = collection(
@@ -47,7 +45,6 @@ const FileDownload = () => {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-
           } catch (error) {
             console.log(error);
           }
@@ -73,8 +70,10 @@ const FileDownload = () => {
   };
 
   return (
-    <div className="pt-40 w-full flex flex-col gap-8">
-      <h1 className="text-blue-400 text-center text-3xl">Click to download file to your device</h1>
+    <div className="pt-40 w-full px-6 flex flex-col gap-8">
+      <h1 className="text-blue-400 text-center text-3xl">
+        Click to download file to your device
+      </h1>
       <div className="w-fit mx-auto">
         <button
           className="px-4 bg-blue-400 py-2 text-white rounded-full"

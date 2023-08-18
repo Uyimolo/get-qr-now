@@ -252,6 +252,7 @@ const CreateContact = () => {
             fileName={qRData.fileName}
             onClick={addToDb}
             showSave
+            status={status}
           />
           {status && (
             <p

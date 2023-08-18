@@ -64,6 +64,7 @@ const CreateUrl = () => {
 
   const handleChange = (e) => {
     setQRData({ ...qRData, [e.target.name]: e.target.value });
+    handleValidation(e)
   };
 
   const handleValidation = (event) => {

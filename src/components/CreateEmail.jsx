@@ -50,13 +50,13 @@ const CreateEmail = () => {
         };
         const success = uploadDocFunction(collectionRef, docToBeAdded);
         if (success) {
-          setStatus("Qr code saved successfully");
           setQRData({
             email: "",
             fileName: "",
             foreground: "#000000",
             background: "#ffffff",
           });
+          setStatus("Qr code saved successfully");
         }
       } catch (error) {
         setStatus("failed to save Qr code: Try again");
@@ -160,16 +160,8 @@ const CreateEmail = () => {
             fileName={qRImageData.fileName}
             onClick={addToDb}
             showSave
+            status={status}
           />
-          {status && (
-            <p
-              className={`${
-                isDarkMode ? "text-gray-200" : "text-gray-600"
-              } text-center`}
-            >
-              {status}
-            </p>
-          )}
         </motion.div>
       )}
     </div>
