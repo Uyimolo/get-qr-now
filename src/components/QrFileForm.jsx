@@ -15,6 +15,8 @@ const QrFileForm = ({
   file,
   filePreview,
   handleValidation,
+  loading,
+  status,
 }) => {
   const { isDarkMode } = useContext(ThemeContext);
   const paragraphStyle = isDarkMode ? "text-gray-200" : "text-gray-600";
@@ -111,8 +113,23 @@ const QrFileForm = ({
       </div>
 
       <div className="mx-auto">
-        <Button type="submit" text="Create Qr" extraStyle="px-12" />
+        <Button
+          type="submit"
+          loading={loading}
+          text={loading ? "Creating QR" : "Create QR"}
+          extraStyle="px-12"
+        />
       </div>
+      
+      {status && (
+        <p
+          className={`${
+            isDarkMode ? "text-gray-200" : "text-gray-600"
+          } text-center`}
+        >
+          {status}
+        </p>
+      )}
     </motion.form>
   );
 };

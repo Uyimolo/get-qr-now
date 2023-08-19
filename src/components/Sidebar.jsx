@@ -19,8 +19,8 @@ const Sidebar = ({ handleCloseSidebar }) => {
   };
 
   let linkStyle = isDarkMode
-  ? "text-gray-200 py-3 pl-6 border  flex items-center hover:text-blue-400"
-  : "text-white py-3  pl-6 border  flex items-center hover:text-blue-400";
+    ? "text-gray-200 py-3 pl-6 border h-[52px]  flex items-center hover:text-blue-400"
+    : "text-white py-3  pl-6 border  flex h-[52px] items-center hover:text-blue-400";
   return (
     <div
       className={`${
@@ -36,8 +36,8 @@ const Sidebar = ({ handleCloseSidebar }) => {
       >
         GetQrNow
       </h2>
-      <div className={` flex flex-col pt-20 `}>
-      <Link
+      <div className={` flex flex-col mt-20 `}>
+        <Link
           to="/dashboard"
           className={linkStyle}
           onClick={handleCloseSidebar}

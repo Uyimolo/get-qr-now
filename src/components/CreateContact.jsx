@@ -79,7 +79,7 @@ const CreateContact = () => {
     setQRData({ ...qRData, [event.target.name]: event.target.value });
   };
 
-  const handleValidation = () => {
+  const handleValidation = (event) => {
     const inputEl = event.target;
     const { name } = inputEl;
     const value = inputEl.value.trim();
@@ -252,6 +252,7 @@ const CreateContact = () => {
             fileName={qRData.fileName}
             onClick={addToDb}
             showSave
+            status={status}
           />
           {status && (
             <p

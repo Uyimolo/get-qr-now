@@ -21,6 +21,7 @@ const CreateUrl = () => {
     fileName: "",
     allFields: "",
   });
+  const [loading, setLoading] = useState(false);
   const [qRImageData, setQRimageData] = useState(null);
   const [status, setStatus] = useState("");
 
@@ -63,6 +64,7 @@ const CreateUrl = () => {
 
   const handleChange = (e) => {
     setQRData({ ...qRData, [e.target.name]: e.target.value });
+    handleValidation(e)
   };
 
   const handleValidation = (event) => {
@@ -81,20 +83,25 @@ const CreateUrl = () => {
     } else if (name === "fileName") {
       setInputErrors((prevErrors) => ({
         ...prevErrors,
-        fileName: value.length > 0 && value.includes(" ")
-          ? "File names should not contain spaces."
-          : "",
+        fileName:
+          value.length > 0 && value.includes(" ")
+            ? "File names should not contain spaces."
+            : "",
       }));
     }
   };
 
   const handleCreateQr = (event) => {
     event.preventDefault();
+    setLoading(true);
 
     // Check for validation errors
     if (inputErrors.url || inputErrors.fileName) {
+    setLoading(false);
+
       return;
     } else if (qRData.url === "" || qRData.fileName === "") {
+      setLoading(false)
       setInputErrors((prevErrors) => ({
         ...prevErrors,
         allFields: "Please fill in all required fields",
@@ -105,6 +112,7 @@ const CreateUrl = () => {
       ...prevErrors,
       allFields: "",
     }));
+    setLoading(false)
     setQRimageData(qRData);
   };
   const inputData = [
@@ -143,6 +151,7 @@ const CreateUrl = () => {
         inputData={inputData}
         handleValidation={handleValidation}
         errors={inputErrors}
+        loading={loading}
       />
 
       {qRImageData && (
@@ -154,16 +163,8 @@ const CreateUrl = () => {
             fileName={qRImageData.fileName}
             onClick={addToDb}
             showSave
+            status={status}
           />
-          {status && (
-            <p
-              className={`${
-                isDarkMode ? "text-gray-200" : "text-gray-600"
-              } text-center`}
-            >
-              {status}
-            </p>
-          )}
         </div>
       )}
     </div>
