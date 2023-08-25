@@ -10,6 +10,7 @@ import deleteIcon from "../images/delete.svg";
 import { deleteDocFunction } from "../myHooks/deleteDocFunction";
 import { ThemeContext } from "../context/ThemeContext";
 import { motion } from "framer-motion";
+import LoadingIndicator from "./LoadingIndicator";
 const DownloadQr = ({
   value,
   foreground,
@@ -134,17 +135,7 @@ const DownloadQr = ({
         )}
       </div>
       {status && status !== "Qr code saved successfully" && (
-        <motion.div
-          initial={{ rotate: 0 }}
-          animate={{ rotate: 360 }}
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className="  rounded-full  bg-transparent h-6 w-6 mt-4 relative mx-auto"
-        >
-          <div className="h-2 w-2 bg-blue-400 rounded-full absolute left-0"></div>
-          <div className="h-2 w-2 bg-yellow-400 rounded-full absolute right-0 "></div>
-          <div className="h-2 w-2 bg-red-400 rounded-full absolute bottom-0 left-0"></div>
-          <div className="h-2 w-2 bg-purple-400 rounded-full absolute bottom-0 right-0"></div>
-        </motion.div>
+        <LoadingIndicator />
       )}
       {status && <p className="text-center mt-4 text-blue-400">{status}</p>}
     </motion.div>

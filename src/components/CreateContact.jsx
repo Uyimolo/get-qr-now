@@ -176,6 +176,7 @@ const CreateContact = () => {
     return () => clearTimeout(timeout);
   }, [error]);
 
+  // create data to be mapped over in qrTextForm to create inputs
   const inputData = [
     {
       label: "First name",
@@ -254,15 +255,6 @@ const CreateContact = () => {
             showSave
             status={status}
           />
-          {status && (
-            <p
-              className={`${
-                isDarkMode ? "text-gray-200" : "text-gray-600"
-              } text-center`}
-            >
-              {status}
-            </p>
-          )}
         </motion.div>
       )}
     </div>
