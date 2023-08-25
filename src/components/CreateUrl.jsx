@@ -22,7 +22,7 @@ const CreateUrl = () => {
     allFields: "",
   });
   const [loading, setLoading] = useState(false);
-  const [qRImageData, setQRimageData] = useState(null);
+  const [qRImageData, setQRImageData] = useState(null);
   const [status, setStatus] = useState("");
 
   const collectionRef = collection(
@@ -113,7 +113,7 @@ const CreateUrl = () => {
       allFields: "",
     }));
     setLoading(false);
-    setQRimageData(qRData);
+    setQRImageData(qRData);
   };
 
   // create data to be mapped over in qrTextForm to create inputs
@@ -166,6 +166,8 @@ const CreateUrl = () => {
             onClick={addToDb}
             showSave
             status={status}
+            setStatus={setStatus}
+            setQRImageData={setQRImageData}
           />
         </div>
       )}

@@ -7,6 +7,7 @@ import download from "../images/download.svg";
 import save from "../images/save.svg";
 import share from "../images/share.svg";
 import deleteIcon from "../images/delete.svg";
+import close from "../images/close.svg";
 import { deleteDocFunction } from "../myHooks/deleteDocFunction";
 import { ThemeContext } from "../context/ThemeContext";
 import { motion } from "framer-motion";
@@ -21,6 +22,8 @@ const DownloadQr = ({
   showDelete,
   showSave,
   status,
+  setQRImageData,
+  setStatus,
 }) => {
   const [qRDataURL, setQRDataURL] = useState("");
   const { isDarkMode } = useContext(ThemeContext);
@@ -67,6 +70,11 @@ const DownloadQr = ({
     }
   }, [qRDataURL, fileName]);
 
+  const handleCloseQrModal = () => {
+    setQRImageData(null);
+    setStatus("");
+  };
+
   const paragraphStyle = isDarkMode
     ? "text-gray-200 text-[14px]"
     : "text-gray-800 text-[12px]";
@@ -75,13 +83,19 @@ const DownloadQr = ({
     <motion.div
       className={`${
         isDarkMode
-          ? "bg-[#424548] hover:bg-[#424548aa] border-gray-500"
-          : "bg-[#f1f1f199] border-gray-300"
-      } shadow-lg border px-6 pb-6 rounded-xl mt-10 w-full `}
-      initial={{ scale: 0.5, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.5 }}
+          ? "bg-[#424548ef] border-gray-500"
+          : "bg-[#f1f1f1ef] border-gray-300"
+      } shadow-lg border fixed w-full left-0 right-0 top-0 bottom-0 flex flex-col justify-center align-center z-10 mx-auto px-6 pb-6 rounded-xl w-full `}
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{ duration: 0.8 }}
     >
+      <div
+        className="absolute top-10 right-6 p-1 cursor-pointer w-8 h-8 rounded-full bg-gray-400 hover:bg-blue-400"
+        onClick={handleCloseQrModal}
+      >
+        <img src={close} alt="" />
+      </div>
       <div
         ref={qrRef}
         className="mt-6 p-4 w-fit mx-auto bg-transparent overflow-hidden"
