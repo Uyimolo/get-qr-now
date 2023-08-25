@@ -19,6 +19,7 @@ const CreateFile = () => {
     background: "#ffffff",
     downloadURL: "",
   });
+  // input errors is passed down to qrFileForm and then to FormGroup
   const [inputErrors, setInputErrors] = useState({
     file: "",
     fileName: "",
@@ -68,7 +69,7 @@ const CreateFile = () => {
 
   const addToDb = useCallback(
     async (downloadURL) => {
-      // For auth user (user creating the qr)
+      // collection ref for document to be created for auth user
       const collectionRef = collection(
         db,
         "qr-codes-collection",
@@ -92,12 +93,12 @@ const CreateFile = () => {
           foreground: foreground,
           background: background,
         };
-        // for public users who'll scan the qr
+        // collection ref for public users
         const fileRef = collection(db, "files-collection");
         const newPublicDoc = await addDoc(fileRef, publicDoc);
 
         if (newPublicDoc) {
-          //this is the url that will be encoded into the qr code, the newPublicDoc.Id will be used as a route parameter to retreive the document and the numdownloads will be increased by one when user hits this route
+          //this is the url that will be encoded into the qr code, the newPublicDoc.Id will be used as a route parameter to retreive the document and the numdownloads will be increased by one when user hits this route.
 
           // const url = `localhost:5173/download/${newPublicDoc.id}`; use this when working with a local server
 
@@ -115,7 +116,8 @@ const CreateFile = () => {
             foreground: foreground,
             background: background,
           };
-          // step 3 : create doc for user which has the link to the public document and can be used to create more copies of the origin qr code.
+
+          // step 3 : create doc for auth user which has the link to the public document and can be used to create more copies of the origin qr code.
           const newUserDoc = await addDoc(collectionRef, userDoc);
 
           if (newUserDoc) {
@@ -223,6 +225,7 @@ const CreateFile = () => {
     }
   };
 
+  // create data to be mapped over in qrTextForm to create inputs
   const inputData = [
     {
       label: "Select PDF file",

@@ -31,7 +31,7 @@ const CreateUrl = () => {
     `${user}`,
     "qr-code-data"
   );
-
+  //add qrCode to database
   const addToDb = useCallback(async () => {
     setStatus("Saving Qr code");
     const { fileName, url, foreground, background } = qRData;
@@ -64,7 +64,7 @@ const CreateUrl = () => {
 
   const handleChange = (e) => {
     setQRData({ ...qRData, [e.target.name]: e.target.value });
-    handleValidation(e)
+    handleValidation(e);
   };
 
   const handleValidation = (event) => {
@@ -97,11 +97,11 @@ const CreateUrl = () => {
 
     // Check for validation errors
     if (inputErrors.url || inputErrors.fileName) {
-    setLoading(false);
+      setLoading(false);
 
       return;
     } else if (qRData.url === "" || qRData.fileName === "") {
-      setLoading(false)
+      setLoading(false);
       setInputErrors((prevErrors) => ({
         ...prevErrors,
         allFields: "Please fill in all required fields",
@@ -112,9 +112,11 @@ const CreateUrl = () => {
       ...prevErrors,
       allFields: "",
     }));
-    setLoading(false)
+    setLoading(false);
     setQRimageData(qRData);
   };
+
+  // create data to be mapped over in qrTextForm to create inputs
   const inputData = [
     {
       label: "Address",

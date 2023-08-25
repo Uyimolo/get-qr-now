@@ -110,6 +110,7 @@ const CreateEmail = () => {
     setQRimageData(qRData);
   };
 
+  // create data to be mapped over in qrTextForm to create inputs
   const inputData = [
     {
       label: "Email",
