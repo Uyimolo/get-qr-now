@@ -108,6 +108,7 @@ const CreateFile = () => {
           const userDoc = {
             name: fileName,
             value: url,
+            downloadURL: downloadURL,
             type: "file",
             date: new Date().toDateString(),
             sortDate: Number(new Date()),
@@ -278,6 +279,8 @@ const CreateFile = () => {
               background={qRImageData.background}
               fileName={qRImageData.fileName}
               secondary
+              setStatus={setStatus}
+              setQRImageData={setQRImageData}
             />
           </motion.div>
         )}

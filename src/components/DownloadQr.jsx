@@ -96,6 +96,13 @@ const DownloadQr = ({
       >
         <img src={close} alt="" />
       </div>
+
+      <h3
+        className={`text-blue-400 text-3xl font-semibold text-center px-6 truncate`}
+      >
+        {fileName.toUpperCase()}
+      </h3>
+
       <div
         ref={qrRef}
         className="mt-6 p-4 w-fit mx-auto bg-transparent overflow-hidden"

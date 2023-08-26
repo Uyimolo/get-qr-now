@@ -24,7 +24,7 @@ const CreateContact = () => {
     foreground: "#000000",
     background: "#ffffff",
   });
-  const [qRImageData, setQRimageData] = useState(null);
+  const [qRImageData, setQRImageData] = useState(null);
   const [status, setStatus] = useState("");
   const [inputErrors, setInputErrors] = useState({
     firstName: "",
@@ -165,7 +165,7 @@ const CreateContact = () => {
       .addEmail(email)
       .addURL(website)
       .addPhoneNumber(phoneNumber);
-    setQRimageData(vCard.toString());
+    setQRImageData(vCard.toString());
   };
 
   useEffect(() => {
@@ -210,7 +210,7 @@ const CreateContact = () => {
       label: "Website",
       value: qRData.website,
       id: "website",
-      placeholder: "Enter email here",
+      placeholder: "Enter your web address here",
       type: "text",
     },
     {
@@ -254,6 +254,8 @@ const CreateContact = () => {
             onClick={addToDb}
             showSave
             status={status}
+            setStatus={setStatus}
+            setQRImageData={setQRImageData}
           />
         </motion.div>
       )}

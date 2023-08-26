@@ -7,6 +7,7 @@ import menu from "../images/icon-menu.svg";
 import menuDark from "../images/icon-menu-dark.svg";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router";
+import Logo from "./Logo";
 const Header = ({ setSidebarOpen, sidebarOpen }) => {
   const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
   const [showMenu, setShowMenu] = useState(false);
@@ -27,13 +28,7 @@ const Header = ({ setSidebarOpen, sidebarOpen }) => {
         isDarkMode ? "bg-[#26282b]" : "bg-[#fafafa]"
       } flex items-center justify-between px-6 py-4 z-10 fixed top-0 left-0 w-full `}
     >
-      <div className="">
-        <h1
-          className={`${isDarkMode ? "text-white" : "text-gray-600"} text-2xl`}
-        >
-          GetQrNow
-        </h1>
-      </div>
+      <Logo />
 
       <div className="flex flex-wrap items-center space-x-2 sm:space-x-4 items-center justify-center gap-2">
         <div className="">
