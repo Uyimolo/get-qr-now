@@ -5,7 +5,6 @@ import { UserContext } from "../context/UserContext";
 import { ThemeContext } from "../context/ThemeContext";
 import RecentMobile from "./RecentMobile";
 import DownloadQr from "./DownloadQr";
-import close from "../images/close.svg";
 
 const CreatedQrs = () => {
   const [recentQRData, setRecentQRData] = useState([]);
@@ -34,35 +33,17 @@ const CreatedQrs = () => {
   const paragraphStyle = `${isDarkMode ? "text-gray-200" : "text-gray-700"}`;
 
   return (
-    <div className="mx-6 ">
+    <div className="">
       {/* show expanded qr view when view button is clicked*/}
       {showQRModal && (
-        <div
-          className={`${
-            isDarkMode ? "bg-[#424548]" : "bg-[#fafafa]"
-          } fixed left-0 right-0 bottom-0 top-0 flex flex-col items-center justify-center z-10`}
-        >
-          <div
-            className="w-10 h-10 cursor-pointer absolute bg-gray-400 rounded-full top-10 left-6 flex items-center justify-center"
-            onClick={() => setShowQRModal(false)}
-          >
-            <img src={close} alt="" className="w-6" />
-          </div>
-          <h3
-            className={`${
-              isDarkMode ? "text-white" : "text-gray-600"
-            } text-3xl font-semibold text-center px-6 truncate`}
-          >
-            {recentQRData[qRToShow].name.toUpperCase()}
-          </h3>
-          <div>
-            <DownloadQr
-              value={recentQRData[qRToShow].value}
-              foreground={recentQRData[qRToShow].foreground}
-              background={recentQRData[qRToShow].background}
-              fileName={recentQRData[qRToShow].name}
-            />
-          </div>
+        <div>
+          <DownloadQr
+            value={recentQRData[qRToShow].value}
+            foreground={recentQRData[qRToShow].foreground}
+            background={recentQRData[qRToShow].background}
+            fileName={recentQRData[qRToShow].name}
+            setQRImageData={setShowQRModal}
+          />
         </div>
       )}
       {recentQRData.length > 0 && (

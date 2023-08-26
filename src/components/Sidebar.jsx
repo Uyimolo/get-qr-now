@@ -9,6 +9,7 @@ import url from "../images/url.svg";
 import contact from "../images/contact-card.svg";
 import fileUpload from "../images/file-upload.svg";
 import email from "../images/email.svg";
+import Logo from "./Logo";
 
 const Sidebar = ({ handleCloseSidebar }) => {
   const { isDarkMode } = useContext(ThemeContext);
@@ -29,13 +30,9 @@ const Sidebar = ({ handleCloseSidebar }) => {
           : " bg-[#212121] shadow-xl hover:border-blue-400"
       } h-screen flex flex-col  py-6 border-r-2`}
     >
-      <h2
-        className={`${
-          isDarkMode ? "text-gray-100" : "text-white"
-        } text-2xl pl-6`}
-      >
-        GetQrNow
-      </h2>
+      <div className="self-start ml-6">
+        <Logo />
+      </div>
       <div className={` flex flex-col mt-20 `}>
         <Link
           to="/dashboard"
