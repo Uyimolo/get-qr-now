@@ -2,10 +2,8 @@
 import deleteQr from "../images/delete.svg";
 import view from "../images/view.svg";
 import { deleteDocFunction } from "../myHooks/deleteDocFunction";
-// import QrModal from "./QrModal";
 
-// import { useState } from "react";
-const RecentMobile = ({
+const RecentQRs = ({
   qRData,
   paragraphStyle,
   index,
@@ -41,7 +39,12 @@ const RecentMobile = ({
           <button
             className={`text-gray-200 flex px-2 space-x-2 py-1 bg-blue-400 rounded`}
             onClick={() =>
-              deleteDocFunction(qRData.id, qRData.type, qRData.name)
+              deleteDocFunction(
+                qRData.id,
+                qRData.type,
+                qRData.name,
+                qRData.publicDocRef
+              )
             }
           >
             <img src={deleteQr} className="w-6" alt="" /> Delete
@@ -52,4 +55,4 @@ const RecentMobile = ({
   );
 };
 
-export default RecentMobile;
+export default RecentQRs;
