@@ -3,7 +3,7 @@ import { db } from "../../config/firebase";
 import { collection, onSnapshot } from "firebase/firestore";
 import { UserContext } from "../context/UserContext";
 import { ThemeContext } from "../context/ThemeContext";
-import RecentMobile from "./RecentMobile";
+import RecentQRs from "./RecentQRs";
 import DownloadQr from "./DownloadQr";
 
 const CreatedQrs = () => {
@@ -67,7 +67,7 @@ const CreatedQrs = () => {
                       : " border-gray-300"
                   }  px-2 w-[16.5rem] border rounded-lg hover:border-blue-400 hover:shadow-xl`}
                 >
-                  <RecentMobile
+                  <RecentQRs
                     qRData={qRData}
                     paragraphStyle={paragraphStyle}
                     index={index}

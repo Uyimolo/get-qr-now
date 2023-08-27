@@ -81,7 +81,8 @@ const CreateFile = () => {
 
       const { fileName, file, foreground, background } = qRData;
       const fileType = getFileExtension(file.name).slice(1);
-      // step 2 : create document containing the downloadUrl.
+
+      // step 2 : create document containing the downloadUrl (for downloading files) that will be accessible to all users.the publicDoc also holds the reference to the auth user who created the qr code (createdBy)
       try {
         const publicDoc = {
           name: fileName,
@@ -98,13 +99,11 @@ const CreateFile = () => {
         const newPublicDoc = await addDoc(fileRef, publicDoc);
 
         if (newPublicDoc) {
-          //this is the url that will be encoded into the qr code, the newPublicDoc.Id will be used as a route parameter to retreive the document and the numdownloads will be increased by one when user hits this route.
+          //this is the url that will be encoded into the qr code, the newPublicDoc.Id will be used as a route parameter to retrieve the public doc
 
-          // const url = `localhost:5173/download/${newPublicDoc.id}`; use this when working with a local server
-
-          // for live site
           const url = `get-qr-now.vercel.app/download/${newPublicDoc.id}`;
 
+          // step 3 : create doc for auth user which has the link to the public document (used for deleting the public doc when userDoc is deleted) and can be used to create more copies of the origin qr code. it also contains the number of times the uploaded file is downloaded
           const userDoc = {
             name: fileName,
             value: url,
@@ -118,7 +117,6 @@ const CreateFile = () => {
             background: background,
           };
 
-          // step 3 : create doc for auth user which has the link to the public document and can be used to create more copies of the origin qr code.
           const newUserDoc = await addDoc(collectionRef, userDoc);
 
           if (newUserDoc) {
