@@ -1,30 +1,37 @@
 import { useCallback, useContext, useState } from "react";
+import { UserContext } from "../context/UserContext";
+
+import DownloadQr from "./DownloadQr";
+import QrTextForm from "./QrTextForm";
+import CreateQRHeader from "./CreateQRHeader";
+import urlImg from "../images/urlimg.svg";
+
 import { db } from "../../config/firebase";
 import { collection } from "firebase/firestore";
-import DownloadQr from "./DownloadQr";
-import { UserContext } from "../context/UserContext";
-import { ThemeContext } from "../context/ThemeContext";
-import QrTextForm from "./QrTextForm";
 import uploadDocFunction from "../myHooks/uploadDocFunction";
 
 const CreateUrl = () => {
   const { user } = useContext(UserContext);
-  const { isDarkMode } = useContext(ThemeContext);
+
   const [qRData, setQRData] = useState({
     url: "",
     fileName: "",
     foreground: "#000000",
     background: "#ffffff",
   });
+
+  //each input error should have the same variable name as the name of the input it concerns
   const [inputErrors, setInputErrors] = useState({
     url: "",
     fileName: "",
     allFields: "",
   });
-  const [loading, setLoading] = useState(false);
-  const [qRImageData, setQRImageData] = useState(null);
-  const [status, setStatus] = useState("");
 
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("");
+  const [qRImageData, setQRImageData] = useState(null);
+
+  // firestore collection ref
   const collectionRef = collection(
     db,
     "qr-codes-collection",
@@ -46,10 +53,12 @@ const CreateUrl = () => {
         foreground: foreground,
         background: background,
       };
+
       const success = await uploadDocFunction(collectionRef, docToBeAdded);
 
       if (success) {
         setStatus("Qr code saved successfully");
+        // reset inputs
         setQRData({
           url: "",
           fileName: "",
@@ -67,8 +76,9 @@ const CreateUrl = () => {
     handleValidation(e);
   };
 
+  // triggered from FormGroup when input value changes
   const handleValidation = (event) => {
-    const inputEl = event.target;
+    const inputEl = event.target; // the input that triggered the validation function
     const { name } = inputEl;
     const value = inputEl.value.trim();
 
@@ -108,6 +118,7 @@ const CreateUrl = () => {
       }));
       return;
     }
+    // if all inputs are not empty and no errors are found reset errors[allFields]
     setInputErrors((prevErrors) => ({
       ...prevErrors,
       allFields: "",
@@ -134,14 +145,18 @@ const CreateUrl = () => {
     },
   ];
 
-  const paragraphStyle = `${isDarkMode ? "text-gray-200" : "text-gray-600"}`;
+  const headerData = {
+    img: urlImg,
+    heading: "Share Links with Ease!",
+    subText: "social media handles, websites, basically anything on the web",
+  };
+
+  // const paragraphStyle = isDarkMode ? "text-gray-200" : "text-gray-600";
 
   return (
     <div className="">
       <div className="">
-        <h1 className={`${paragraphStyle} text-3xl text-center mb-6`}>
-          Share Links with Ease!
-        </h1>
+        <CreateQRHeader createQRData={headerData} />
       </div>
 
       <QrTextForm

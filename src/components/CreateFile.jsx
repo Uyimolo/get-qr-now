@@ -1,17 +1,19 @@
 import { useContext, useState, useCallback } from "react";
+import { UserContext } from "../context/UserContext";
+
 import QrFileForm from "./QrFileForm";
-import { motion } from "framer-motion";
 import DownloadQr from "./DownloadQr";
-import { ThemeContext } from "../context/ThemeContext";
+import CreateQRHeader from "./CreateQRHeader";
+import fileImg from "../images/uploadimg.svg";
+
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { addDoc } from "firebase/firestore";
-
 import { collection } from "firebase/firestore";
 import { storage, db } from "../../config/firebase";
-import { UserContext } from "../context/UserContext";
+
 const CreateFile = () => {
-  const { isDarkMode } = useContext(ThemeContext);
   const { user } = useContext(UserContext);
+
   const [qRData, setQRData] = useState({
     file: null,
     fileName: "",
@@ -19,17 +21,20 @@ const CreateFile = () => {
     background: "#ffffff",
     downloadURL: "",
   });
-  // input errors is passed down to qrFileForm and then to FormGroup
+
+  //each input error should have the same variable name as the name of the input it concerns
   const [inputErrors, setInputErrors] = useState({
     file: "",
     fileName: "",
   });
+
   const [loading, setLoading] = useState(false);
-  const [qRImageData, setQRImageData] = useState(null);
+
   const [filePreview, setFilePreview] = useState("");
   const [status, setStatus] = useState("");
 
-  //handle changes to inputs
+  const [qRImageData, setQRImageData] = useState(null);
+
   const handleChange = (event) => {
     const { name, value, files } = event.target;
     if (name === "file") {
@@ -52,24 +57,33 @@ const CreateFile = () => {
   };
 
   // step 1: upload file to firebase storage and retreive the downloadURL
-
-  const fileStorageRef = ref(storage, `files/${qRData.fileName}`);
   const uploadFile = async () => {
     setStatus("Uploading file...");
-    const uploadedFile = await uploadBytes(fileStorageRef, qRData.file);
 
-    if (uploadedFile) {
-      alert("uploaded");
-      setStatus("Getting download URL");
-      const downloadURL = await getDownloadURL(fileStorageRef);
+    const fileStorageRef = ref(storage, `files/${qRData.fileName}`);
 
-      addToDb(downloadURL);
+    // upload file to firebase storage
+    try {
+      const uploadedFile = await uploadBytes(fileStorageRef, qRData.file);
+
+      if (uploadedFile) {
+        setStatus("Getting download URL");
+        const downloadURL = await getDownloadURL(fileStorageRef);
+
+        // add qr code to firestore database
+        addToDb(downloadURL);
+      }
+    } catch (error) {
+      setStatus(error.message);
     }
   };
 
   const addToDb = useCallback(
     async (downloadURL) => {
-      // collection ref for document to be created for auth user
+      // collection ref for document to be used by users (who didnt create the qRCode)
+      const fileRef = collection(db, "files-collection");
+
+      // collection ref for document to be created for authenticated user who created qrCode
       const collectionRef = collection(
         db,
         "qr-codes-collection",
@@ -80,31 +94,27 @@ const CreateFile = () => {
       setStatus("Saving Qr code");
 
       const { fileName, file, foreground, background } = qRData;
+
+      // get file extension of uploadled file
       const fileType = getFileExtension(file.name).slice(1);
 
-      // step 2 : create document containing the downloadUrl (for downloading files) that will be accessible to all users.the publicDoc also holds the reference to the auth user who created the qr code (createdBy)
+      // step 2 : create public document that will be used in fetching the private doc during file download. accessible to all users. the publicDoc also holds the reference to the authenticated user who created the qr code (createdBy)
       try {
         const publicDoc = {
           name: fileName,
           downloadURL: downloadURL,
           createdBy: user,
           type: fileType,
-          date: new Date().toDateString(),
-          sortDate: Number(new Date()),
-          foreground: foreground,
-          background: background,
         };
-        // collection ref for public users
-        const fileRef = collection(db, "files-collection");
+
         const newPublicDoc = await addDoc(fileRef, publicDoc);
 
         if (newPublicDoc) {
           //this is the url that will be encoded into the qr code, the newPublicDoc.Id will be used as a route parameter to retrieve the public doc
-
           const url = `get-qr-now.vercel.app/download/${newPublicDoc.id}`;
 
-          // step 3 : create doc for auth user which has the link to the public document (used for deleting the public doc when userDoc is deleted) and can be used to create more copies of the origin qr code. it also contains the number of times the uploaded file is downloaded
-          const userDoc = {
+          // step 3 : create private document for qrCode creator (auth user) which has the link to the public document (used for deleting the public doc when userDoc is deleted) and can be used to create more copies of the origin qr code. it also contains the number of times the uploaded file is downloaded
+          const privateDoc = {
             name: fileName,
             value: url,
             downloadURL: downloadURL,
@@ -117,9 +127,9 @@ const CreateFile = () => {
             background: background,
           };
 
-          const newUserDoc = await addDoc(collectionRef, userDoc);
+          const newPrivateDoc = await addDoc(collectionRef, privateDoc);
 
-          if (newUserDoc) {
+          if (newPrivateDoc) {
             setStatus("Qr code saved successfully");
             const { fileName, background, foreground } = qRData;
 
@@ -130,6 +140,7 @@ const CreateFile = () => {
               foreground: foreground,
             });
 
+            // reset inputs
             setQRData({
               file: "",
               fileName: "",
@@ -165,10 +176,14 @@ const CreateFile = () => {
       return;
     }
     setLoading(true);
+
+    // if all inputs are not empty and no errors are found reset errors[allFields]
     setInputErrors((prevErrors) => ({
       ...prevErrors,
       allFields: "",
     }));
+
+    // start file upload and document creation process
     uploadFile();
   };
 
@@ -239,14 +254,17 @@ const CreateFile = () => {
       type: "text",
     },
   ];
-  const paragraphStyle = `${isDarkMode ? "text-gray-200" : "text-gray-600"}`;
 
+  const headerData = {
+    img: fileImg,
+    heading: "Create QR's for File Downloads Easily!",
+    subText:
+      "Effortless File Sharing, Elevated Efficiency. Generate for Your Files QR Codes in Seconds!",
+  };
   return (
     <div>
       <div className="">
-        <h1 className={`${paragraphStyle} text-3xl text-center mb-6`}>
-          {`Create QR's for File Downloads Easily!`}
-        </h1>
+        <CreateQRHeader createQRData={headerData} />
       </div>
       {
         <QrFileForm
@@ -265,12 +283,7 @@ const CreateFile = () => {
       }
       <div className="flex flex-col md:flex-row">
         {qRImageData && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="w-fit px-6 mx-auto"
-          >
+          <div className="w-fit px-6 mx-auto">
             <DownloadQr
               value={qRImageData.value}
               foreground={qRImageData.foreground}
@@ -280,7 +293,7 @@ const CreateFile = () => {
               setStatus={setStatus}
               setQRImageData={setQRImageData}
             />
-          </motion.div>
+          </div>
         )}
       </div>
     </div>

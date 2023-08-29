@@ -1,31 +1,36 @@
 import { useCallback, useContext, useState } from "react";
+import { UserContext } from "../context/UserContext";
+
+import DownloadQr from "./DownloadQr";
+import QrTextForm from "./QrTextForm";
+import CreateQRHeader from "./CreateQRHeader";
+import emailImg from "../images/emailimg.svg";
+
+import uploadDocFunction from "../myHooks/uploadDocFunction";
 import { db } from "../../config/firebase";
 import { collection } from "firebase/firestore";
-import DownloadQr from "./DownloadQr";
-import { motion } from "framer-motion";
-import { UserContext } from "../context/UserContext";
-import { ThemeContext } from "../context/ThemeContext";
-import QrTextForm from "./QrTextForm";
-import uploadDocFunction from "../myHooks/uploadDocFunction";
 
 const CreateEmail = () => {
   const { user } = useContext(UserContext);
 
-  const { isDarkMode } = useContext(ThemeContext);
   const [qRData, setQRData] = useState({
     email: "",
     fileName: "",
     foreground: "#000000",
     background: "#ffffff",
   });
+
   const [qRImageData, setQRImageData] = useState(null);
   const [status, setStatus] = useState("");
+
+  //each input error should have the same variable name as the name of the input it concerns
   const [inputErrors, setInputErrors] = useState({
     email: "",
     fileName: "",
     allFields: "",
   });
 
+  // firestore collection ref
   const collectionRef = collection(
     db,
     "qr-codes-collection",
@@ -50,6 +55,7 @@ const CreateEmail = () => {
         };
         const success = uploadDocFunction(collectionRef, docToBeAdded);
         if (success) {
+          // reset inputs
           setQRData({
             email: "",
             fileName: "",
@@ -67,9 +73,11 @@ const CreateEmail = () => {
     setQRData({ ...qRData, [e.target.name]: e.target.value });
   };
 
+  // triggered from FormGroup when input value changes
+
   const handleValidation = (event) => {
     event.preventDefault();
-    const inputEl = event.target;
+    const inputEl = event.target; // the input that triggered the validation function
     const { name } = inputEl;
     const value = inputEl.value.trim();
 
@@ -103,6 +111,7 @@ const CreateEmail = () => {
       }));
       return;
     }
+    // if all inputs are not empty and no errors are found reset errors[allFields]
     setInputErrors((prevErrors) => ({
       ...prevErrors,
       allFields: "",
@@ -128,15 +137,20 @@ const CreateEmail = () => {
     },
   ];
 
-  const paragraphStyle = `${isDarkMode ? "text-gray-200" : "text-gray-600"}`;
+  const headerData = {
+    img: emailImg,
+    heading: "Instant Email QR Codes",
+    subText: "Seamless Sharing, Effortless Connection. Get Your Email QR Code Instantly",
+  };
+
+
 
   return (
     <div>
       <div className="">
-        <h1 className={`${paragraphStyle} text-3xl text-center mb-6`}>
-          Instant Email QR Codes: Connect with a Scan!
-        </h1>
+        <CreateQRHeader createQRData={headerData} />
       </div>
+
       <QrTextForm
         handleCreateQr={handleCreateQr}
         handleChange={handleChange}
@@ -148,12 +162,7 @@ const CreateEmail = () => {
       />
 
       {qRImageData && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="w-fit px-6 mx-auto"
-        >
+        <div className="w-fit px-6 mx-auto">
           <DownloadQr
             value={qRImageData.email}
             foreground={qRImageData.foreground}
@@ -165,7 +174,7 @@ const CreateEmail = () => {
             setStatus={setStatus}
             setQRImageData={setQRImageData}
           />
-        </motion.div>
+        </div>
       )}
     </div>
   );

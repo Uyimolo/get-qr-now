@@ -1,4 +1,3 @@
-// import { ref } from "firebase/storage";
 import { db } from "../../config/firebase";
 import {
   collection,
@@ -15,6 +14,7 @@ const FileDownload = () => {
   const { id } = useParams();
 
   const handleNumDownloadsUpdate = async (publicData) => {
+    //step 2: get reference to the doc created by qrCode creator using the users email gotten from the public doc
     if (publicData) {
       const userDocRef = collection(
         db,
@@ -22,22 +22,30 @@ const FileDownload = () => {
         `${publicData.createdBy}`,
         "qr-code-data"
       );
+
+      //step:3 query firestore database to find private document to be updated
       try {
         const q = query(
           userDocRef,
           where("type", "==", "file"),
           where("publicDocRef", "==", id)
         );
+
         const querySnapshot = await getDocs(q);
+
         if (!querySnapshot.empty) {
-          const fileDocRef = querySnapshot.docs[0].ref;
+          const privateDocRef = querySnapshot.docs[0].ref;
           const docData = querySnapshot.docs[0].data();
+
           const newNumDownload = docData.numDownload + 1;
+
+          //step 4: update the numdownload property in the pivate doc
           try {
-            await updateDoc(fileDocRef, {
+            await updateDoc(privateDocRef, {
               numDownload: newNumDownload,
             });
 
+            //step 5: download file
             const { fileName, fileType, downloadURL } = publicData;
             const link = document.createElement("a");
             link.href = downloadURL;
@@ -55,7 +63,7 @@ const FileDownload = () => {
     }
   };
 
-  // retreive public doc
+  // step 1: retreive public doc
   const retreivePublicDoc = async () => {
     const publicDocRef = doc(db, "files-collection", id);
     try {

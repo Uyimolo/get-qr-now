@@ -34,6 +34,7 @@ const DashboardLayout = ({ sidebarOpen, setSidebarOpen }) => {
           <Sidebar handleCloseSidebar={handleCloseSidebar} />
         </motion.div>
         <div>
+          
           <div className="pt-16 md:pt-24 lg:ml-60">
             <Outlet />
           </div>
