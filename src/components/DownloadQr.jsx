@@ -93,9 +93,9 @@ const DownloadQr = ({
       transition={{ duration: 0.8 }}
       className={`${
         isDarkMode
-          ? "bg-[#424548ef] border-gray-500"
-          : "bg-[#f1f1f1ef] border-gray-300"
-      } shadow-lg border fixed w-full left-0 right-0 top-0 bottom-0 flex flex-col justify-center align-center z-10 mx-auto px-6 pb-6 rounded-xl w-full `}
+          ? "bg-[#424548ef]"
+          : "bg-[#f1f1f1ef]"
+      } shadow-lg border fixed w-full left-0 right-0 top-0 bottom-0 flex flex-col justify-center align-center z-10 mx-auto px-6 pb-6 w-full `}
     >
       <div
         className="absolute top-10 right-6 p-1 cursor-pointer w-8 h-8 rounded-full bg-gray-400 hover:bg-blue-400"

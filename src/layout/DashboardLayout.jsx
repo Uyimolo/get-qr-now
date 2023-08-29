@@ -35,7 +35,7 @@ const DashboardLayout = ({ sidebarOpen, setSidebarOpen }) => {
         </motion.div>
         <div>
           
-          <div className="pt-16 md:pt-24 lg:ml-60">
+          <div className="pt-16 md:pt-16 lg:ml-60">
             <Outlet />
           </div>
           <div className="mt-6 lg:ml-60">
