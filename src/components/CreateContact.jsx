@@ -1,19 +1,21 @@
 import { useState, useCallback, useContext, useEffect } from "react";
-import QrTextForm from "./QrTextForm";
-import { motion } from "framer-motion";
-import DownloadQr from "./DownloadQr";
-import { ThemeContext } from "../context/ThemeContext";
-import { collection } from "firebase/firestore";
-import { db } from "../../config/firebase";
 import { UserContext } from "../context/UserContext";
-import VCard from "vcard-creator";
+
+import QrTextForm from "./QrTextForm";
+import DownloadQr from "./DownloadQr";
+import CreateQRHeader from "./CreateQRHeader";
+import contactImg from "../images/phoneimg.svg";
+
+import { db } from "../../config/firebase";
+import { collection } from "firebase/firestore";
 import uploadDocFunction from "../myHooks/uploadDocFunction";
 
-const CreateContact = () => {
-  const { isDarkMode } = useContext(ThemeContext);
-  const [error, setError] = useState("");
+import VCard from "vcard-creator";
 
+const CreateContact = () => {
   const { user } = useContext(UserContext);
+
+  const [error, setError] = useState("");
   const [qRData, setQRData] = useState({
     firstName: "",
     lastName: "",
@@ -26,6 +28,7 @@ const CreateContact = () => {
   });
   const [qRImageData, setQRImageData] = useState(null);
   const [status, setStatus] = useState("");
+  //each input error should have the same variable name as the name of the input it concerns
   const [inputErrors, setInputErrors] = useState({
     firstName: "",
     lastName: "",
@@ -34,6 +37,7 @@ const CreateContact = () => {
     website: "",
     fileName: "",
   });
+  // firestore collection ref
   const collectionRef = collection(
     db,
     "qr-codes-collection",
@@ -59,6 +63,7 @@ const CreateContact = () => {
 
       if (success) {
         setStatus("Qr code saved successfully");
+        // reset inputs
         setQRData({
           firstName: "",
           lastName: "",
@@ -79,8 +84,9 @@ const CreateContact = () => {
     setQRData({ ...qRData, [event.target.name]: event.target.value });
   };
 
+  // triggered from FormGroup when input value changes
   const handleValidation = (event) => {
-    const inputEl = event.target;
+    const inputEl = event.target; // the input that triggered the validation function
     const { name } = inputEl;
     const value = inputEl.value.trim();
 
@@ -154,10 +160,13 @@ const CreateContact = () => {
     ) {
       return;
     }
+    // if all inputs are not empty and no errors are found reset errors[allFields]
     setInputErrors((prevErrors) => ({
       ...prevErrors,
       allFields: "",
     }));
+
+    // create vCard and setQRImageData to vCard Object
     const { firstName, lastName, email, website, phoneNumber } = qRData;
     const vCard = new VCard();
     vCard
@@ -176,7 +185,7 @@ const CreateContact = () => {
     return () => clearTimeout(timeout);
   }, [error]);
 
-  // create data to be mapped over in qrTextForm to create inputs
+  // create data to be mapped over in qRTextForm to create inputs
   const inputData = [
     {
       label: "First name",
@@ -222,13 +231,17 @@ const CreateContact = () => {
     },
   ];
 
-  const paragraphStyle = `${isDarkMode ? "text-gray-200" : "text-gray-600"}`;
+  const headerData = {
+    img: contactImg,
+    heading: "Share Contact Info in a Scan!",
+    subText:
+      "Digital Business Cards, Simplified. Create Your vCard QR Code in an Instant!",
+  };
+
   return (
     <div>
       <div className="">
-        <h1 className={`${paragraphStyle} text-3xl text-center mb-6`}>
-          Share Contact Info in a Scan!
-        </h1>
+        <CreateQRHeader createQRData={headerData} />
       </div>
       <QrTextForm
         inputData={inputData}
@@ -240,12 +253,7 @@ const CreateContact = () => {
         errors={inputErrors}
       />
       {qRImageData && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="w-fit px-6 mx-auto"
-        >
+        <div className="w-fit px-6 mx-auto">
           <DownloadQr
             value={qRImageData}
             foreground={qRData.foreground}
@@ -257,7 +265,7 @@ const CreateContact = () => {
             setStatus={setStatus}
             setQRImageData={setQRImageData}
           />
-        </motion.div>
+        </div>
       )}
     </div>
   );

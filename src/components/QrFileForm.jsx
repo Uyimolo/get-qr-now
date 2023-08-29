@@ -22,11 +22,10 @@ const QrFileForm = ({
   const paragraphStyle = isDarkMode ? "text-gray-200" : "text-gray-600";
 
   return (
-    // this form will be used for image download and pdf download sections of the webapp
     <motion.form
-      initial={{ scale: 1.5, opacity: 0 }}
+      initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ type: "spring", stiffness: 200, delay: 0.5 }}
+      transition={{ duration: 0.5, delay: 0.5 }}
       action=""
       className={`px-4 py-4
       shadow-g boder flex flex-col space-y-8 max-w-[25rem] md:max-w-full  mx-auto md:max-w-5xl `}
@@ -83,7 +82,6 @@ const QrFileForm = ({
             </label>
             <motion.input
               whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 200 }}
               type="color"
               name="foreground"
               id="foreground"
@@ -99,7 +97,6 @@ const QrFileForm = ({
             </label>
             <motion.input
               whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 200 }}
               type="color"
               name="background"
               id="background"
@@ -109,6 +106,7 @@ const QrFileForm = ({
             />
           </div>
         </div>
+        {/* show general errors */}
         <p className="text-red-400 text-center">{errors.allFields}</p>
       </div>
 
@@ -120,7 +118,7 @@ const QrFileForm = ({
           extraStyle="px-12"
         />
       </div>
-      
+
       {status && (
         <p
           className={`${

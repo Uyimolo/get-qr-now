@@ -13,23 +13,20 @@ const QrTextForm = ({
   inputData,
   errors,
   handleValidation,
-  loading
+  loading,
 }) => {
   const { isDarkMode } = useContext(ThemeContext);
-  let paragraphStyle = "";
-  isDarkMode
-    ? (paragraphStyle = "text-gray-200")
-    : (paragraphStyle = "text-gray-900");
+  let paragraphStyle = isDarkMode ? "text-gray-200" : "text-gray-900";
   return (
-    // this form will be used for the website, google doc, facebook, youtube and email sections of the webapp
+    // this form will be used for all components that does not need <input type="file" />
     <motion.form
-      initial={{ scale: 1.5, opacity: 0 }}
+      initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ type: "spring", stiffness: 200, delay: 0.5 }}
+      transition={{ duration: 0.5, delay: 0.5 }}
       action=""
       id="textForm"
-      className={`px-4 py-4
-        shadow-g boder flex flex-col space-y-8 max-w-[25rem] md:max-w-full  mx-auto md:max-w-5xl `}
+      className={`px-4 py-4 pt-12
+        shadow-g flex flex-col space-y-8 max-w-[25rem] md:max-w-full  mx-auto md:max-w-5xl `}
       onSubmit={handleCreateQr}
     >
       <div className="flex flex-col space-y-4 ">
@@ -58,7 +55,6 @@ const QrTextForm = ({
             </label>
             <motion.input
               whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 200 }}
               type="color"
               name="foreground"
               id="foreground"
@@ -74,7 +70,6 @@ const QrTextForm = ({
             </label>
             <motion.input
               whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 200 }}
               type="color"
               name="background"
               id="background"
@@ -84,10 +79,16 @@ const QrTextForm = ({
             />
           </div>
         </div>
+        {/* show general errors */}
         <p className="text-red-500 text-center">{errors.allFields}</p>
       </div>
       <div className="mx-auto">
-        <Button type="submit" loading={loading} text="Create Qr" extraStyle="px-12" />
+        <Button
+          type="submit"
+          loading={loading}
+          text="Create Qr"
+          extraStyle="px-12"
+        />
       </div>
     </motion.form>
   );
