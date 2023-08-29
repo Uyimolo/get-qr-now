@@ -50,7 +50,7 @@ const FormGroup = ({
 
   return (
     <div
-      className={`flex flex-col space-y-1 w-full mx-auto max-w-[21rem] xl:max-w-md`}
+      className={`flex flex-col space-y-1 w-full mx-auto max-w-[21rem]  xl:max-w-md`}
     >
       <label htmlFor={id} className={`flex ${paragraphStyle}`}>
         {label} <p className="text-red-600 text-xl h-1 px-2 ">*</p>

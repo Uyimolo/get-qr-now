@@ -28,7 +28,7 @@ const QrFileForm = ({
       transition={{ duration: 0.5, delay: 0.5 }}
       action=""
       className={`px-4 py-4
-      shadow-g boder flex flex-col space-y-8 max-w-[25rem] md:max-w-full  mx-auto md:max-w-5xl `}
+      shadow-g boder flex flex-col space-y-8  max-w-[25rem] md:max-w-full  mx-auto md:max-w-5xl `}
       onSubmit={handleCreateQr}
     >
       <div className="flex flex-col space-y-4 ">
