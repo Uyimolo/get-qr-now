@@ -4,7 +4,7 @@ This is a QR Code Generator web application built using React, Tailwind CSS, Rea
 
 ## Live Site
 
-You can access the live site at [get-qr-now.vercel.app](react-qrcode-gen.vercel.app)
+You can access the live site at [get-qr-now](get-qr-now.vercel.app)
 
 ## Features
 
