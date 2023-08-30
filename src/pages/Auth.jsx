@@ -45,7 +45,7 @@ const Auth = () => {
     } else if (errorCode === "auth/network-request-failed") {
       setError("Please switch on your internet");
     } else if (errorCode === "auth/internal-error") {
-      setError("Check if internet or popups is on");
+      setError("Check if internet or popups is allowed");
     } else if (errorCode === "auth/weak-password") {
       setError("Passwords should have atleast 6 characters");
     } else {

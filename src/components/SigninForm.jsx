@@ -8,7 +8,7 @@ const SigninForm = ({
   setIsNewUser,
   emailValue,
   passwordValue,
-  error
+  error,
 }) => {
   const { isDarkMode } = useContext(ThemeContext);
   return (
@@ -71,15 +71,14 @@ const SigninForm = ({
             Google
           </button>
         </div>
-        <p className="text-red-600  mt-2">{error}</p>
+        <p className="text-red-600 text-center mt-2">{error}</p>
         <p
-        className="text-red-600 cursor-pointer mt-2 text-center"
-        onClick={() => setIsNewUser(true)}
-      >
-        {`Don't have an account? sign up.`}
-      </p>
+          className="text-red-600 cursor-pointer mt-2 text-center"
+          onClick={() => setIsNewUser(true)}
+        >
+          {`Don't have an account? sign up.`}
+        </p>
       </div>
-      
     </form>
   );
 };

@@ -71,7 +71,7 @@ const SignupForm = ({
             Google
           </button>
         </div>
-        <p className="text-red-600 mt-2">{error}</p>
+        <p className="text-red-600 text-center mt-2">{error}</p>
         <p
           className="text-red-600 cursor-pointer mt-2 text-center"
           onClick={() => setIsNewUser(false)}
