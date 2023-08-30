@@ -8,7 +8,9 @@ const CreateQRHeader = ({ createQRData }) => {
     <div className="px-6">
       <div
         className={`${
-          isDarkMode ? "bg-[#424548aa]" : "bg-blue-400"
+          isDarkMode
+            ? "bg-[#424548aa] bg-gradient-to-tr from-blue-900  to-blue-400"
+            : "bg-gradient-to-br from-blue-900 via-blue-400 to-blue-400"
         } flex flex-col px-2 pt-4 pb-0 transition-all duration-300 justify-between overflow-hidden  shadow-xl rounded-md max-w-[21rem] mx-auto h-[20rem] md:flex-row md:max-w-full md:pt-0 md:space-y-0 md:h-52 z-0`}
       >
         <div className="flex flex-col space-y-4  md:w-2/3 md:pt-6 md:pl-6">
