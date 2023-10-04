@@ -28,14 +28,14 @@ function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        setUser(authUser.email);
-      } else {
-        setUser("");
-      }
-    });
-  }, [user]);
+  const unsubscribe = auth.onAuthStateChanged((authUser) => {
+    setUser(authUser?.email);
+  });
+  return () => {
+    unsubscribe();
+  };
+}, [user]);
+
 
   const router = createBrowserRouter(
     createRoutesFromElements(
